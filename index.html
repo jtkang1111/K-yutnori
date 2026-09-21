@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이45 · 모바일 말과 연출 개선</title>
+<title>K-윷놀이</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -1338,11 +1338,12 @@ body:not(.in-game) #setupScreen.settings-open #appearanceOpenBtn{font-size:23px;
 @media(max-width:600px),(max-height:500px) and (pointer:coarse){#playHandGuide{width:164px}#playHandGuide .hand-art{width:44px;height:50px}#playHandGuide .hand-caption{font-size:12px;padding:4px 8px}}
 @media(prefers-reduced-motion:reduce){#playHandGuide.tapping .hand-art{animation:none!important}}
 </style>
+<style>header h1::before,header h1::after{content:none!important}</style>
 </head>
 <body>
 <div class="page">
   <header>
-    <h1>알록달록 윷마당</h1>
+    <h1>K-윷놀이</h1>
     <div class="tools">
       <button id="newGameBtn" class="hidden"><span class="ico">🔄</span><span>새 게임</span></button>
     </div>
@@ -6472,12 +6473,20 @@ const PlayHandGuide = (() => {
     <path d="M12 14L8 11M43 12L47 9" stroke="#ffcb64" stroke-width="3" stroke-linecap="round"/>
   </svg></span><span class="hand-caption"></span>`;
   document.body.appendChild(box);
-  let signature='',lastPulse=0,quietUntil=0;
+  let signature='',lastPulse=0,quietUntil=0,choiceKey='',choiceSince=0;
   function hide(){box.hidden=true;box.classList.remove('tapping');signature='';}
   function targetFor(action){
     if(action==='throw')return {target:throwBtn,label:'눌렀다 떼세요'};
     if(action==='result')return {target:document.getElementById('resultTray'),label:'사용할 결과를 고르세요'};
-    if(action==='piece')return {target:document.getElementById('actionGuide'),label:'반짝이는 말을 고르세요'};
+    if(action==='piece'){
+      const key=[boardSerial,currentTeamIndex,pending?.selected,pending?.stage].join('|');
+      if(key!==choiceKey){choiceKey=key;choiceSince=performance.now();}
+      const reserve=Array.from(document.querySelectorAll('.team-card.can-launch')).find(n=>!n.disabled);
+      const boardChoices=document.querySelectorAll('#board-root .piece.movable').length;
+      const showReserve=reserve&&(!boardChoices||Math.floor((performance.now()-choiceSince)/5000)%2===1);
+      if(showReserve)return {target:reserve,label:boardChoices?'대기소 말도 선택할 수 있어요':'대기소 말을 고르세요'};
+      return {target:document.getElementById('actionGuide'),label:'움직이는 말을 고르세요'};
+    }
     if(action==='destination'){
       const hints=Array.from(document.querySelectorAll('#board-root .hint-dest'));
       if(hints.length===1)return {target:hints[0].querySelector('.hint-sign')||hints[0],label:'여기에 놓으세요'};
@@ -6498,7 +6507,7 @@ const PlayHandGuide = (() => {
     if(r.bottom<0||r.top>vh||r.right<0||r.left>vw){
       r=document.getElementById('actionGuide').getBoundingClientRect();
       if(r.bottom<0||r.top>vh){hide();return;}
-      info.label=action==='throw'?'아래 윷 던지기를 눌러 주세요':action==='result'?'결과 목록에서 골라 주세요':'말판의 도착 칸을 눌러 주세요';
+      info.label=action==='throw'?'아래 윷 던지기를 눌러 주세요':action==='result'?'결과 목록에서 골라 주세요':action==='piece'?'움직이는 말이나 대기소 말을 고르세요':'말판의 도착 칸을 눌러 주세요';
     }
     box.querySelector('.hand-caption').textContent=info.label;
     box.hidden=false;
