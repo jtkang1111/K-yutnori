@@ -1339,8 +1339,17 @@ body:not(.in-game) #setupScreen.settings-open #appearanceOpenBtn{font-size:23px;
 @media(prefers-reduced-motion:reduce){#playHandGuide.tapping .hand-art{animation:none!important}}
 </style>
 <style>header h1::before,header h1::after{content:none!important}</style>
+<style>
+#versionCredit{position:fixed;left:0;right:0;bottom:0;z-index:9500;margin:0;
+ padding:8px 12px calc(8px + env(safe-area-inset-bottom,0px));
+ text-align:center;font:600 14px/1.5 var(--body);letter-spacing:.3px;
+ color:#fff1d4;background:#231544f2;pointer-events:none}
+body.in-game #versionCredit{display:none!important}
+@media(max-aspect-ratio:1/1){body:not(.in-game) #setupScreen{padding-bottom:calc(52px + env(safe-area-inset-bottom,0px))}}
+</style>
 </head>
 <body>
+<p id="versionCredit">v.1.47 | 갓툴 제작</p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
