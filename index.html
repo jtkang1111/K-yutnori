@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이31</title>
+<title>K 윷놀이37</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -434,7 +434,7 @@ body:has(#gameScreen:not(.hidden)) header{display:none}
 #gameScreen{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(390px,1fr);grid-template-rows:auto auto auto auto 1fr auto;gap:12px 24px;align-items:start}
 #board-root{grid-column:1;grid-row:1/7;padding:0;border:0;align-self:start;width:100%;background:transparent;overflow:hidden;box-shadow:0 0 36px #ee668e40}
 #board-root svg{display:block;width:100%;max-width:none!important;aspect-ratio:1/1}
-.turn-banner{grid-column:2;grid-row:1;border-radius:22px;border:3px solid #ffb7c4;background:linear-gradient(120deg,var(--team,#ee536a),#f598b6);color:#fffce9;font-weight:900;font-size:clamp(24px,3.2vw,46px);padding:12px;letter-spacing:-1px;text-shadow:2px 3px #492633;margin:0}
+.turn-banner{grid-column:2;grid-row:1;border-radius:22px;border:3px solid color-mix(in srgb,var(--team,#ee536a) 55%,#fff);background:linear-gradient(160deg,color-mix(in srgb,var(--team,#ee536a) 88%,#fff),var(--team,#ee536a));color:#fffce9;font-weight:900;font-size:clamp(24px,3.2vw,46px);padding:12px;letter-spacing:-1px;text-shadow:2px 3px #492633;margin:0}
 .turn-dot{width:auto;height:auto;border:0;background:transparent!important;box-shadow:none;font-size:44px}
 .status-line{grid-column:2;grid-row:2;background:#10243dee;border:2px solid #f47d9c;color:#f6eeda;font-size:17px;min-height:65px;padding:12px 16px}.status-line strong{color:#ffda78}
 .festival-score{grid-column:2;grid-row:3;display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -455,8 +455,10 @@ body:has(#setupScreen:not(.hidden)){background:radial-gradient(ellipse at 15% 30
 
 body:has(#setupScreen:not(.hidden)) .page{max-width:1520px;padding:22px 28px}body:has(#setupScreen:not(.hidden)) header{display:none}
 #setupScreen{max-width:none;margin:0;padding:0;background:none;border:0;box-shadow:none;color:#fff}.welcome-title{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;column-gap:35px;text-align:center;margin-bottom:24px}.welcome-title h2{font-size:clamp(64px,8vw,112px);font-weight:1000;line-height:1.15;color:#ffda5e;text-shadow:4px 5px #492606,0 10px #a75c14;letter-spacing:5px;margin:0}.welcome-title>span{font-size:42px;color:#edd3a0;letter-spacing:-7px;transform:rotate(-12deg);text-shadow:3px 3px #573212}.welcome-title p{flex-basis:100%;font-size:26px;font-weight:800;margin:18px 0 0;text-shadow:0 3px #331829}.welcome-grid{display:grid;grid-template-columns:1.65fr 1fr;gap:22px}.welcome-card{border:3px solid #a89252;background:#211741bb;border-radius:28px;padding:22px;box-shadow:inset 0 0 32px #ffffff05}.welcome-options{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}.welcome-options>div{display:flex;align-items:center;gap:10px}.welcome-options b{font-size:20px;color:#ffe98c}.welcome-options .choices{background:#160e2f;padding:4px;border-radius:18px;gap:3px}.welcome-options .choice{background:transparent;color:#fff;border:0;box-shadow:none;padding:10px 13px;font-size:22px;font-weight:900}.welcome-options .choice.on{background:linear-gradient(#fff5a3,#ffd052);color:#30220e;box-shadow:0 4px #bd851b;border-radius:14px}
-#nameRows{display:flex;gap:12px;justify-content:center;flex-wrap:nowrap;margin-top:22px}.name-row{flex:1;max-width:240px;min-width:0;display:flex;flex-direction:column;gap:14px;border:4px solid var(--team);border-radius:24px;background:linear-gradient(#ffffff15,#ffffff03);padding:15px 10px}.name-row .swatch{display:none}.setup-avatar{width:clamp(60px,9vw,132px);height:clamp(60px,9vw,132px);display:grid;place-items:center;background:#fff2d6;border:5px solid var(--team);border-radius:50%;font-size:clamp(38px,6vw,88px);box-shadow:0 7px #0003}.name-row input{width:100%;font-size:20px;font-weight:800;text-align:center;padding:9px 3px;background:#1e1737;color:white;border:2px solid #ffffff40;border-radius:12px}.setup-reserve{display:flex;justify-content:center;gap:3px}.setup-reserve i{font-style:normal;background:#fff4d2;border:2px solid var(--team);border-radius:50%;font-size:18px;width:26px;height:26px;text-align:center}.welcome-order{margin-top:18px}.welcome-order>b{font-size:14px;color:#ffe59a}.welcome-order .order-hint{color:#d9cceb;font-size:12px;margin:5px 0}.order-teams{gap:7px}.order-team{font-size:13px;padding:7px 10px}.welcome-order>button{background:none;border:0;color:#ddc3ff;text-decoration:underline;font-size:12px;cursor:pointer;margin-top:8px}
-.welcome-rules h3{font-size:27px;color:#ffda5e;margin:0 0 10px}.welcome-rules h3:not(:first-child){margin-top:18px}.rule-row{display:flex;justify-content:space-between;gap:10px;background:#ffffff09;border-radius:12px;padding:10px 12px;margin-bottom:5px;font-size:16px;font-weight:700}.rule-row b{font-size:13px;color:#ffe386;white-space:nowrap}.effect-options{display:flex;background:#130c26;border-radius:15px;padding:4px;gap:5px}.effect-options button{flex:1;background:none;border:0;border-radius:12px;color:white;padding:12px 6px;font:700 17px var(--body);cursor:pointer}.effect-options button[aria-pressed=true]{background:linear-gradient(#fff29f,#ffd052);color:#30220e}.welcome-note{color:#c7bbd8;font-size:13px;line-height:1.7;margin-bottom:0}.welcome-actions{display:grid;grid-template-columns:1fr 1.9fr 1fr;gap:16px;align-items:center;max-width:1080px;margin:22px auto 0}.welcome-actions>button{border-radius:21px;border:2px solid #ffffff26;padding:20px 12px;background:linear-gradient(#7450b2,#493077);color:white;font:900 clamp(18px,2.3vw,30px) var(--display);box-shadow:0 6px #211637;cursor:pointer}.welcome-actions>#startBtn{margin:0;font-size:clamp(24px,3vw,40px);background:linear-gradient(#fff194,#ffbc2b);color:#3e2608;box-shadow:0 7px #b96c11}.welcome-actions>#resumeBtn{background:linear-gradient(#54d689,#179b58);box-shadow:0 6px #125532}.welcome-actions>button:disabled{opacity:.38;cursor:default}.welcome-tip{text-align:center;font-size:14px;color:#d6cbe1;margin:22px 0 0}#rulesDialog{max-width:620px;width:90%;border:3px solid #d3ae55;border-radius:24px;padding:28px;background:#fff8e5;color:#342842;line-height:1.8}#rulesDialog::backdrop{background:#0d0525b8}#rulesDialog button{background:#674494;color:white;border:0;border-radius:12px;padding:10px 22px;font-size:18px;cursor:pointer}.light-effects *{animation:none!important;transition:none!important}
+#nameRows{display:flex;gap:12px;justify-content:center;flex-wrap:nowrap;margin-top:22px}.name-row{flex:1;max-width:240px;min-width:0;display:flex;flex-direction:column;gap:14px;border:4px solid var(--team);border-radius:24px;background:linear-gradient(#ffffff15,#ffffff03);padding:15px 10px}.setup-avatar{position:relative;width:clamp(60px,9vw,132px);height:clamp(60px,9vw,132px);display:grid;place-items:center;background:#fff2d6;border:5px solid var(--team);border-radius:50%;font-size:clamp(38px,6vw,88px);box-shadow:0 7px #0003;padding:0;cursor:pointer;overflow:hidden;margin:0 auto}.setup-avatar:hover{filter:brightness(1.08)}.setup-avatar:active{transform:translateY(2px)}.name-row .swatch{display:flex;align-items:center;justify-content:center;gap:6px;width:100%;height:34px;  border-radius:17px;border:2px solid #ffffff4d;background:var(--team);cursor:pointer;padding:0 10px;position:relative}.name-row .swatch .sw-name{font:900 16px var(--body);color:#fff;text-shadow:0 2px 3px #00000075;letter-spacing:-.5px}.name-row .swatch .sw-go{font-size:13px;opacity:.75;position:absolute;right:9px}.name-row .swatch:hover{filter:brightness(1.12)}.name-row .swatch:active{transform:translateY(2px)}.name-row input{width:100%;font-size:20px;font-weight:800;text-align:center;padding:9px 3px;background:#1e1737;color:white;border:2px solid #ffffff40;border-radius:12px}.setup-reserve{display:flex;justify-content:center;gap:3px}.setup-reserve i{font-style:normal;background:#fff4d2;border:2px solid var(--team);border-radius:50%;font-size:18px;width:26px;height:26px;text-align:center}.welcome-order{margin-top:18px}.welcome-order>b{font-size:14px;color:#ffe59a}.welcome-order .order-hint{color:#d9cceb;font-size:12px;margin:5px 0}.order-teams{gap:7px}.order-team{font-size:13px;padding:7px 10px}.welcome-order>button{background:none;border:0;color:#ddc3ff;text-decoration:underline;font-size:12px;cursor:pointer;margin-top:8px}
+.welcome-rules h3{font-size:27px;color:#ffda5e;margin:0 0 10px}.welcome-rules h3:not(:first-child){margin-top:18px}.rule-row{display:flex;justify-content:space-between;gap:10px;background:#ffffff09;border-radius:12px;padding:10px 12px;margin-bottom:5px;font-size:16px;font-weight:700}.rule-row b{font-size:13px;color:#ffe386;white-space:nowrap}.rule-switch{width:100%;align-items:center;border:0;color:inherit;font:inherit;cursor:pointer;text-align:left}.rule-switch:hover{background:#ffffff14}.rule-switch .sw{flex:none;width:50px;height:27px;border-radius:14px;background:#4b4265;position:relative;transition:background .16s}.rule-switch .sw::after{content:"";position:absolute;top:3px;left:3px;width:21px;height:21px;border-radius:50%;background:#cfc6e4;transition:transform .16s,background .16s}.rule-switch[aria-checked=true] .sw{background:#3fbf7a}.rule-switch[aria-checked=true] .sw::after{transform:translateX(23px);background:#fff}.effect-options{display:flex;background:#130c26;border-radius:15px;padding:4px;gap:5px}.effect-options button{flex:1;background:none;border:0;border-radius:12px;color:white;padding:12px 6px;font:700 17px var(--body);cursor:pointer}.effect-options button[aria-pressed=true]{background:linear-gradient(#fff29f,#ffd052);color:#30220e}.welcome-note{color:#c7bbd8;font-size:13px;line-height:1.7;margin-bottom:0}.team-hint{margin:12px 0 0;text-align:center;font-size:14px;font-weight:700;color:#ffe2a4;  background:#ffffff10;border:1px dashed #ffffff33;border-radius:12px;padding:7px 10px}.welcome-actions{display:grid;grid-template-columns:1fr 1.9fr 1fr;gap:16px;align-items:center;max-width:1080px;margin:22px auto 0}.welcome-actions>button{border-radius:21px;border:2px solid #ffffff26;padding:20px 12px;background:linear-gradient(#7450b2,#493077);color:white;font:900 clamp(18px,2.3vw,30px) var(--display);box-shadow:0 6px #211637;cursor:pointer}.welcome-actions>#startBtn{margin:0;font-size:clamp(24px,3vw,40px);background:linear-gradient(#fff194,#ffbc2b);color:#3e2608;box-shadow:0 7px #b96c11}.welcome-actions>#resumeBtn{background:linear-gradient(#54d689,#179b58);box-shadow:0 6px #125532}.welcome-actions>button:disabled{opacity:.38;cursor:default}.welcome-tip{text-align:center;font-size:14px;color:#d6cbe1;margin:22px 0 0}.ask-dialog{max-width:440px;width:88%;border:3px solid #d3ae55;border-radius:22px;padding:26px 26px 20px;background:#fff8e5;color:#342842;text-align:center}.ask-dialog::backdrop{background:#0d0525c4}.ask-dialog h3{margin:0 0 8px;font-size:24px;color:#4b2f74}.ask-dialog p{margin:0 0 20px;font-size:16px;color:#5a4a72;line-height:1.7}.ask-actions{display:flex;gap:12px;justify-content:center}.ask-actions button{border:0;border-radius:14px;padding:12px 26px;font:900 18px var(--body);cursor:pointer}.ask-no{background:#00000012;color:#5a4a72}.ask-yes{background:linear-gradient(#ff8f7a,#e0432f);color:#fff;box-shadow:0 5px #98220f}.ask-yes:active{transform:translateY(3px);box-shadow:0 2px #98220f}.hurry-tip{position:fixed;left:50%;bottom:26px;transform:translateX(-50%) translateY(14px);z-index:9800;  background:#000000a8;color:#ffe9a8;border:2px solid #ffffff2e;border-radius:999px;padding:8px 20px;  font:800 16px var(--body);pointer-events:none;opacity:0;transition:opacity .18s,transform .18s}.hurry-tip.show{opacity:1;transform:translateX(-50%) translateY(0)}dialog:not([open]){display:none!important}#rulesDialog{max-width:740px;width:92%;max-height:86vh;border:3px solid #d3ae55;border-radius:24px;padding:0;background:#fff8e5;color:#342842;line-height:1.7;overflow:hidden}#rulesDialog[open]{display:flex;flex-direction:column}#rulesDialog::backdrop{background:#0d0525c4}.rd-head{padding:18px 24px 0;flex:none}.rd-head h2{margin:0 0 12px;font-size:26px;color:#4b2f74}.rd-tabs{display:flex;gap:8px;border-bottom:3px solid #e6d3a6}.rd-tab{background:#00000010;color:#5a4a72;border:0;border-radius:14px 14px 0 0;padding:11px 18px;font:800 17px var(--body);cursor:pointer;margin-bottom:-3px;border-bottom:3px solid transparent}.rd-tab.on{background:#674494;color:#fff;border-bottom-color:#674494}.rd-body{padding:20px 24px;overflow:auto;flex:1;min-height:0}.rd-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(148px,1fr));gap:11px;margin:0}.rd-card{background:#fff;border:2px solid #e3d2ab;border-radius:16px;padding:11px 10px;text-align:center}.rd-card .tile-sticks{display:flex;flex-direction:row;gap:4px;justify-content:center;margin:0 auto 7px}\
+.rd-card .tile-sticks i{width:9px;height:30px}\
+.rd-card{display:flex;flex-direction:column;align-items:center;justify-content:flex-start}.rd-card b{display:block;font-size:34px;color:#3a2a5c;line-height:1.1;letter-spacing:-1px}.rd-card span{display:block;font-size:21px;font-weight:800;color:#5a4a72;margin-top:4px}.rd-card em{display:block;font-style:normal;font-size:15px;font-weight:800;color:#c2591f;margin-top:6px;  background:#ffe9c2;border-radius:999px;padding:2px 0}.rd-card.nak{background:#f4f1fa}.rd-legend{display:flex;gap:18px;justify-content:center;margin-top:16px;padding-top:14px;border-top:2px dashed #e0cfa9;font-size:14px;color:#5a4a72}.rd-legend i{display:inline-block;width:9px;height:26px;border-radius:4px;border:1.5px solid #6b4a1f;vertical-align:-7px;margin-right:6px}.rd-legend i.round{background:linear-gradient(180deg,#f6e3ba,#d9b97f)}.rd-legend i.flat{background:linear-gradient(180deg,#8a5a2a,#4a2a10)}.rd-how{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}.rd-how div{background:#fff;border:2px solid #e3d2ab;border-radius:16px;padding:13px 15px}.rd-how h4{margin:0 0 5px;font-size:18px;color:#4b2f74}.rd-how p{margin:0;font-size:15px;color:#4a3d63}.rd-foot{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px 24px 18px;border-top:2px solid #efe0bd;flex:none}#rulesDialog button{background:#674494;color:white;border:0;border-radius:12px;padding:10px 22px;font-size:17px;cursor:pointer;font-family:var(--body);font-weight:800}#rulesDialog .rd-nav{background:#00000012;color:#5a4a72}#rulesDialog .rd-nav:disabled{opacity:.35;cursor:default}#rulesDialog .rd-ok{background:linear-gradient(#fff29f,#ffd052);color:#3e2608}.light-effects *{animation:none!important;transition:none!important}
 @media(max-width:950px){.welcome-grid{grid-template-columns:1fr}.welcome-title p{font-size:21px}.welcome-card{padding:18px}.welcome-actions{gap:8px}.welcome-options{gap:12px}.name-row input{font-size:16px}}@media(max-width:520px){body:has(#setupScreen:not(.hidden)) .page{padding:20px 12px}.welcome-title>span{display:none}#nameRows{flex-wrap:wrap}.name-row{flex:1 1 40%;max-width:none}.welcome-actions{grid-template-columns:1fr 1fr}.welcome-actions>#startBtn{grid-column:1/-1;grid-row:1}.welcome-actions>button{font-size:17px;padding:15px 8px}}
 
 
@@ -582,25 +584,41 @@ body.in-game .sticks{display:none!important}
 body.in-game #resultTray{display:contents}
 body.in-game .result-tile{min-height:0;padding:8px 4px;border-radius:16px}
 body.in-game .result-tile strong{font-size:clamp(26px,min(2.9vw,4.7vh),54px)}
-/* 작은 설명 글씨(칸 수·보유 개수·단축키)는 산만하니 감춘다 — 윷 그림과 이름만 */
+/* 작은 설명 글씨(칸 수·보유 개수)는 산만하니 감춘다 — 윷 그림과 이름만 */
 body.in-game .result-tile small,
-body.in-game .result-tile em,
-body.in-game .result-tile .tile-key{display:none!important}
+body.in-game .result-tile em{display:none!important}
+/* 단축키는 남긴다 — 키보드로도 할 수 있다는 걸 화면이 알려 준다 */
+body.in-game .result-tile .tile-key{display:block;left:auto;right:8px;top:7px;
+  font-size:clamp(11px,1.15vh,15px);opacity:.5}
 body.in-game .leftover-yut .lo-item small{display:none!important}
 body.in-game .result-BACKDO{grid-column:1/6;grid-row:2}
+/* 빽도를 안 쓰기로 했으면 타일도 없애고, 낙이 그 자리를 이어받는다 */
+body.no-backdo .result-BACKDO{display:none!important}
+body.no-backdo.in-game #nakBtn{grid-column:1/8}
+body.no-backdo.in-game #throwBtn{grid-column:8/-1}
 body.in-game #nakBtn{grid-column:6/11;grid-row:2}
 body.in-game #throwBtn{grid-column:11/-1;grid-row:2;margin:0;align-self:stretch;height:100%;width:100%;
   display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;
   font-size:clamp(20px,min(2.8vw,4.5vh),44px)}
 body.in-game #throwBtn .tb-sub{font-size:clamp(12px,min(1.15vw,1.85vh),19px)}
+/* 이 화면에서 눌러야 할 것은 이 버튼 하나다 — 색으로 그렇게 말한다 */
+#throwBtn{position:relative;background:linear-gradient(#57d6b4,#1fa98a);color:#06332a;
+  border:3px solid #a8f0dc;box-shadow:0 7px #12705c,0 0 26px #24c7a340}
+#throwBtn:not(:disabled):hover{background:linear-gradient(#6ee3c3,#25bd99)}
+#throwBtn:not(:disabled):active{transform:translateY(4px);box-shadow:0 3px #12705c}
+#throwBtn:disabled{background:linear-gradient(#5c6b78,#44515c);border-color:#8b9aa5;
+  box-shadow:0 5px #2c363e;color:#c9d4db}
+#throwBtn .tb-label::before{content:"🥢 "}
+#throwBtn .tb-key{position:absolute;right:10px;top:8px;font-size:clamp(11px,1.2vh,15px);
+  font-weight:900;letter-spacing:.5px;opacity:.55}
 
 /* ── 아래쪽 아이콘 버튼: 크고 누르기 쉽게 ── */
 body.in-game .right-tools{grid-column:2;grid-row:6;display:flex;gap:9px;margin-top:2px}
 body.in-game .right-tools button{
-  flex:1;min-height:clamp(52px,7.6vh,76px);padding:8px 6px;border-radius:16px;
+  flex:1;min-height:clamp(44px,6.1vh,62px);padding:6px 6px;border-radius:16px;
   font:700 clamp(14px,min(1.3vw,2.1vh),22px)/1.25 var(--body);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;
-  border-width:2px}
+  display:flex;flex-direction:row;align-items:center;justify-content:center;gap:7px;
+  white-space:nowrap;border-width:2px}
 body.in-game .right-tools button .ico{font-size:clamp(21px,min(1.9vw,3vh),33px);line-height:1}
 
 /* 아래쪽 작은 안내문도 감춘다 (게임 중에는 필요 없는 글씨) */
@@ -650,6 +668,21 @@ body:not(.in-game) .rule-row b{font-size:clamp(11px,1.6vh,14px)}
 body:not(.in-game) .effect-options button{padding:clamp(7px,1.3vh,12px) 6px;
   font-size:clamp(13px,1.9vh,17px)}
 body:not(.in-game) .welcome-note{font-size:clamp(11px,1.5vh,14px);line-height:1.5}
+body:not(.in-game) .team-hint{font-size:clamp(11px,1.5vh,15px);margin-top:clamp(5px,1vh,12px);
+  padding:clamp(3px,.7vh,7px) 10px}
+body:not(.in-game) .welcome-order{margin-top:clamp(6px,1.1vh,14px)}
+body:not(.in-game) .welcome-order .order-hint{margin:clamp(2px,.5vh,5px) 0}
+body:not(.in-game) .welcome-order .order-hint:empty{display:none}
+body:not(.in-game) .welcome-order>button{margin-top:clamp(4px,.8vh,8px)}
+body:not(.in-game) #nameRows{margin-top:clamp(10px,2vh,22px)}
+/* 가로 화면에서는 시작 화면이 한 화면에 다 들어간다 — 스크롤바가 생기면 무대 배율이 흔들린다.
+   (세로 폰에서는 내용이 길어서 스크롤이 있어야 한다) */
+@media (min-aspect-ratio:1/1){
+  body:has(#setupScreen:not(.hidden)),
+  html:has(#setupScreen:not(.hidden)),
+  body:has(#gameScreen:not(.hidden)),
+  html:has(#gameScreen:not(.hidden)){overflow:hidden}
+}
 /* 아래 버튼 3개 — 언제나 화면 안에 */
 body:not(.in-game) .welcome-actions{flex:none;width:100%;margin:0 auto;
   gap:clamp(8px,1.1vw,16px)}
@@ -668,6 +701,9 @@ html:fullscreen body.in-game #gameScreen{gap:12px 20px}
 
 /* ── 세로로 긴 화면(폰)에서는 위아래로 쌓는다 ── */
 @media (max-aspect-ratio:1/1){
+  /* 세로 화면에서는 시작 화면도 스크롤된다 — 한 화면에 다 넣으면 글씨가 너무 작아진다 */
+  body:not(.in-game) .page{height:auto;min-height:100dvh;overflow:visible}
+  html body .welcome-title>span.play-stage{display:none}   /* 세로 폰에서는 접는다 */
   body.in-game .page{height:auto;overflow:visible}
   body.in-game #gameScreen{grid-template-columns:minmax(0,1fr);grid-template-rows:none;
     display:flex;flex-direction:column}
@@ -750,12 +786,11 @@ html:fullscreen body.in-game #gameScreen{gap:12px 20px}
   body.in-game .leftover-yut .lo-sticks i{height:16px;width:6px}
 
   body.in-game .festival-score{gap:12px}
-  /* 3~4팀은 두 줄로 쌓지 않고 한 줄로 늘어놓는다.
-     그래야 칸이 높아지고, 칸이 높아야 글자가 커진다. */
   body.in-game .leftover-yut{grid-column:1/-1}
-  body.in-game .festival-score[data-teams="3"]{grid-template-columns:repeat(3,minmax(0,1fr))}
-  /* 4팀은 위 2개·아래 2개 (가로로 넷은 답답하다) */
+  /* 3팀·4팀 모두 두 칸씩 쌓는다. 3팀이면 셋째 칸이 아랫줄을 통째로 쓴다 */
+  body.in-game .festival-score[data-teams="3"],
   body.in-game .festival-score[data-teams="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
+  body.in-game .festival-score[data-teams="3"] .team-card:last-child{grid-column:1/-1}
   body.in-game .team-card{padding:6px;gap:2px}
   body.in-game .tc-head{gap:12px}
   body.in-game .team-card .reserve-tokens{gap:4px}
@@ -786,8 +821,8 @@ html:fullscreen body.in-game #gameScreen{gap:12px 20px}
   body.in-game #throwBtn{font-size:50px;gap:4px;white-space:nowrap}
   body.in-game #throwBtn .tb-sub{font-size:26px}
   body.in-game .right-tools{gap:12px;margin-top:4px}
-  body.in-game .right-tools button{min-height:92px;padding:8px;font-size:28px;gap:4px}
-  body.in-game .right-tools button .ico{font-size:42px}
+  body.in-game .right-tools button{min-height:60px;padding:8px 10px;font-size:26px;gap:9px}
+  body.in-game .right-tools button .ico{font-size:32px}
 
   /* ── 시작 화면도 같은 무대 위에 ── */
   body:not(.in-game) #setupScreen{gap:16px}
@@ -796,19 +831,20 @@ html:fullscreen body.in-game #gameScreen{gap:12px 20px}
   body:not(.in-game) .welcome-title>span{font-size:44px}
   body:not(.in-game) .welcome-title p{font-size:34px;margin:16px 0 0}
   body:not(.in-game) .welcome-grid{gap:24px}
-  body:not(.in-game) .welcome-card{padding:24px}
+  body:not(.in-game) .welcome-card{padding:20px}
   body:not(.in-game) .welcome-options b{font-size:27px}
   body:not(.in-game) .welcome-options .choice{padding:12px 18px;font-size:29px}
-  body:not(.in-game) #nameRows{margin-top:24px;gap:16px}
-  body:not(.in-game) .name-row{gap:16px;padding:16px 12px}
-  body:not(.in-game) .setup-avatar{width:132px;height:132px;font-size:88px;border-width:5px}
+  body:not(.in-game) #nameRows{margin-top:12px;gap:13px}
+  body:not(.in-game) .name-row{gap:9px;padding:12px 11px}
+  body:not(.in-game) .setup-avatar{width:104px;height:104px;font-size:70px;border-width:5px}
   body:not(.in-game) .name-row input{font-size:27px;padding:10px 4px}
   body:not(.in-game) .setup-reserve i{width:34px;height:34px;font-size:22px}
-  body:not(.in-game) .welcome-order{margin-top:20px}
+  body:not(.in-game) .welcome-order{margin-top:14px}
   body:not(.in-game) .welcome-order>b{font-size:23px}
-  body:not(.in-game) .welcome-order .order-hint{margin:6px 0;font-size:19px}
+  body:not(.in-game) .welcome-order .order-hint{margin:4px 0;font-size:19px}
   body:not(.in-game) .order-team{font-size:20px;padding:9px 14px}
-  body:not(.in-game) .welcome-order>button{margin-top:10px;font-size:18px}
+  body:not(.in-game) .welcome-order>button{margin-top:7px;font-size:18px}
+  body:not(.in-game) .team-hint{font-size:19px;margin-top:12px;padding:7px 12px}
   body:not(.in-game) .welcome-rules h3{font-size:34px;margin-bottom:14px}
   body:not(.in-game) .welcome-rules h3:not(:first-child){margin-top:10px}
   body:not(.in-game) .rule-row{padding:12px 14px;margin-bottom:6px;font-size:23px}
@@ -875,6 +911,60 @@ body.win-rolling .panel,body.win-rolling .right-tools,body.win-rolling .leftover
 body.win-rolling .festival-score{animation:winFade 1.2s cubic-bezier(.4,0,.85,.6) forwards}
 .turn-banner.rolling{animation:winRoll 1.2s cubic-bezier(.4,0,.85,.6) forwards}
 .light-effects .turn-banner.rolling,.light-effects.win-rolling #board-root{animation:none;filter:none}
+
+/* 지금 누구 차례인지 판도 같이 말해 준다 */
+body.in-game #board-root{position:relative;border-radius:26px;
+  box-shadow:0 0 0 4px color-mix(in srgb,var(--turn,#ee536a) 62%,transparent),
+             0 0 30px color-mix(in srgb,var(--turn,#ee536a) 42%,transparent);
+  animation:boardBreathe 2.4s ease-in-out infinite}
+@keyframes boardBreathe{
+  0%,100%{box-shadow:0 0 0 4px color-mix(in srgb,var(--turn,#ee536a) 55%,transparent),
+                     0 0 22px color-mix(in srgb,var(--turn,#ee536a) 30%,transparent)}
+  50%    {box-shadow:0 0 0 5px color-mix(in srgb,var(--turn,#ee536a) 78%,transparent),
+                     0 0 40px color-mix(in srgb,var(--turn,#ee536a) 52%,transparent)}}
+.light-effects #board-root,body.win-rolling #board-root{animation:none}
+
+/* ═══════════════════════════════════════════════════════════
+   승리 화면 — 한 판이 끝난 자리
+   ═══════════════════════════════════════════════════════════ */
+.win-screen{position:fixed;inset:0;z-index:70;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(ellipse at 50% 40%,#3c2676f5,#120a26fc 62%);
+  animation:winIn .42s cubic-bezier(.2,1.1,.3,1) both}
+.win-screen.hidden{display:none}
+@keyframes winIn{from{opacity:0}to{opacity:1}}
+.win-rays{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.win-rays i{position:absolute;left:50%;top:40%;width:170px;height:150vh;margin-left:-85px;
+  transform-origin:50% 0;clip-path:polygon(50% 0,100% 100%,0 100%);
+  background:linear-gradient(#ffe6a0,#ffe6a000 72%);opacity:.17;
+  animation:winSpin 30s linear infinite}
+@keyframes winSpin{to{transform:rotate(360deg)}}
+.win-card{position:relative;text-align:center;padding:10px 40px 0;max-width:min(760px,86vw)}
+.win-face{width:168px;height:168px;margin:0 auto 6px;animation:winBob 1.7s ease-in-out infinite}
+.win-face svg{width:100%;height:100%;display:block;filter:drop-shadow(0 8px 16px #0008)}
+@keyframes winBob{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+.win-title{margin:0;font-size:clamp(38px,6.4vh,74px);font-weight:1000;color:#ffda5e;letter-spacing:2px;
+  text-shadow:4px 5px #492606,0 10px #a75c14;word-break:keep-all}
+.win-sub{margin:10px 0 0;font-size:clamp(16px,2.4vh,26px);font-weight:800;color:#ffeec4;text-shadow:0 3px #331829}
+.win-rank{list-style:none;margin:18px auto 0;padding:0;display:flex;flex-direction:column;gap:8px;
+  max-width:460px;width:100%}
+.win-rank:empty{display:none}
+.win-rank li{display:flex;align-items:center;gap:12px;padding:9px 16px;border-radius:16px;
+  background:#ffffff14;border:2px solid #ffffff26;font-size:clamp(15px,2.1vh,22px);font-weight:900;color:#fff}
+.win-rank li .medal{font-size:1.25em;line-height:1}
+.win-rank li .who{flex:1;text-align:left;color:var(--team,#fff)}
+.win-rank li .howmany{font-size:.82em;font-weight:800;color:#ffe9b0;opacity:.9}
+.win-rank li.first{background:#ffd75e26;border-color:#ffd75e7a}
+.win-actions{display:flex;gap:14px;justify-content:center;margin-top:24px;flex-wrap:wrap}
+.win-actions button{font-size:clamp(17px,2.5vh,27px);font-weight:1000;padding:14px 30px;border-radius:20px;
+  border:0;cursor:pointer;color:#30220e}
+.win-go{background:linear-gradient(#fff5a3,#ffd052);box-shadow:0 6px #bd851b}
+.win-home{background:#ffffff1f;color:#fff;box-shadow:0 6px #00000038}
+.win-actions button:active{transform:translateY(3px);box-shadow:0 3px #bd851b}
+.win-undo{position:absolute;right:22px;bottom:20px;font-size:16px;font-weight:800;padding:9px 16px;
+  border-radius:14px;border:2px solid #ffffff2e;background:#ffffff12;color:#ffffffc4;cursor:pointer}
+.win-undo:hover{background:#ffffff22;color:#fff}
+.light-effects .win-face,.light-effects .win-rays i{animation:none}
+@media(max-width:760px){.win-face{width:110px;height:110px}.win-card{padding:8px 18px 0}}
 
 /* ═══════════════════════════════════════════════════════════
    말 고르기 — 고를 수 있는 말은 반짝이고, 고른 말은 크게 들썩인다
@@ -1007,8 +1097,18 @@ body .welcome-title>span.play-stage{--ph:clamp(112px,14.6vh,172px);
 /* 좁은 폰 화면에서는 마당을 접는다 — 설정만으로도 화면이 빠듯하다 */
 @media(max-width:760px){.play-stage{display:none}}
 
+/* 좁은 폰에서는 도구 줄을 두 줄로 접는다 (네 칸을 한 줄에 넣으면 삐져나온다) */
+@media(max-width:520px){
+  .right-tools{flex-wrap:wrap}
+  .right-tools button{flex:1 1 44%;min-width:0}
+}
+/* 손가락으로만 쓰는 기기에서는 단축키 안내가 쓸모없다 */
+@media(hover:none) and (pointer:coarse){
+  .result-tile .tile-key,#throwBtn .tb-key,#nakBtn .tile-key{display:none!important}
+}
+
 /* ═══════════════════════════════════════════════════════════
-   낙(落) — 윷이 멍석 밖으로 나갔을 때. 이번 차례는 없던 일이 된다.
+   낙(落) — 윷이 멍석 밖으로 나갔을 때. 이번에 던진 것만 없던 일이 된다.
    원본과 같은 자리: 빽도 · 낙 · 윷 던지기 한 줄
    ═══════════════════════════════════════════════════════════ */
 .nak-btn{position:relative;display:flex;flex-direction:column;align-items:center;
@@ -1045,14 +1145,22 @@ body.in-game .nak-btn .tile-key{font-size:13px}
     <section class="welcome-card welcome-teams">
       <div class="welcome-options"><div><b>👨‍👩‍👧‍👦 팀 수</b><div class="choices" id="teamCountChoices"></div></div><div><b>🎲 말 개수</b><div class="choices" id="pieceCountChoices"></div></div></div>
       <div class="name-rows" id="nameRows"></div>
-      <div class="welcome-order"><b>먼저 시작할 팀부터 차례로 눌러주세요</b><div class="order-hint" id="orderHint"></div><div class="order-teams" id="orderTeams"></div><button type="button" id="resetOrderBtn">순서 다시 정하기</button></div>
+      <p class="team-hint">🖐️ 동그라미를 누르면 동물이, 아래 막대를 누르면 색이 바뀌어요</p><div class="welcome-order"><b>먼저 시작할 팀부터 차례로 눌러주세요</b><div class="order-hint" id="orderHint"></div><div class="order-teams" id="orderTeams"></div><button type="button" id="resetOrderBtn">순서 다시 정하기</button></div>
     </section>
-    <section class="welcome-card welcome-rules"><h3>📜 규칙</h3><div class="rule-row">빽도 사용 <b>사용</b></div><div class="rule-row">모아둔 결과 <b>순서 선택</b></div><div class="rule-row">같은 팀 말 업기 <b>직접 선택</b></div><div class="rule-row">윷·모 또는 상대 말 잡기 <b>한 번 더</b></div><div class="rule-row">모든 말이 완주하면 <b>승리!</b></div><h3>✨ 화면 효과</h3><div class="effect-options"><button type="button" id="richFx" aria-pressed="true">✨ 화려하게</button><button type="button" id="lightFx" aria-pressed="false">가볍게</button></div><p class="welcome-note">팀 이름을 바꿀 수 있어요.<br>현재 게임의 규칙을 표시합니다.</p></section>
+    <section class="welcome-card welcome-rules"><h3>📜 규칙</h3><button type="button" class="rule-row rule-switch" id="ruleBackdo" role="switch" aria-checked="true">빽도 사용 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleExact" role="switch" aria-checked="false">참먹이에 딱 서도 골인 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleToEnd" role="switch" aria-checked="false">끝까지 순위 가리기 <span class="sw"></span></button><div class="rule-row">모아둔 결과 <b>순서 선택</b></div><div class="rule-row">같은 팀 말 업기 <b>자동</b></div><div class="rule-row">윷·모 또는 상대 말 잡기 <b>한 번 더</b></div><h3>✨ 화면 효과</h3><div class="effect-options"><button type="button" id="richFx" aria-pressed="true">✨ 화려하게</button><button type="button" id="lightFx" aria-pressed="false">가볍게</button></div></section>
   </div>
   <div class="welcome-actions"><button type="button" id="rulesOpenBtn">📖 규칙 보기</button><button class="start-btn" id="startBtn" disabled>🎉 게임 시작!</button><button type="button" id="resumeBtn">▶ 이어하기</button></div>
   <p class="welcome-tip">팀과 말 개수를 정하고, 시작 순서를 골라주세요.</p>
 </div>
-<dialog id="rulesDialog"><h2>윷놀이 규칙</h2><p>도·개·걸·윷·모는 각각 1·2·3·4·5칸, 빽도는 뒤로 1칸 이동합니다.</p><p>윷·모가 나오면 더 던집니다. 결과를 모아 원하는 순서로 사용하고, 상대 말을 잡으면 한 번 더 던집니다.</p><p>첫 모서리에 멈추면 지름길로 갑니다. 두 번째 모서리와 가운데 방에 멈추면 길을 선택합니다. 지나갈 때는 오던 길을 이어갑니다.</p><p>같은 팀의 말을 업을지는 직접 선택합니다. 업힌 말은 같이 움직이며 함께 잡힙니다.</p><p>첫 칸에서 빽도가 나오면 대기 상태로 돌아갑니다. 쓸 수 있는 결과가 없으면 다음 팀 차례가 됩니다. 모든 말이 완주하면 승리합니다.</p><form method="dialog"><button>알겠어요!</button></form></dialog>
+<dialog id="askDialog" class="ask-dialog">
+  <h3 id="askTitle"></h3><p id="askBody"></p>
+  <div class="ask-actions">
+    <button type="button" id="askNo" class="ask-no">아니요</button>
+    <button type="button" id="askYes" class="ask-yes">네</button>
+  </div>
+</dialog>
+<div class="hurry-tip" id="hurryTip" aria-hidden="true">⏩ 빨리감기</div>
+<dialog id="rulesDialog"><div class="rd-head"><h2>윷놀이 규칙</h2><div class="rd-tabs" role="tablist"><button type="button" class="rd-tab on" id="rdTab1" role="tab" aria-selected="true">① 던지기 결과</button><button type="button" class="rd-tab" id="rdTab2" role="tab" aria-selected="false">② 이렇게 해요</button></div></div><div class="rd-body" id="rdBody"></div><div class="rd-foot"><button type="button" id="rdPrev" class="rd-nav">◀ 이전</button><form method="dialog"><button class="rd-ok">알겠어요! 👍</button></form><button type="button" id="rdNext" class="rd-nav">다음 ▶</button></div></dialog>
 
   <!-- ===== 게임 화면 ===== -->
   <div id="gameScreen" class="hidden">
@@ -1073,8 +1181,23 @@ body.in-game .nak-btn .tile-key{font-size:13px}
       </div>
       <div id="resultTray"></div>
       <button id="nakBtn" class="nak-btn" title="윷이 멍석 밖으로 나갔어요 (N)"><span class="tile-key">N</span><span class="tile-sticks nak"><i class="round"></i><i class="flat"></i><i class="round"></i><i class="out"></i></span><strong>낙</strong><small>없던 일</small></button>
-      <button id="throwBtn"><span class="tb-label">윷 던지기</span><span class="tb-sub">꾹 눌렀다 떼기 👆</span></button>
+      <button id="throwBtn"><span class="tb-key">R · Space</span><span class="tb-label">윷 던지기</span><span class="tb-sub">꾹 눌렀다 떼기 👆</span></button>
 
+    </div>
+
+    <div class="win-screen hidden" id="winScreen">
+      <div class="win-rays" id="winRays" aria-hidden="true"></div>
+      <div class="win-card" role="dialog" aria-modal="true" aria-label="승리 화면">
+        <div class="win-face" id="winFace" aria-hidden="true"></div>
+        <h2 class="win-title" id="winTitle"></h2>
+        <p class="win-sub" id="winSub"></p>
+        <ol class="win-rank" id="winRank"></ol>
+        <div class="win-actions">
+          <button type="button" id="winAgainBtn" class="win-go">🎉 한 판 더!</button>
+          <button type="button" id="winHomeBtn" class="win-home">🏠 처음으로</button>
+        </div>
+      </div>
+      <button type="button" id="winUndoBtn" class="win-undo" title="마지막 수를 되돌립니다">↶ 되돌리기</button>
     </div>
 
     <div class="right-tools" id="rightTools"><button id="undoBtn" disabled><span class="ico">↶</span><span>되돌리기</span></button><button id="menuOpenBtn"><span class="ico">⚙</span><span>메뉴</span></button><button id="screenModeBtn"><span class="ico">⛶</span><span>전체화면</span></button><button id="soundBtn"><span class="ico">🔊</span><span>소리</span></button></div>
@@ -1578,28 +1701,36 @@ const WAIT = "WAIT";
 const FINISH = "FINISH";
 const CENTER = "C";   // 한가운데 '방' — 두 지름길이 만나는 한 칸
 
+/* 0번 칸이 참먹이(출발·도착 자리)다.
+   한 바퀴 돌아 19번을 지나면 참먹이에 닿고, 거기서 한 칸 더 가야 난다.
+   대기소에서 갓 나온 말은 참먹이를 밟고 나가는 게 아니므로
+   START 라는 따로 둔 출발점에서 1번 칸으로 간다. (그림은 같은 자리) */
+const START = "START";
 const OUTER_NEXT = {};
-for (let i = 0; i <= 18; i++) OUTER_NEXT[i] = i + 1;
-OUTER_NEXT[19] = FINISH;
+for (let i = 1; i <= 18; i++) OUTER_NEXT[i] = i + 1;
+OUTER_NEXT[START] = 1;      // 대기소 → 1번 칸
+OUTER_NEXT[19] = 0;         // 한 바퀴 돌면 참먹이
+OUTER_NEXT[0] = FINISH;     // 참먹이를 지나야 난다
 
-// 모서리 10과 한가운데 방에 "딱 서 있을 때"만 길을 고를 수 있다.
-// 모서리 10에 딱 서 있을 때만 길을 고를 수 있다.
-const BRANCH_FORWARD = { 10: [11, "B1"] };
+// 앞으로 갈 때 길을 고르는 자리는 없다. 모서리에 딱 서면 언제나 지름길이다.
+// (원본도 5·10·방 세 곳 모두 강제다. 같은 모서리인데 5는 강제, 10은 선택이면
+//  하는 사람이 헷갈린다.)
+const BRANCH_FORWARD = {};
 
-// 첫 번째 모서리(5)에 딱 서 있으면 선택 없이 무조건 지름길로 간다.
+// 모서리 5·10에 딱 서면 무조건 지름길로 들어가고,
+// 한가운데 방에 딱 서면 무조건 도착 쪽으로 나간다.
 // (지나가기만 할 때는 여느 모서리처럼 바깥길로 돈다)
-// 첫 번째 모서리(5)에 딱 서면 무조건 지름길로 들어가고,
-// 한가운데 방에 딱 서면 무조건 도착 쪽으로 나간다. (둘 다 고르지 않음)
-const FORCED_FIRST = { 5: "A1", [CENTER]: "B3" };
+const FORCED_FIRST = { 5: "A1", 10: "B1", [CENTER]: "B3" };
 
 // 지름길 A: 5 → A1 → A2 → 방 → A3 → A4 → 15
 // 지름길 B: 10 → B1 → B2 → 방 → B3 → B4 → 도착
 const DIAG_A_NEXT = { A1:"A2", A2:CENTER, A3:"A4", A4:15 };
-const DIAG_B_NEXT = { B1:"B2", B2:CENTER, B3:"B4", B4:FINISH };
+const DIAG_B_NEXT = { B1:"B2", B2:CENTER, B3:"B4", B4:0 };      // B4 다음도 참먹이
 
 const PREV = {};
 for (let i = 2; i <= 19; i++) PREV[i] = i - 1;
 PREV[1] = WAIT;
+PREV[0] = 19;
 PREV[15] = 14;
 PREV["A1"] = 5;  PREV["A2"] = "A1"; PREV["A3"] = CENTER; PREV["A4"] = "A3";
 PREV["B1"] = 10; PREV["B2"] = "B1"; PREV["B3"] = CENTER; PREV["B4"] = "B3";
@@ -1626,6 +1757,7 @@ for (let i = 0; i <= 19; i++) {
   NODE_POS[i] = lerp(CORNERS[seg], CORNERS[(seg + 1) % 4], t);
 }
 NODE_POS[FINISH] = { x: CORNERS[0].x, y: CORNERS[0].y };
+NODE_POS[START]  = { x: CORNERS[0].x, y: CORNERS[0].y };   // 대기소에서 나오는 자리(그림은 참먹이와 같다)
 [1,2,4,5].forEach((step) => {
   const t = step / 6;
   const aName = step < 3 ? `A${step}` : `A${step - 1}`;      // 1,2 → A1,A2 / 4,5 → A3,A4
@@ -1653,7 +1785,13 @@ function throwYut() {
   else if (flat === 4) result = "YUT";
   else if (flat === 3) result = "GEOL";
   else if (flat === 2) result = "GAE";
-  else result = sticks[0] === 1 ? "BACKDO" : "DO";
+  else if (sticks[0] === 1 && RULES.useBackdo) result = "BACKDO";
+  else {
+    result = "DO";
+    // 빽도를 안 쓰기로 했으면, 표시된 가락만 배인 모양이 남아 있으면 안 된다.
+    // 배를 다른 가락으로 옮겨서 그림과 결과를 맞춘다.
+    if (sticks[0] === 1) { sticks[0] = 0; sticks[1 + Math.floor(Math.random() * 3)] = 1; }
+  }
   return { result, sticks };
 }
 
@@ -1704,20 +1842,62 @@ function forwardDestinations(start, steps) {
       const a = armOf(pos);
       if (a) arm = a;
     }
-    results.add(pos);
+    // '참먹이에 딱 도착해도 골인'을 켰으면 참먹이에 서는 대신 바로 난다
+    results.add(RULES.exactFinish && pos === 0 ? FINISH : pos);
   });
   return [...results];
 }
 
-/* 빽도로 갈 수 있는 칸 (방에서는 두 갈래라 둘 다 돌려줌) */
-function backwardDestinations(pos) {
+/* 앞으로 갈 때 실제로 밟고 지나가는 칸을 차례대로 돌려준다.
+   (마지막 칸이 도착 칸. 말이 '어느 길로 왔는지'를 이걸로 적어 둔다) */
+/* 그 선택지가 가리키는 말이 지나온 길 (대기소 말은 아직 없다) */
+function trailOf(team, opt) {
+  if (!opt || opt.type === "launch") return [];
+  const u = team.units[opt.unitIndex];
+  return (u && u.trail) || [];
+}
+
+function forwardPath(start, steps) {
+  if (steps <= 0) return [];
+  const first = FORCED_FIRST[start] !== undefined
+    ? FORCED_FIRST[start]
+    : stepThrough(start, armOf(start));
+  if (first === null || first === undefined) return [];
+  const out = [first];
+  let pos = first, arm = armOf(first) || armOf(start);
+  for (let i = 1; i < steps; i++) {
+    if (pos === FINISH) break;
+    const nxt = stepThrough(pos, arm);
+    if (nxt === null) break;
+    pos = nxt;
+    out.push(pos);
+    const a = armOf(pos);
+    if (a) arm = a;
+  }
+  return out;
+}
+
+/* 빽도로 갈 수 있는 칸.
+   말이 지나온 길을 적어 두었으면 묻지 않고 그 칸으로 돌아간다.
+   (적어 둔 게 없을 때만 — 옛 저장본 등 — PREV 표를 쓴다) */
+function backwardDestinations(pos, trail) {
+  if (trail && trail.length) return [trail[trail.length - 1]];
   if (PREV_CHOICES[pos]) return PREV_CHOICES[pos].slice();
   if (!(pos in PREV)) return [];
   return [PREV[pos]];
 }
 
 /* 칸 이름을 사람이 읽기 좋게 */
+/* 받침이 있으면 '으로', 없으면 '로' — "참먹이으로" 같은 말이 안 나오게 */
+function euro(word) {
+  const c = word.charCodeAt(word.length - 1) - 0xac00;
+  if (c < 0 || c > 11171) return "로";
+  const jong = c % 28;
+  return (jong === 0 || jong === 8) ? "로" : "으로";   // 받침 없음 · ㄹ 받침
+}
+
 function posLabel(pos) {
+  if (pos === 0) return "참먹이";
   if (typeof pos === "number") return `${pos}번 칸`;
   if (pos === CENTER) return "한가운데 방";
   return "지름길 칸";
@@ -1726,6 +1906,15 @@ function posLabel(pos) {
 /* =========================================================================
    4) 게임 상태
    ========================================================================= */
+const ANIMALS = [
+  { key:"rabbit", name:"토끼" }, { key:"bear", name:"곰" },
+  { key:"cat",    name:"고양이" }, { key:"dog",  name:"강아지" },
+  { key:"fox",    name:"여우" }, { key:"panda", name:"판다" },
+  { key:"pig",    name:"돼지" }, { key:"chick", name:"병아리" },
+];
+const TEAM_PALETTE = ["#4285ed","#f35e76","#edaf27","#159e86",
+                      "#9b5de5","#ff7a1a","#00b6d4","#e0457b"];
+
 const TEAM_PRESET = [
   { id:"blue",   name:"파랑팀", color:"#4285ed" },
   { id:"red",    name:"분홍팀", color:"#f35e76" },
@@ -1733,7 +1922,63 @@ const TEAM_PRESET = [
   { id:"black",  name:"초록팀", color:"#159e86" },
 ];
 const TEAM_COLOR = {};
-TEAM_PRESET.forEach((t) => { TEAM_COLOR[t.id] = t.color; });
+const TEAM_ANIMAL = {};
+const DEFAULT_ANIMAL = { blue:"rabbit", red:"bear", yellow:"cat", black:"dog" };
+TEAM_PRESET.forEach((t) => { TEAM_COLOR[t.id] = t.color; TEAM_ANIMAL[t.id] = DEFAULT_ANIMAL[t.id]; });
+
+const LOOK_KEY = "yut-look-v1";
+function saveLook() {
+  try {
+    const o = {};
+    TEAM_PRESET.forEach((t) => { o[t.id] = { c: TEAM_COLOR[t.id], a: TEAM_ANIMAL[t.id] }; });
+    localStorage.setItem(LOOK_KEY, JSON.stringify(o));
+  } catch (e) {}
+}
+function loadLook() {
+  try {
+    const o = JSON.parse(localStorage.getItem(LOOK_KEY) || "{}");
+    TEAM_PRESET.forEach((t) => {
+      const v = o[t.id]; if (!v) return;
+      if (typeof v.c === "string" && /^#[0-9a-f]{6}$/i.test(v.c)) TEAM_COLOR[t.id] = v.c;
+      if (ANIMALS.some((a) => a.key === v.a)) TEAM_ANIMAL[t.id] = v.a;
+    });
+    dedupeLook();
+  } catch (e) {}
+}
+/* 두 팀이 같은 동물·같은 색이면 구분이 안 된다 — 뒤 팀을 다음 것으로 민다 */
+function dedupeLook() {
+  const usedC = new Set(), usedA = new Set();
+  TEAM_PRESET.forEach((t) => {
+    let ci = TEAM_PALETTE.indexOf(TEAM_COLOR[t.id]); if (ci < 0) ci = 0;
+    for (let k = 0; k < TEAM_PALETTE.length && usedC.has(TEAM_PALETTE[ci]); k++)
+      ci = (ci + 1) % TEAM_PALETTE.length;
+    TEAM_COLOR[t.id] = TEAM_PALETTE[ci]; usedC.add(TEAM_PALETTE[ci]);
+
+    let ai = ANIMALS.findIndex((a) => a.key === TEAM_ANIMAL[t.id]); if (ai < 0) ai = 0;
+    for (let k = 0; k < ANIMALS.length && usedA.has(ANIMALS[ai].key); k++)
+      ai = (ai + 1) % ANIMALS.length;
+    TEAM_ANIMAL[t.id] = ANIMALS[ai].key; usedA.add(ANIMALS[ai].key);
+  });
+}
+/* 다음 것으로 넘긴다 — 다른 팀이 쓰는 것은 건너뛴다 */
+function cycleAnimal(id) {
+  const used = new Set(TEAM_PRESET.slice(0, setupTeamCount).filter((t) => t.id !== id).map((t) => TEAM_ANIMAL[t.id]));
+  let i = ANIMALS.findIndex((a) => a.key === TEAM_ANIMAL[id]);
+  for (let k = 0; k < ANIMALS.length; k++) {
+    i = (i + 1) % ANIMALS.length;
+    if (!used.has(ANIMALS[i].key)) { TEAM_ANIMAL[id] = ANIMALS[i].key; break; }
+  }
+  saveLook();
+}
+function cycleColor(id) {
+  const used = new Set(TEAM_PRESET.slice(0, setupTeamCount).filter((t) => t.id !== id).map((t) => TEAM_COLOR[t.id]));
+  let i = TEAM_PALETTE.indexOf(TEAM_COLOR[id]);
+  for (let k = 0; k < TEAM_PALETTE.length; k++) {
+    i = (i + 1) % TEAM_PALETTE.length;
+    if (!used.has(TEAM_PALETTE[i])) { TEAM_COLOR[id] = TEAM_PALETTE[i]; break; }
+  }
+  saveLook();
+}
 
 let teams = [];
 let currentTeamIndex = 0;
@@ -1741,6 +1986,22 @@ let gameOver = false;
 let pending = null;  // 던진 뒤 아직 말을 안 옮긴 상태
 
 const STORAGE_KEY = "yut-game-v1";
+const RULES_KEY = "yut-rules-v1";
+
+/* 한 판의 규칙 — 시작화면에서 켜고 끈다 */
+const RULES = { useBackdo: true, playToEnd: false, exactFinish: false };
+try {
+  const saved = JSON.parse(localStorage.getItem(RULES_KEY) || "{}");
+  if (typeof saved.useBackdo === "boolean") RULES.useBackdo = saved.useBackdo;
+  if (typeof saved.playToEnd === "boolean") RULES.playToEnd = saved.playToEnd;
+  if (typeof saved.exactFinish === "boolean") RULES.exactFinish = saved.exactFinish;
+} catch (e) {}
+function saveRules() {
+  try { localStorage.setItem(RULES_KEY, JSON.stringify(RULES)); } catch (e) {}
+}
+
+/* 순위 — 완주한 차례대로 쌓인다 (끝까지 순위 가리기를 켰을 때 쓴다) */
+let finishedOrder = [];
 
 /* ── 되돌리기 ─────────────────────────────────────────
    수를 두기 직전의 판 모습을 차곡차곡 쌓아두고, 필요하면 한 걸음씩 되돌린다. */
@@ -1749,7 +2010,7 @@ const SAVE_UNDO_MAX = 30;   // 저장 파일에 담는 개수
 let undoStack = [];
 
 function snapshot() {
-  return JSON.stringify({ teams, currentTeamIndex, gameOver, pending });
+  return JSON.stringify({ teams, currentTeamIndex, gameOver, pending, finishedOrder });
 }
 function pushUndo() {
   undoStack.push(snapshot());
@@ -1782,6 +2043,7 @@ function undoOnce() {
     currentTeamIndex = snap.currentTeamIndex;
     gameOver = snap.gameOver;
     pending = snap.pending;
+    finishedOrder = Array.isArray(snap.finishedOrder) ? snap.finishedOrder : [];
   };
   const beforeBoard = JSON.stringify(teams);
   restore();
@@ -1810,17 +2072,69 @@ function undoOnce() {
 function saveGame() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      teams, currentTeamIndex, gameOver, pending,
+      teams, currentTeamIndex, gameOver, pending, finishedOrder,
+      rules: { useBackdo: RULES.useBackdo, playToEnd: RULES.playToEnd, exactFinish: RULES.exactFinish },
       undo: undoStack.slice(-SAVE_UNDO_MAX),   // 되돌리기 기록도 함께 (최근 30걸음)
     }));
   } catch (e) { /* 저장이 안 되는 환경이면 그냥 넘어감 */ }
 }
+/* 저장본이 성한지 살펴본다.
+   깨진 저장본으로 판을 차리면 게임 도중에 이상해지고, 그때는 왜 그런지 알기 어렵다.
+   그래서 불러올 때 한 번에 걸러내고, 고칠 수 있는 것(옛 저장본의 빠진 값)만 고친다.
+   이상이 있으면 이유를 돌려주고, 부르는 쪽이 저장본을 버린다. */
+function validateSave(data) {
+  const bad = (why) => ({ ok: false, why });
+  if (!data || typeof data !== "object") return bad("저장본이 아님");
+  if (!Array.isArray(data.teams) || data.teams.length < 2 || data.teams.length > 4)
+    return bad("팀 수가 2~4가 아님");
+
+  const seen = new Set();          // 한 칸에 두 팀이 같이 서 있을 수는 없다
+  for (const t of data.teams) {
+    if (!t || typeof t !== "object") return bad("팀이 비어 있음");
+    if (!TEAM_COLOR[t.id]) return bad("모르는 팀 " + t.id);
+    if (typeof t.name !== "string" || !t.name) return bad("팀 이름이 없음");
+    if (!Number.isInteger(t.total) || t.total < 1 || t.total > 4) return bad("말 개수가 1~4가 아님");
+    if (!Number.isInteger(t.waiting) || t.waiting < 0) return bad("대기 말 수가 이상함");
+    if (!Number.isInteger(t.finished) || t.finished < 0) return bad("완주 말 수가 이상함");
+    if (!Array.isArray(t.units)) return bad("말 목록이 없음");
+
+    let onBoard = 0;
+    for (const u of t.units) {
+      if (!u || typeof u !== "object") return bad("말이 비어 있음");
+      if (!Number.isInteger(u.count) || u.count < 1) return bad("업은 말 수가 이상함");
+      if (!(u.pos in NODE_POS)) return bad("말이 없는 칸(" + u.pos + ")에 있음");
+      if (seen.has(u.pos)) return bad(posLabel(u.pos) + "에 두 팀이 겹침");
+      seen.add(u.pos);
+      onBoard += u.count;
+      // 옛 저장본에는 지나온 길이 없다 — 빈 값으로 채워 두면 PREV 표로 돌아간다
+      if (!Array.isArray(u.trail)) u.trail = [];
+      else u.trail = u.trail.filter((c) => c in NODE_POS || c === 0);
+    }
+    if (t.waiting + t.finished + onBoard !== t.total)
+      return bad(t.name + "의 말 개수가 " + (t.waiting + t.finished + onBoard) + "개로 " + t.total + "개와 다름");
+  }
+
+  const n = data.teams.length;
+  if (!Number.isInteger(data.currentTeamIndex) || data.currentTeamIndex < 0 || data.currentTeamIndex >= n)
+    return bad("차례가 어느 팀인지 알 수 없음");
+
+  if (data.pending) {
+    const q = data.pending;
+    if (!Array.isArray(q.results)) return bad("모아둔 결과가 목록이 아님");
+    if (q.results.some((r) => !r || !(r.result in RESULT_STEPS))) return bad("모르는 윷 결과가 섞임");
+    if (q.selected !== null && q.selected !== undefined &&
+        (!Number.isInteger(q.selected) || !q.results[q.selected])) return bad("고른 결과가 없어짐");
+  }
+  return { ok: true };
+}
+
 function loadGame() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (!raw) return null;
     const data = JSON.parse(raw);
-    if (!data || !Array.isArray(data.teams) || data.teams.length === 0) return null;
+    const v = validateSave(data);
+    if (!v.ok) { console.warn("저장본을 쓰지 않습니다 —", v.why); return null; }
     return data;
   } catch (e) { return null; }
 }
@@ -1872,11 +2186,26 @@ function buildSetup() {
   TEAM_PRESET.slice(0, setupTeamCount).forEach((t) => {
     const row = document.createElement("div");
     row.className = "name-row";
-    row.style.setProperty('--team', t.color);
-    const avatar=document.createElement('div');avatar.className='setup-avatar';avatar.innerHTML=charHTML(t.id,62);row.appendChild(avatar);
-    const sw = document.createElement("span");
+    row.style.setProperty('--team', TEAM_COLOR[t.id]);
+    // 동물 그림을 누르면 다음 동물로 (다른 팀이 쓰는 건 건너뛴다)
+    const avatar=document.createElement('button');
+    avatar.type='button'; avatar.className='setup-avatar';
+    avatar.innerHTML=charHTML(t.id,62);
+    avatar.title='다른 동물로 바꾸기';
+    avatar.setAttribute('aria-label', nameOf(t.id)+' 동물 바꾸기');
+    avatar.onclick=()=>{ cycleAnimal(t.id); buildSetup(); if(typeof Sound!=='undefined') Sound.tap(); };
+    row.appendChild(avatar);
+    // 색 동그라미를 누르면 다음 색으로
+    const sw = document.createElement("button");
+    sw.type = "button";
     sw.className = "swatch";
-    sw.style.background = t.color;
+    sw.style.background = TEAM_COLOR[t.id];
+    // 지금 고른 동물 이름을 여기에 적는다 (동그라미 안에 넣으면 그림에 묻힌다)
+    const animal = (ANIMALS.find((a) => a.key === TEAM_ANIMAL[t.id]) || ANIMALS[0]).name;
+    sw.innerHTML = '<span class="sw-name">' + escapeHtml(animal) + '</span><span class="sw-go">🎨</span>';
+    sw.title = '색 바꾸기';
+    sw.setAttribute('aria-label', nameOf(t.id)+' — 지금 '+animal+', 눌러서 색 바꾸기');
+    sw.onclick = () => { cycleColor(t.id); buildSetup(); if(typeof Sound!=='undefined') Sound.tap(); };
     const input = document.createElement("input");
     input.type = "text";
     input.maxLength = 10;
@@ -1907,15 +2236,15 @@ function renderOrderTeams() {
     const picked = idx >= 0;
     const b = document.createElement("button");
     b.className = "order-team" + (picked ? " picked" : "");
-    b.innerHTML = `<span class="swatch" style="background:${t.color}"></span>` +
+    b.innerHTML = `<span class="swatch" style="background:${TEAM_COLOR[t.id]}"></span>` +
                   (picked ? `<span class="num">${idx+1}번째</span> ` : "") + escapeHtml(nameOf(t.id));
     b.onclick = () => { if (!picked) { setupOrder.push(t.id); buildSetup(); } };
     ot.appendChild(b);
   });
 
   const hint = document.getElementById("orderHint");
-  if (setupOrder.length === 0) hint.textContent = "먼저 둘 팀부터 차례대로 눌러주세요.";
-  else if (setupOrder.length < setupTeamCount) hint.textContent = `${setupOrder.length}팀 정했어요. 다음 팀을 눌러주세요. (다시 고르려면 팀 수를 다시 누르세요)`;
+  if (setupOrder.length === 0) hint.textContent = "";
+  else if (setupOrder.length < setupTeamCount) hint.textContent = `${setupOrder.length}팀 정했어요. 다음 팀을 눌러주세요.`;
   else hint.textContent = "차례가 다 정해졌어요.";
 }
 
@@ -1923,23 +2252,27 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 }
 
-startBtn.onclick = () => {
+function startNewGame() {
   teams = setupOrder.map((id) => {
     return { id, name: nameOf(id), total: setupPieceCount, waiting: setupPieceCount, finished: 0, units: [] };
   });
   currentTeamIndex = 0;
   gameOver = false;
   pending = null;
+  finishedOrder = [];
   undoStack = [];
   clearSave();
   startGameScreen();
   saveGame();
-};
+}
+startBtn.onclick = startNewGame;
 
 document.getElementById("newGameBtn").onclick = () => {
-  if (!confirm("두던 판을 지우고 새로 시작할까요?")) return;
-  clearSave();
-  location.reload();
+  askYesNo("새 게임을 시작할까요?", "두던 판은 지워집니다.", "새로 시작").then((ok) => {
+    if (!ok) return;
+    clearSave();
+    location.reload();
+  });
 };
 
 /* =========================================================================
@@ -1981,7 +2314,7 @@ function decorateBoard(){
   function badge(x,y,text){const g=el('g',{});g.appendChild(el('rect',{x:x-30,y:y-13,width:60,height:26,rx:13,fill:'#164d60',stroke:'#f3cc73','stroke-width':2}));const t=el('text',{x,y:y+5,'text-anchor':'middle',fill:'#fff4cc','font-size':14,'font-weight':900});t.textContent=text;g.appendChild(t);labels.appendChild(g);}
   badge(80,37,'뒷모');badge(580,37,'모');badge(80,625,'찌모');badge(330,378,'방');
   const ribbon=el('rect',{x:510,y:615,width:128,height:30,rx:12,fill:'#d85f55',stroke:'#ffd982','stroke-width':2});labels.appendChild(ribbon);
-  const title=el('text',{x:574,y:635,'text-anchor':'middle',fill:'#fffbea','font-size':15,'font-weight':900});title.textContent='출발 · 도착';labels.appendChild(title);
+  const title=el('text',{x:574,y:635,'text-anchor':'middle',fill:'#fffbea','font-size':15,'font-weight':900});title.textContent='참먹이 · 출발';labels.appendChild(title);
   labels.appendChild(el('path',{d:'M613 571 Q635 535 613 502 M605 514 L613 502 L624 511',fill:'none',stroke:'#cc6a3b','stroke-width':4,'stroke-linecap':'round','stroke-linejoin':'round'}));
   // Reference screenshot: inset wooden paths, porcelain stops and ceremonial medallions.
   art.insertAdjacentHTML('beforeend',`<defs>
@@ -2014,7 +2347,7 @@ function decorateBoard(){
   function corner(x,y,text){labels.insertAdjacentHTML('beforeend',`<g transform="translate(${x} ${y})"><circle r="25" fill="#1a285d" stroke="#ffc943" stroke-width="3"/><circle r="21" fill="none" stroke="#35497d" stroke-width="1"/><text y="6" text-anchor="middle" fill="#fff0b5" font-size="16" font-weight="900">${text}</text></g>`);}
   corner(33,32,'뒷모');corner(627,32,'모');corner(33,628,'찌모');
   labels.insertAdjacentHTML('beforeend',`<rect x="301" y="385" width="58" height="32" rx="16" fill="#fff8de" stroke="#87582e" stroke-width="2.5"/><text x="330" y="407" text-anchor="middle" font-size="21" font-weight="900" fill="#754a2b">방</text>
-  <path d="M468 618 Q545 600 636 618 L636 648 Q555 634 468 648Z" fill="#c74432" stroke="#80371e" stroke-width="3"/><path d="M474 621 Q551 607 630 621 M474 642 Q551 630 630 642" fill="none" stroke="#ffda75" stroke-dasharray="5 3" stroke-width="1.5"/><text x="551" y="635" text-anchor="middle" fill="#fff3c4" stroke="#7b351d" stroke-width="1" paint-order="stroke" font-size="20" font-weight="900">출발 · 도착</text>
+  <path d="M468 618 Q545 600 636 618 L636 648 Q555 634 468 648Z" fill="#c74432" stroke="#80371e" stroke-width="3"/><path d="M474 621 Q551 607 630 621 M474 642 Q551 630 630 642" fill="none" stroke="#ffda75" stroke-dasharray="5 3" stroke-width="1.5"/><text x="551" y="635" text-anchor="middle" fill="#fff3c4" stroke="#7b351d" stroke-width="1" paint-order="stroke" font-size="19" font-weight="900">참먹이 · 출발</text>
   <path d="M623 566 Q646 537 626 510 L621 498 M613 512 621 493 637 504" fill="none" stroke="#583926" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/><path d="M623 566 Q646 537 626 510 L621 498 M613 512 621 493 637 504" fill="none" stroke="#ffda5e" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>`);
   svg.appendChild(labels);
 }
@@ -2123,7 +2456,7 @@ function buildBoard() {
 }
 
 function renderState() {
-  document.getElementById('festivalScore').innerHTML = teams.map(t => '<span style="--team:'+TEAM_COLOR[t.id]+'">'+escapeHtml(t.name)+'<b>완주 '+t.finished+' / '+t.total+'</b></span>').join('');
+  // 점수판은 아래쪽 renderTeamCards() 가 그린다. (여기서 또 그리면 바로 덮어써진다)
   teams.forEach((team, i) => {
     const box = waitBoxFor(i);
     svg.querySelectorAll(`.wait-piece-${team.id}`).forEach((n) => n.remove());
@@ -2250,10 +2583,10 @@ function drawMoveHints(team, options, result, opts) {
   const chosen = opts && opts.chosen;       // 이미 말을 고른 상태인지
 
   options.forEach((opt) => {
-    const from = opt.type === "launch" ? 0 : team.units[opt.unitIndex].pos;
+    const from = opt.type === "launch" ? START : team.units[opt.unitIndex].pos;
     let dests;
-    if (result === "BACKDO") dests = backwardDestinations(from);
-    else dests = forwardDestinations(opt.type === "launch" ? 0 : from, steps);
+    if (result === "BACKDO") dests = backwardDestinations(from, trailOf(team, opt));
+    else dests = forwardDestinations(from, steps);
 
     if (only) dests = dests.filter((d) => only.indexOf(d) !== -1);
 
@@ -2271,7 +2604,7 @@ function drawMoveHints(team, options, result, opts) {
       } else {
         const src = opt.type === "launch" ? NODE_POS[0] : NODE_POS[from];
         const seq = (typeof Festival !== "undefined" && Festival.path)
-          ? Festival.path(opt.type === "launch" ? 0 : from, steps, dest)
+          ? Festival.path(from, steps, dest)
           : [dest];
         route = [src].concat(seq.map((q) => (q === FINISH ? NODE_POS[0] : (q === WAIT ? NODE_POS[0] : NODE_POS[q]))));
         route = route.filter(Boolean);
@@ -2375,7 +2708,7 @@ function getMovableOptions(team, result) {
   if (result === "BACKDO") {
     return team.units
       .map((u, idx) => ({ type:"unit", unitIndex: idx }))
-      .filter((o) => backwardDestinations(team.units[o.unitIndex].pos).length > 0);
+      .filter((o) => backwardDestinations(team.units[o.unitIndex].pos, team.units[o.unitIndex].trail).length > 0);
   }
   const opts = [];
   if (team.waiting > 0) opts.push({ type:"launch" });
@@ -2645,17 +2978,6 @@ let autoTimer = null;
 let boardSerial = 0;
 function bumpSerial() { boardSerial++; }
 function cancelAuto() { if (autoTimer) { clearTimeout(autoTimer); autoTimer = null; } }
-function scheduleAuto(fn) {
-  cancelAuto();
-  const mySerial = boardSerial;
-  autoTimer = setTimeout(() => {
-    autoTimer = null;
-    if (mySerial !== boardSerial) return;          // 그 사이 판이 바뀜 (되돌리기 등)
-    if (fxBusy || gameOver || !pending || pending.phase !== "moving") return;
-    fn();
-  }, AUTO_DELAY);
-}
-
 function renderPending() {
   cancelAuto();
   clearInteractive();
@@ -2672,7 +2994,7 @@ function renderPending() {
     throwBtn.disabled = false;
     const last = pending.results[pending.results.length - 1];
     if (last) {
-      statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: ${LABEL[last.result]}가 나왔어요. 말은 나중에 놓고 <strong>한 번 더 던지세요.</strong>`;
+      statusLine.innerHTML = `🎁 <strong>${LABEL[last.result]}</strong>! 한 번 더 던져요`;
     }
     return;
   }
@@ -2682,7 +3004,7 @@ function renderPending() {
   const result = pending.selected === null ? null : pending.results[pending.selected].result;
 
   if (pending.selected === null) {
-    statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: 모아둔 결과 중에서 먼저 쓸 것을 눌러주세요.`;
+    statusLine.innerHTML = `👆 먼저 쓸 결과를 골라요`;
     return;
   }
 
@@ -2702,8 +3024,8 @@ function renderPending() {
 
     markPieceNodes(team, options, (opt) => selectPiece(opt));
     statusLine.innerHTML = result === "BACKDO"
-      ? `<strong>${escapeHtml(team.name)}</strong>: <strong>${LABEL[result]}</strong> — 뒤로 보낼 말을 눌러주세요.`
-      : `<strong>${escapeHtml(team.name)}</strong>: <strong>${LABEL[result]}</strong> — 움직일 말(또는 대기소)을 눌러주세요.`;
+      ? `👆 <strong>${LABEL[result]}</strong> — 뒤로 보낼 말을 골라요`
+      : `👆 <strong>${LABEL[result]}</strong> — 움직일 말을 골라요`;
   }
 
   /* 말을 고른 뒤 — 그 말의 길만 그린다. 한 번 더 누르면 간다. */
@@ -2720,10 +3042,7 @@ function renderPending() {
 
     drawMoveHints(team, [opt], result, { chosen: true });
 
-    const where = opt.type === "launch" ? "대기소의 말" : "고른 말";
-    statusLine.innerHTML =
-      `<strong>${escapeHtml(team.name)}</strong>: <strong>${LABEL[result]}</strong> — ` +
-      `${where}을 <strong>한 번 더 누르면</strong> 가요. (다른 말을 눌러 바꿀 수도 있어요)`;
+    statusLine.innerHTML = `👉 <strong>한 번 더 누르면</strong> 갑니다`;
   }
 
   else if (pending.stage === "pickDest") {
@@ -2733,11 +3052,8 @@ function renderPending() {
       if (n) n.classList.add("selected");
     }
     drawMoveHints(team, [opt], result, { onlyDests: pending.dests, chosen: true });
-    const from = opt.type === "launch" ? null : team.units[opt.unitIndex].pos;
-    let msg;
-    if (result === "BACKDO") msg = "방에서는 뒤로 갈 길이 두 갈래예요. 어디로 갈지 눌러주세요.";
-    else if (from === CENTER) msg = "한가운데 방에 있어요. 어느 쪽으로 나갈지 눌러서 정해주세요.";
-    else msg = "모서리에 서 있어요. 지름길로 갈지 바깥길로 갈지 눌러서 정해주세요.";
+    // 앞으로 갈 때는 길을 고르지 않는다. 고르는 자리는 방에서 빽도가 나왔을 때뿐이다.
+    const msg = "방에서는 뒤로 갈 길이 두 갈래예요. 어디로 갈지 눌러주세요.";
     statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: ${msg}`;
   }
 }
@@ -2787,8 +3103,8 @@ function pickPiece(opt) {
   const steps = RESULT_STEPS[result];
 
   let dests;
-  if (result === "BACKDO") dests = backwardDestinations(team.units[opt.unitIndex].pos);
-  else if (opt.type === "launch") dests = forwardDestinations(0, steps);
+  if (result === "BACKDO") dests = backwardDestinations(team.units[opt.unitIndex].pos, team.units[opt.unitIndex].trail);
+  else if (opt.type === "launch") dests = forwardDestinations(START, steps);
   else dests = forwardDestinations(team.units[opt.unitIndex].pos, steps);
 
   pending.option = opt;
@@ -2838,13 +3154,27 @@ function commitMove(carry) {
   const team = teams[currentTeamIndex];
   const { option, dest } = pending;
 
-  let movingCount;
+  const result = pending.results[pending.selected].result;
+  const steps = RESULT_STEPS[result];
+
+  let movingCount, movingTrail;
   if (option.type === "launch") {
     movingCount = 1;
     team.waiting -= 1;
+    // 대기소에서 나온 말 — 출발 칸(0)은 적지 않는다.
+    // 적어 둔 게 없으면 1번 칸에서 빽도가 나왔을 때 대기소로 돌아간다.
+    movingTrail = forwardPath(START, steps).slice(0, -1);
   } else {
     const unit = team.units[option.unitIndex];
     movingCount = unit.count;
+    const before = (unit.trail || []).slice();
+    if (result === "BACKDO") {
+      // 왔던 길을 한 칸 물러난다 — 적어 둔 마지막 칸을 지운다
+      movingTrail = before.slice(0, -1);
+    } else {
+      // 밟고 지나간 칸을 모두 이어 붙인다 (도착 칸은 빼고)
+      movingTrail = before.concat([unit.pos], forwardPath(unit.pos, steps).slice(0, -1));
+    }
     team.units.splice(option.unitIndex, 1);
   }
 
@@ -2872,12 +3202,13 @@ function commitMove(carry) {
     });
     if (carry) {
       const target = team.units.find((u) => u.pos === dest);
-      if (target) target.count += movingCount;
-      else team.units.push({ pos: dest, count: movingCount });
+      // 업으면 이제 한 몸이다 — 지나온 길도 옮겨 온 말의 것으로 맞춘다
+      if (target) { target.count += movingCount; target.trail = movingTrail; }
+      else team.units.push({ pos: dest, count: movingCount, trail: movingTrail });
     } else {
-      team.units.push({ pos: dest, count: movingCount });
+      team.units.push({ pos: dest, count: movingCount, trail: movingTrail });
     }
-    where = `${posLabel(dest)}으로 이동했어요.`;
+    where = `${posLabel(dest)}${euro(posLabel(dest))} 이동했어요.`;
   }
 
   // 방금 쓴 결과를 목록에서 뺀다
@@ -2909,10 +3240,36 @@ function commitMove(carry) {
   }
 
   if (team.finished >= team.total) {
+    if (!finishedOrder.includes(team.id)) finishedOrder.push(team.id);
+    const left = teams.filter((t) => t.finished < t.total);
+
+    if (!RULES.playToEnd || left.length <= 1) {
+      // 끝까지 가리기가 꺼져 있으면 첫 완주로 끝난다.
+      // 켜져 있어도 남은 팀이 하나뿐이면 더 겨룰 상대가 없다.
+      left.forEach((t) => { if (!finishedOrder.includes(t.id)) finishedOrder.push(t.id); });
+      pending = null;
+      endGame(teams.find((t) => t.id === finishedOrder[0]) || team, true);
+      renderTray();
+      statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: ${where}`;
+      saveGame();
+      return;
+    }
+
+    // 이 팀은 여기서 끝. 나머지 팀끼리 계속한다.
+    const place = finishedOrder.length;
     pending = null;
-    endGame(team, true);
+    try {
+      if (typeof Festival !== 'undefined' && Festival.cheer)
+        Festival.cheer(`${team.name} ${place}등!`, TEAM_COLOR[team.id], true);
+    } catch (e) {}
+    nextTurn();
     renderTray();
-    statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: ${where}`;
+    statusLine.innerHTML =
+      `<strong>${escapeHtml(team.name)}</strong>이 <strong>${place}등</strong>으로 끝났어요. ` +
+      `이제 <strong>${escapeHtml(teams[currentTeamIndex].name)}</strong> 차례예요.`;
+    throwBtn.disabled = false;
+    syncNakBtn();
+    updateTurnBanner();
     saveGame();
     return;
   }
@@ -2977,13 +3334,12 @@ function endGame(team, celebrate) {
   banner.classList.add("won");
   document.getElementById("turnDot").style.background = TEAM_COLOR[team.id];
   document.getElementById("turnText").textContent = `${team.name}이 말 ${team.total}개를 모두 내보내서 이겼어요!`;
-  if (celebrate) {
-    // 두구두구 → 팡파르 → 승리 가락 순서로 (아래쪽 celebrateWin)
-    if (typeof window.celebrateWin === "function") window.celebrateWin(team);
-    else {
-      if (typeof Sound !== 'undefined') Sound.win();
-      if (window.FX && typeof FX.confetti === "function") FX.confetti(TEAM_COLOR[team.id]);
-    }
+  if (celebrate && typeof window.celebrateWin === "function") {
+    // 두구두구 → 팡파르 → 승리 화면 → 승리 가락 (아래쪽 celebrateWin)
+    window.celebrateWin(team);
+  } else {
+    if (typeof Sound !== 'undefined' && celebrate) Sound.win();
+    if (typeof window.showWinScreen === "function") window.showWinScreen(team);
   }
 }
 
@@ -2992,6 +3348,8 @@ function updateTurnBanner() {
   const team = teams[currentTeamIndex];
   document.getElementById("turnDot").style.background = TEAM_COLOR[team.id];
   document.getElementById("turnText").textContent = `${team.name} 차례`;
+  // 말판 테두리도 같은 색으로 숨 쉬게 — 판만 보고 있어도 누구 차례인지 안다
+  try { document.body.style.setProperty("--turn", TEAM_COLOR[team.id]); } catch (e) {}
 }
 
 function startGameScreen() {
@@ -2999,13 +3357,13 @@ function startGameScreen() {
   setupScreen.classList.add("hidden");
   gameScreen.classList.remove("hidden");
   document.body.classList.add("in-game");
-  document.getElementById("newGameBtn").classList.remove("hidden");
   document.getElementById("gameFooter").textContent =
     `${teams.length}팀 · 팀당 말 ${teams[0].total}개 · 두던 판은 자동으로 저장돼서, 창을 닫았다 다시 열어도 이어집니다.`;
   buildBoard();
   renderTray();
   updateTurnBanner();
-  if (!statusLine.textContent) statusLine.textContent = "윷을 던져 시작하세요.";
+  if (typeof keepScreenAwake === "function") keepScreenAwake(true);
+  if (!statusLine.textContent) statusLine.innerHTML = "🥢 <strong>윷 던지기</strong>를 꾹 눌렀다 떼세요";
 }
 
 /* =========================================================================
@@ -3043,9 +3401,11 @@ const Festival = (() => {
   }
   function path(start,steps,dest) {
     if(steps<0) return [dest];
-    const first=BRANCH_FORWARD[start]|| (FORCED_FIRST[start]?[FORCED_FIRST[start]]:[stepThrough(start,armOf(start))]);
-    for(const f of first){let p=f,arm=armOf(f)||armOf(start),out=[f];for(let i=1;i<steps&&p!==FINISH;i++){p=stepThrough(p,arm);out.push(p);arm=armOf(p)||arm;}if(p===dest)return out;}
-    return [dest];
+    const out = forwardPath(start, steps);
+    if(!out.length) return [dest];
+    // 딱 도착 골인처럼 마지막 칸이 바뀌는 경우엔 끝만 맞춰 준다
+    if(out[out.length-1] !== dest) out[out.length-1] = dest;
+    return out;
   }
   /* 대기소(팀 카드)에서 말판 출발점까지 말이 날아오는 효과 */
   /* 잡힌 말이 판에서 자기 대기소로 날아간다 (빙글빙글 돌며 쫓겨나는 느낌) */
@@ -4166,47 +4526,82 @@ document.addEventListener('pointerdown', () => {
 const CHAR_BASE = '#FBEEE0';      // 밝은 얼굴색
 const CHAR_LINE = '#5A4632';      // 테두리·눈 색
 
+let charClipSeq = 0;
+/* 말 얼굴 — 동물 종류와 색은 시작화면에서 바꿀 수 있다 */
 function charInner(teamId){
   const c = (typeof TEAM_COLOR !== 'undefined' && TEAM_COLOR[teamId]) || '#e8a; ';
-  const id = 'chClip-' + teamId;
+  const kind = (typeof TEAM_ANIMAL !== 'undefined' && TEAM_ANIMAL[teamId]) || "rabbit";
+  // 같은 id가 화면에 여러 개 있으면 브라우저가 첫 번째 것만 보고 자르기가 어긋난다
+  // (얼굴을 크게 그릴 때 네모난 색 얼룩으로 드러났다)
+  const id = 'chClip-' + teamId + '-' + (++charClipSeq);
   const L = CHAR_LINE, B = CHAR_BASE;
 
   // 종류별 귀 모양
   const ears = {
-    blue:                                             // 토끼 — 길쭉한 귀
+    rabbit:                                           // 토끼 — 길쭉한 귀
       `<ellipse cx="33" cy="20" rx="10" ry="21" fill="${B}" stroke="${L}" stroke-width="4"/>
        <ellipse cx="67" cy="20" rx="10" ry="21" fill="${B}" stroke="${L}" stroke-width="4"/>
        <ellipse cx="33" cy="21" rx="4.5" ry="13" fill="${c}" opacity=".45"/>
        <ellipse cx="67" cy="21" rx="4.5" ry="13" fill="${c}" opacity=".45"/>`,
-    red:                                              // 곰 — 동그란 귀
+    bear:                                             // 곰 — 동그란 귀
       `<circle cx="25" cy="27" r="13" fill="${B}" stroke="${L}" stroke-width="4"/>
        <circle cx="75" cy="27" r="13" fill="${B}" stroke="${L}" stroke-width="4"/>
        <circle cx="25" cy="27" r="6" fill="${c}" opacity=".45"/>
        <circle cx="75" cy="27" r="6" fill="${c}" opacity=".45"/>`,
-    yellow:                                           // 고양이 — 뾰족한 귀
+    cat:                                              // 고양이 — 뾰족한 귀
       `<path d="M22 40 L26 14 L46 28 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>
        <path d="M78 40 L74 14 L54 28 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>
        <path d="M27 34 L29 22 L39 29 Z" fill="${c}" opacity=".45"/>
        <path d="M73 34 L71 22 L61 29 Z" fill="${c}" opacity=".45"/>`,
-    black:                                            // 강아지 — 늘어진 귀
+    dog:                                              // 강아지 — 늘어진 귀
       `<ellipse cx="20" cy="50" rx="11" ry="20" fill="${B}" stroke="${L}" stroke-width="4"/>
        <ellipse cx="80" cy="50" rx="11" ry="20" fill="${B}" stroke="${L}" stroke-width="4"/>
        <ellipse cx="20" cy="52" rx="5" ry="12" fill="${c}" opacity=".45"/>
        <ellipse cx="80" cy="52" rx="5" ry="12" fill="${c}" opacity=".45"/>`,
-  }[teamId] || '';
+    fox:                                              // 여우 — 넓고 낮은 삼각 귀
+      `<path d="M18 44 L20 12 L48 30 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>
+       <path d="M82 44 L80 12 L52 30 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>
+       <path d="M24 38 L25 21 L39 30 Z" fill="${c}" opacity=".5"/>
+       <path d="M76 38 L75 21 L61 30 Z" fill="${c}" opacity=".5"/>`,
+    panda:                                            // 판다 — 크고 진한 동그란 귀
+      `<circle cx="23" cy="25" r="15" fill="${L}"/>
+       <circle cx="77" cy="25" r="15" fill="${L}"/>
+       <circle cx="23" cy="25" r="7" fill="${c}" opacity=".35"/>
+       <circle cx="77" cy="25" r="7" fill="${c}" opacity=".35"/>`,
+    pig:                                              // 돼지 — 접힌 작은 귀
+      `<path d="M24 38 q-6 -20 10 -18 q8 1 9 12 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>
+       <path d="M76 38 q6 -20 -10 -18 q-8 1 -9 12 Z" fill="${B}" stroke="${L}" stroke-width="4" stroke-linejoin="round"/>`,
+    chick:                                            // 병아리 — 귀 대신 머리깃
+      `<path d="M50 24 q-4 -13 5 -15 q-1 7 4 10" fill="${c}" stroke="${L}" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
+       <path d="M40 26 q-3 -9 3 -12" fill="none" stroke="${L}" stroke-width="4" stroke-linecap="round"/>`,
+  }[kind] || '';
 
   // 종류별 입 모양
   const mouth = {
-    blue:   `<path d="M50 70 v5" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>
+    rabbit: `<path d="M50 70 v5" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>
              <path d="M43 78 q7 6 14 0" fill="none" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>`,
-    red:    `<ellipse cx="50" cy="72" rx="9" ry="7" fill="${c}" opacity=".3"/>
+    bear:   `<ellipse cx="50" cy="72" rx="9" ry="7" fill="${c}" opacity=".3"/>
              <ellipse cx="50" cy="69" rx="4.5" ry="3.5" fill="${L}"/>
              <path d="M50 73 v4" stroke="${L}" stroke-width="3" stroke-linecap="round"/>`,
-    yellow: `<path d="M50 69 v4" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>
+    cat:    `<path d="M50 69 v4" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>
              <path d="M41 75 q9 8 18 0" fill="none" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>`,
-    black:  `<ellipse cx="50" cy="70" rx="5" ry="4" fill="${L}"/>
+    dog:    `<ellipse cx="50" cy="70" rx="5" ry="4" fill="${L}"/>
              <path d="M50 74 q0 6 7 6" fill="none" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>`,
-  }[teamId] || '';
+    fox:    `<path d="M50 68 q-7 3 -2 7 q2 2 2 4 q0 -2 2 -4 q5 -4 -2 -7 Z" fill="${L}"/>
+             <path d="M44 81 q6 4 12 0" fill="none" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>`,
+    panda:  `<ellipse cx="50" cy="70" rx="6" ry="4.5" fill="${L}"/>
+             <path d="M42 78 q8 7 16 0" fill="none" stroke="${L}" stroke-width="3.5" stroke-linecap="round"/>`,
+    pig:    `<ellipse cx="50" cy="74" rx="13" ry="9" fill="${c}" opacity=".45" stroke="${L}" stroke-width="3.5"/>
+             <ellipse cx="45" cy="74" rx="2.6" ry="3.6" fill="${L}"/>
+             <ellipse cx="55" cy="74" rx="2.6" ry="3.6" fill="${L}"/>`,
+    chick:  `<path d="M50 66 L60 73 L50 80 Z" fill="#f2a53a" stroke="${L}" stroke-width="3" stroke-linejoin="round"/>`,
+  }[kind] || '';
+
+  // 판다는 눈 둘레가 까맣다
+  const patch = kind === "panda"
+    ? `<ellipse cx="36" cy="55" rx="12" ry="14" fill="${L}" opacity=".85"/>
+       <ellipse cx="64" cy="55" rx="12" ry="14" fill="${L}" opacity=".85"/>` : '';
+  const eyeDot = kind === "panda" ? "#fff" : "#fff";
 
   return `
   <defs><clipPath id="${id}"><circle cx="50" cy="57" r="36"/></clipPath></defs>
@@ -4215,12 +4610,13 @@ function charInner(teamId){
   <g clip-path="url(#${id})">
     <!-- 얼굴 오른쪽 위를 부드러운 곡선으로 물들인다 -->
     <path d="M44 18 Q 40 56 78 96 L104 96 L104 18 Z" fill="${c}" opacity=".42"/>
+    ${patch}
   </g>
   <circle cx="50" cy="57" r="36" fill="none" stroke="${L}" stroke-width="4"/>
   <ellipse cx="36" cy="55" rx="7" ry="9" fill="${L}"/>
   <ellipse cx="64" cy="55" rx="7" ry="9" fill="${L}"/>
-  <circle cx="34" cy="51" r="2.6" fill="#fff"/>
-  <circle cx="62" cy="51" r="2.6" fill="#fff"/>
+  <circle cx="34" cy="51" r="2.6" fill="${eyeDot}"/>
+  <circle cx="62" cy="51" r="2.6" fill="${eyeDot}"/>
   <ellipse cx="24" cy="68" rx="7" ry="5" fill="${c}" opacity=".5"/>
   <ellipse cx="76" cy="68" rx="7" ry="5" fill="${c}" opacity=".5"/>
   ${mouth}`;
@@ -4404,8 +4800,9 @@ function renderTray(){
 }
 
 /* ── 낙(落) ───────────────────────────────────────────
-   던진 윷이 멍석 밖으로 나갔을 때. 이번에 던진 것은 없던 일이 되고
-   차례가 다음 팀으로 넘어간다. (원본과 같은 규칙)
+   던진 윷이 멍석 밖으로 나갔을 때. 이번에 던진 것만 없던 일이 된다.
+   앞서 윷·모로 모아 둔 결과가 있으면 그것은 살아 있고, 그걸로 계속 둔다.
+   모아 둔 게 없으면 차례가 다음 팀으로 넘어간다.
    되돌리기로 되살릴 수 있다. */
 function canCallNak(){
   return !nakLock && !fxBusy && !gameOver && (!pending || pending.phase === 'throwing');
@@ -4444,20 +4841,26 @@ function callNak(){
   }
 }
 
-/* 날아간 뒤 — 이번 차례는 없던 일이 되고 다음 팀으로 */
+/* 날아간 뒤 — 이번에 던진 것만 지운다. 모아둔 결과가 있으면 그걸로 계속 둔다 */
 function finishNak(team, had){
   fxBusy = true;             // 안내가 떠 있는 동안에도 계속 잠가 둔다
   nakLock = true;
   pushUndo(); bumpSerial();
   cancelAuto();
-  pending = null;
   clearInteractive();
   throwBtn.disabled = true;
   syncNakBtn();
   [resultWord, resultDetail, againBadge].forEach((e) => e && e.classList.remove('show'));
+
+  // 낙은 '이번에 던진 것'만 없던 일이 된다.
+  // 앞서 윷·모로 모아 둔 결과는 그대로 살아 있고, 그것만으로 계속 둔다.
+  const keep = had > 0;
+  if (!keep) pending = null;
+
   renderTray();
   statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: <strong>낙!</strong> 윷이 멍석 밖으로 나갔어요. ` +
-    (had ? '모아둔 결과까지 없던 일이 되고 ' : '') + '다음 팀에게 넘어갑니다.';
+    (keep ? '이번 던지기만 없던 일이 되고, <strong>모아둔 결과는 그대로</strong> 씁니다.'
+          : '다음 팀에게 넘어갑니다.');
   try{
     if (typeof Festival !== 'undefined' && Festival.cheer) Festival.cheer('낙!', '#90a4ae');
     if (typeof Sound !== 'undefined' && Sound.nak) Sound.nak();
@@ -4471,6 +4874,15 @@ function finishNak(team, had){
     fxBusy = false;
     updateUndoBtn();
     if (mySerial !== boardSerial || gameOver) { syncNakBtn(); return; }
+
+    if (keep && pending && pending.results.length) {
+      // 모아둔 결과로 계속 둔다. (그걸로도 갈 데가 없으면 beginMovingPhase 가 알아서 넘긴다)
+      beginMovingPhase();
+      updateUndoBtn();
+      saveGame();
+      return;
+    }
+
     nextTurn();
     updateTurnBanner();
     renderTray();
@@ -4485,8 +4897,9 @@ function finishNak(team, had){
 /* 숫자키로도 결과를 넣을 수 있게 */
 document.addEventListener('keydown',(e)=>{
   if(e.target&&/^(INPUT|TEXTAREA)$/.test(e.target.tagName))return;
-  const map={'1':'DO','2':'GAE','3':'GEOL','4':'YUT','5':'MO','b':'BACKDO','B':'BACKDO'};
+  const map={'1':'DO','2':'GAE','3':'GEOL','4':'YUT','5':'MO','b':'BACKDO','B':'BACKDO','ㅠ':'BACKDO'};
   const key=map[e.key];
+  if(key==='BACKDO'&&!RULES.useBackdo)return;      // 안 쓰기로 한 결과는 넣을 수 없다
   if(key&&canInputResult()){e.preventDefault();inputResult(key);}
 });
 document.getElementById('undoBtn').onclick=()=>undoOnce();
@@ -4499,6 +4912,88 @@ document.addEventListener('keydown',(e)=>{
     e.preventDefault(); callNak();
   }
 });
+/* =========================================================================
+   키보드 — 마우스 없이도 한 판을 다 둘 수 있게
+   한글 자판으로 놓고 눌러도 되게 같은 자리의 글자를 함께 받는다
+   ========================================================================= */
+function movableNow() {
+  if (!pending || pending.phase !== 'moving' || !pending.results) return [];
+  const sel = pending.results[pending.selected];
+  if (!sel) return [];
+  try { return getMovableOptions(teams[currentTeamIndex], sel.result) || []; }
+  catch (e) { return []; }
+}
+
+/* 고를 수 있는 말을 차례로 옮겨 가며 고른다 */
+function cyclePiece(dir) {
+  const opts = movableNow();
+  if (!opts.length) return false;
+  let at = -1;
+  if (pending.option) opts.forEach((o, i) => { if (sameOption(o, pending.option)) at = i; });
+  const next = opts[(at + (dir > 0 ? 1 : opts.length - 1) + opts.length) % opts.length];
+  selectPiece(next);
+  return true;
+}
+
+document.addEventListener('keydown', (e) => {
+  const t = e.target;
+  if (t && /^(INPUT|TEXTAREA)$/.test(t.tagName)) return;
+  if (e.altKey) return;
+
+  const k = e.key;
+  const win = document.getElementById('winScreen');
+  const winOpen = win && !win.classList.contains('hidden');
+  const dlgOpen = !!document.querySelector('dialog[open]');
+
+  // ── 승리 화면에서는 Enter 가 '한 판 더' ──
+  if (winOpen) {
+    if (k === 'Enter') { e.preventDefault(); document.getElementById('winAgainBtn').click(); }
+    return;
+  }
+
+  // ── 어디서나 되는 것 ──
+  if (k === 'f' || k === 'F' || k === 'ㄹ') {
+    e.preventDefault(); document.getElementById('screenModeBtn').click(); return;
+  }
+  if (k === 'm' || k === 'M' || k === 'ㅡ') {
+    e.preventDefault(); document.getElementById('soundBtn').click(); return;
+  }
+  if (dlgOpen) return;                       // 아래는 게임 화면에서만
+
+  if (k === 'Escape') {
+    if (document.body.classList.contains('in-game')) {
+      e.preventDefault(); document.getElementById('menuOpenBtn').click();
+    }
+    return;
+  }
+  if (k === 'z' || k === 'Z' || k === 'ㅋ' || k === 'Backspace' ||
+      ((e.ctrlKey || e.metaKey) && (k === 'z' || k === 'Z'))) {
+    const btn = document.getElementById('undoBtn');
+    if (btn && !btn.disabled) { e.preventDefault(); btn.click(); }
+    return;
+  }
+
+  if (fxBusy || gameOver) return;
+
+  // ── 말 고르기 ──
+  if (k === 'ArrowRight' || k === 'ArrowDown' || (k === 'Tab' && !e.shiftKey)) {
+    if (cyclePiece(1)) e.preventDefault();
+    return;
+  }
+  if (k === 'ArrowLeft' || k === 'ArrowUp' || (k === 'Tab' && e.shiftKey)) {
+    if (cyclePiece(-1)) e.preventDefault();
+    return;
+  }
+  if (k === 'Enter') {
+    if (pending && pending.stage === 'confirmPiece' && pending.option) {
+      e.preventDefault(); pickPiece(pending.option);
+    } else if (pending && pending.phase === 'moving' && !pending.option) {
+      if (cyclePiece(1)) e.preventDefault();
+    }
+    return;
+  }
+});
+
 const soundBtn=document.getElementById('soundBtn');
 function syncSoundBtn(){
   const on=Sound.isOn();
@@ -4528,9 +5023,9 @@ if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitStage).
 const menuDlg=document.getElementById('menuDialog');
 document.getElementById('menuOpenBtn').onclick=()=>menuDlg.showModal();
 document.getElementById('menuResume').onclick=()=>menuDlg.close();
-document.getElementById('menuRules').onclick=()=>{menuDlg.close();document.getElementById('rulesDialog').showModal();};
+document.getElementById('menuRules').onclick=()=>{menuDlg.close();openRules(1);};
 document.getElementById('menuNew').onclick=()=>{menuDlg.close();document.getElementById('newGameBtn').click();};
-document.getElementById('menuHome').onclick=()=>{if(confirm('처음 화면으로 돌아갈까요? 두던 판은 저장돼 있어요.'))location.reload();};
+document.getElementById('menuHome').onclick=()=>{menuDlg.close();askYesNo('처음 화면으로 갈까요?','두던 판은 저장돼 있어서 이어할 수 있어요.','처음으로').then(ok=>{if(ok)location.reload();});};
 document.getElementById('menuSfx').onclick=()=>{Sound.toggle();syncSoundBtn();syncMenuFx();};
 document.getElementById('menuBgm').onclick=()=>{Sound.music(!Sound.isMusicOn());syncMenuFx();};
 document.getElementById('menuRich').onclick=()=>{setEffects(false);syncMenuFx();};
@@ -4546,7 +5041,7 @@ document.getElementById('screenModeBtn').onclick=()=>{
   const action=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();if(action&&action.catch)action.catch(()=>{});
 };
 
- document.getElementById('rightTools').prepend(document.getElementById('newGameBtn'));
+ // 새 게임은 메뉴 안에 있다. 아래 도구 줄은 네 칸으로 유지한다.
 function restoreSavedGame() {
   const saved = loadGame();
   if (saved) {
@@ -4554,12 +5049,19 @@ function restoreSavedGame() {
     currentTeamIndex = saved.currentTeamIndex || 0;
     gameOver = !!saved.gameOver;
     pending = saved.pending || null;
+    finishedOrder = Array.isArray(saved.finishedOrder) ? saved.finishedOrder : [];
+    if (saved.rules) {              // 그 판을 시작할 때의 규칙 그대로 이어서 둔다
+      if (typeof saved.rules.useBackdo === "boolean") RULES.useBackdo = saved.rules.useBackdo;
+      if (typeof saved.rules.playToEnd === "boolean") RULES.playToEnd = saved.rules.playToEnd;
+      if (typeof saved.rules.exactFinish === "boolean") RULES.exactFinish = saved.rules.exactFinish;
+    }
     undoStack = Array.isArray(saved.undo) ? saved.undo.slice() : [];   // 되돌리기 기록도 이어받음
     startGameScreen();
     updateUndoBtn();
 
     if (gameOver) {
-      const winner = teams.find((t) => t.finished >= t.total);
+      const winner = teams.find((t) => t.id === finishedOrder[0]) ||
+                     teams.find((t) => t.finished >= t.total);
       if (winner) endGame(winner);
     } else if (pending && pending.results && pending.results.length > 0) {
       const last = pending.results[pending.results.length - 1];
@@ -4575,7 +5077,102 @@ function restoreSavedGame() {
   }
 }
 document.getElementById('resetOrderBtn').onclick=()=>{setupOrder=[];buildSetup();};
-document.getElementById('rulesOpenBtn').onclick=()=>document.getElementById('rulesDialog').showModal();
+
+/* ── 규칙 스위치 두 개 ───────────────────────────────── */
+function syncRuleSwitches(){
+  const a=document.getElementById('ruleBackdo'), b=document.getElementById('ruleToEnd'),
+        c=document.getElementById('ruleExact');
+  if(a) a.setAttribute('aria-checked', String(RULES.useBackdo));
+  if(b) b.setAttribute('aria-checked', String(RULES.playToEnd));
+  if(c) c.setAttribute('aria-checked', String(RULES.exactFinish));
+  // 빽도를 안 쓰면 빽도 타일과 B 단축키도 같이 접는다
+  document.body.classList.toggle('no-backdo', !RULES.useBackdo);
+}
+(function wireRuleSwitches(){
+  const a=document.getElementById('ruleBackdo'), b=document.getElementById('ruleToEnd'),
+        c=document.getElementById('ruleExact');
+  if(c) c.onclick=()=>{ RULES.exactFinish=!RULES.exactFinish; saveRules(); syncRuleSwitches();
+                        if(typeof Sound!=='undefined') Sound.tap(); };
+  if(a) a.onclick=()=>{ RULES.useBackdo=!RULES.useBackdo; saveRules(); syncRuleSwitches();
+                        if(typeof Sound!=='undefined') Sound.tap(); };
+  if(b) b.onclick=()=>{ RULES.playToEnd=!RULES.playToEnd; saveRules(); syncRuleSwitches();
+                        if(typeof Sound!=='undefined') Sound.tap(); };
+  syncRuleSwitches();
+})();
+/* ── 규칙 보기 — 탭 두 장 ─────────────────────────────────
+   ① 던지기 결과: 일곱 가지를 윷 그림과 함께
+   ② 이렇게 해요: 잡기·업기·지름길·빽도·골인·차례
+   설정을 바꾸면 설명 문장도 따라 바뀐다. */
+const RD_ORDER = ['DO','GAE','GEOL','YUT','MO','BACKDO'];
+let rdPage = 1;
+
+function rdSticks(key){
+  return '<span class="tile-sticks">' +
+    (TILE_STICKS[key]||[]).map(v=>'<i class="'+(v===1?'flat':'round')+'"></i>').join('') +
+    '</span>';
+}
+
+function rdResultCards(){
+  const cards = RD_ORDER
+    .filter(k => k !== 'BACKDO' || RULES.useBackdo)
+    .map(k => {
+      const move = k==='BACKDO' ? '뒤로 1칸' : RESULT_STEPS[k] + '칸';
+      const extra = EXTRA_THROW_RESULTS.has(k) ? '<em>한 번 더</em>' : '';
+      return `<div class="rd-card">${rdSticks(k)}<b>${LABEL[k]}</b>` +
+             `<span>${move}</span>${extra}</div>`;
+    }).join('');
+  const nak = '<div class="rd-card nak"><span class="tile-sticks nak">' +
+    '<i class="round"></i><i class="flat"></i><i class="round"></i><i class="out"></i></span>' +
+    '<b>낙</b><span>없던 일</span></div>';
+  return '<div class="rd-grid">' + cards + nak + '</div>' +
+    '<p class="rd-legend"><span><i class="flat"></i>배 — 평평한 면</span>' +
+    '<span><i class="round"></i>등 — 둥근 면</span></p>';
+}
+
+function rdHowCards(){
+  const goal = RULES.exactFinish
+    ? '한 바퀴를 돌아 <b>참먹이</b>에 닿으면 바로 납니다. (지나쳐도 납니다)'
+    : '한 바퀴를 돌아 <b>참먹이를 지나야</b> 납니다. 참먹이에 딱 서면 다음 차례에 한 칸 더 가야 해요.';
+  const backdo = RULES.useBackdo
+    ? '빨간 표시가 있는 가락만 배로 나오면 빽도. 왔던 길로 한 칸 되돌아갑니다. 첫 칸에서 나오면 대기소로 돌아가요.'
+    : '이번 판은 빽도를 쓰지 않기로 했어요. (시작화면에서 켤 수 있어요)';
+  const end = RULES.playToEnd
+    ? '한 팀이 다 나가도 끝나지 않고, 남은 팀끼리 순위를 끝까지 가립니다.'
+    : '먼저 말을 다 내보낸 팀이 이깁니다.';
+  const items = [
+    ['💥 잡기', '상대 말이 있는 칸에 닿으면 그 말을 대기소로 보내고 <b>한 번 더</b> 던집니다.'],
+    ['💞 업기', '같은 팀 말이 있는 칸에 닿으면 자동으로 업습니다. 업힌 말은 같이 가고 <b>같이 잡힙니다</b>.'],
+    ['✨ 지름길', '모서리에 <b>딱 멈추면</b> 지름길로 들어갑니다. 지나가기만 할 때는 바깥길로 돕니다.'],
+    ['↩️ 빽도', backdo],
+    ['🏁 골인', goal],
+    ['🎮 차례', '윷·모가 나오면 결과를 모아 두고 한 번 더 던집니다. 모아둔 결과는 <b>원하는 순서로</b> 쓸 수 있어요. ' + end],
+  ];
+  return '<div class="rd-how">' +
+    items.map(([h,p]) => `<div><h4>${h}</h4><p>${p}</p></div>`).join('') + '</div>';
+}
+
+function rdRender(){
+  const body = document.getElementById('rdBody');
+  if (!body) return;
+  body.innerHTML = rdPage === 1 ? rdResultCards() : rdHowCards();
+  body.scrollTop = 0;
+  document.getElementById('rdTab1').classList.toggle('on', rdPage === 1);
+  document.getElementById('rdTab2').classList.toggle('on', rdPage === 2);
+  document.getElementById('rdTab1').setAttribute('aria-selected', String(rdPage === 1));
+  document.getElementById('rdTab2').setAttribute('aria-selected', String(rdPage === 2));
+  document.getElementById('rdPrev').disabled = rdPage === 1;
+  document.getElementById('rdNext').disabled = rdPage === 2;
+}
+function openRules(page){
+  rdPage = page || 1;
+  rdRender();
+  document.getElementById('rulesDialog').showModal();
+}
+document.getElementById('rdTab1').onclick = () => { rdPage = 1; rdRender(); };
+document.getElementById('rdTab2').onclick = () => { rdPage = 2; rdRender(); };
+document.getElementById('rdPrev').onclick = () => { rdPage = 1; rdRender(); };
+document.getElementById('rdNext').onclick = () => { rdPage = 2; rdRender(); };
+document.getElementById('rulesOpenBtn').onclick = () => openRules(1);
 document.getElementById('resumeBtn').disabled=!loadGame();
 document.getElementById('resumeBtn').onclick=restoreSavedGame;
 function setEffects(light){
@@ -4588,7 +5185,7 @@ document.getElementById('richFx').onclick=()=>setEffects(false);
 document.getElementById('lightFx').onclick=()=>setEffects(true);
 try{setEffects(localStorage.getItem('yut-light-effects')==='true');}catch(e){}
 const originalStart=startBtn.onclick;
-startBtn.onclick=()=>{if(loadGame()&&!confirm('저장된 게임 대신 새 게임을 시작할까요?'))return;originalStart();};
+startBtn.onclick=()=>{ if(!loadGame()){originalStart();return;} askYesNo('새 게임을 시작할까요?','두던 판이 저장돼 있어요. 새로 시작하면 지워집니다.','새로 시작').then(ok=>{ if(ok) originalStart(); }); };
 for(const effect of ['burst','shake','confetti']){const original=FX[effect];FX[effect]=(...args)=>{if(!document.body.classList.contains('light-effects'))return original(...args);};}
 
 /* =========================================================================
@@ -4674,7 +5271,154 @@ const WIN_LEAD   = 280;    // 말이 들어간 소리가 잦아들 틈
 const WIN_ROLL   = 1200;   // 두구두구 길이
 const WIN_TUNE   = 4300;   // 팡파르 뒤 승리 가락까지
 
-function wait(ms) { return new Promise(r => setTimeout(r, ms)); }
+/* =========================================================================
+   빨리감기 — 연출이 도는 동안 아무 데나 누르면 남은 장면을 빠르게 넘긴다
+   교실에서 스무 번쯤 보고 나면 연출이 길게 느껴진다.
+   ========================================================================= */
+let FAST = 1;                 // 기다리는 시간을 나누는 값
+let hurryTimer = null;
+
+function hurryNow() {
+  if (!fxBusy || FAST > 1) return;
+  FAST = 3;
+  const boost = () => {
+    try {
+      document.getAnimations().forEach((a) => {
+        try { if (a.playbackRate < 3) a.playbackRate = 3; } catch (e) {}
+      });
+    } catch (e) {}
+  };
+  boost();
+  // 누른 뒤에 시작되는 장면도 같이 빨라지게 잠깐 동안 계속 걸어 준다
+  let n = 0;
+  clearInterval(hurryTimer);
+  hurryTimer = setInterval(() => { boost(); if (++n > 24) clearInterval(hurryTimer); }, 60);
+  const tip = document.getElementById('hurryTip');
+  if (tip) { tip.classList.add('show'); setTimeout(() => tip.classList.remove('show'), 700); }
+  try { if (typeof Sound !== 'undefined') Sound.tap(); } catch (e) {}
+}
+
+function hurryReset() {
+  FAST = 1;
+  clearInterval(hurryTimer);
+  hurryTimer = null;
+}
+
+/* 연출이 끝나면(fxBusy 가 풀리면) 원래 속도로 돌아간다 */
+setInterval(() => { if (!fxBusy && FAST > 1) hurryReset(); }, 200);
+
+/* 화면 어디를 눌러도 된다. 소리·전체화면 같은 도구 단추는 빼고 */
+function hurryExempt(t) {
+  return !!(t && t.closest && t.closest('#soundBtn,#screenModeBtn,#menuOpenBtn,dialog,.win-screen'));
+}
+document.addEventListener('pointerdown', (e) => {
+  if (fxBusy && !hurryExempt(e.target)) hurryNow();
+}, true);
+document.addEventListener('keydown', (e) => {
+  if (fxBusy && (e.key === ' ' || e.key === 'Enter')) hurryNow();
+}, true);
+
+function wait(ms) { return new Promise(r => setTimeout(r, Math.round(ms / FAST))); }
+
+/* =========================================================================
+   확인창 — 브라우저 기본 창 대신 게임 안에서 묻는다
+   ========================================================================= */
+function askYesNo(title, body, yesLabel) {
+  return new Promise((resolve) => {
+    const dlg = document.getElementById('askDialog');
+    if (!dlg || !dlg.showModal) { resolve(window.confirm(title)); return; }
+    document.getElementById('askTitle').textContent = title;
+    document.getElementById('askBody').textContent = body || '';
+    const yes = document.getElementById('askYes'), no = document.getElementById('askNo');
+    yes.textContent = yesLabel || '네';
+    let done = false;
+    const finish = (v) => {
+      if (done) return; done = true;
+      yes.onclick = no.onclick = null;
+      dlg.removeEventListener('close', onClose);
+      try { dlg.close(); } catch (e) {}
+      resolve(v);
+    };
+    const onClose = () => finish(false);            // Esc 로 닫으면 '아니요'
+    yes.onclick = () => finish(true);
+    no.onclick = () => finish(false);
+    dlg.addEventListener('close', onClose);
+    dlg.showModal();
+    no.focus();
+  });
+}
+
+/* 순위 — 완주한 말이 많은 팀, 같으면 판 위에 나간 말이 많은 팀 */
+function fullRanking() {
+  return teams.map((t, i) => {
+    const onBoard = t.total - t.waiting - t.finished;
+    const done = finishedOrder.indexOf(t.id);     // 먼저 끝낸 순서가 최우선
+    return { t, i, onBoard, done: done < 0 ? 99 : done };
+  }).sort((a, b) =>
+    (a.done - b.done) ||
+    (b.t.finished - a.t.finished) || (b.onBoard - a.onBoard) || (a.i - b.i)
+  );
+}
+
+const MEDALS = ['🥇', '🥈', '🥉', '🏅'];
+
+function showWinScreen(team) {
+  const host = document.getElementById('winScreen');
+  if (!host) return;
+  const color = TEAM_COLOR[team.id];
+
+  // 빛줄기는 처음 한 번만 만든다
+  const rays = document.getElementById('winRays');
+  if (rays && !rays.childElementCount && !document.body.classList.contains('light-effects')) {
+    for (let i = 0; i < 12; i++) {
+      const r = document.createElement('i');
+      r.style.transform = `rotate(${i * 30}deg)`;
+      r.style.animationDelay = `${-i * 2.1}s`;
+      rays.appendChild(r);
+    }
+  }
+
+  document.getElementById('winFace').innerHTML = charHTML(team.id, 168);
+  document.getElementById('winTitle').innerHTML = `🏆 ${escapeHtml(team.name)} 승리!`;
+  document.getElementById('winSub').textContent =
+    `말 ${team.total}개를 모두 내보냈어요. 축하해요!`;
+
+  // 순위표는 3팀 이상일 때만 (2팀이면 이긴 팀과 진 팀이 뻔하다)
+  const rank = document.getElementById('winRank');
+  rank.innerHTML = '';
+  if (teams.length >= 3) {
+    fullRanking().forEach((row, n) => {
+      const li = document.createElement('li');
+      if (n === 0) li.className = 'first';
+      li.style.setProperty('--team', TEAM_COLOR[row.t.id]);
+      li.innerHTML = `<span class="medal">${MEDALS[n] || '🏅'}</span>` +
+        `<span class="who">${escapeHtml(row.t.name)}</span>` +
+        `<span class="howmany">🏁 ${row.t.finished} / ${row.t.total}</span>`;
+      rank.appendChild(li);
+    });
+  }
+
+  host.classList.remove('hidden');
+  try { document.getElementById('winAgainBtn').focus(); } catch (e) {}
+  try { if (window.FX && FX.confetti) FX.confetti(color); } catch (e) {}
+}
+
+function hideWinScreen() {
+  const host = document.getElementById('winScreen');
+  if (host) host.classList.add('hidden');
+}
+
+document.getElementById('winAgainBtn').onclick = () => { hideWinScreen(); startNewGame(); };
+document.getElementById('winHomeBtn').onclick = () => {
+  hideWinScreen();
+  clearSave();
+  location.reload();
+};
+document.getElementById('winUndoBtn').onclick = () => {
+  hideWinScreen();
+  gameOver = false;
+  try { undoOnce(); } catch (e) {}
+};
 
 async function celebrateWin(team) {
   const color = TEAM_COLOR[team.id];
@@ -4694,10 +5438,7 @@ async function celebrateWin(team) {
   document.body.classList.remove('win-rolling');
   if (banner) banner.classList.remove('rolling');
   try { Sound.win(); } catch (e) {}
-  try { if (window.FX && FX.confetti) FX.confetti(color); } catch (e) {}
-  try {
-    if (typeof Festival !== 'undefined' && Festival.cheer) Festival.cheer(`${team.name} 승리!`, color, true);
-  } catch (e) {}
+  try { showWinScreen(team); } catch (e) { console.warn(e); }
 
   // ④ 승리 가락은 팡파르가 다 울린 뒤에 (겹치면 둘 다 안 들린다)
   await wait(WIN_TUNE);
@@ -4705,6 +5446,30 @@ async function celebrateWin(team) {
   try { Sound.victory(); } catch (e) {}
 }
 window.celebrateWin = celebrateWin;
+window.showWinScreen = showWinScreen;
+
+/* =========================================================================
+   화면이 꺼지지 않게 — 아이들이 궁리하는 동안 TV가 잠들면 곤란하다
+   ========================================================================= */
+let wakeLock = null;
+async function keepScreenAwake(on) {
+  try {
+    if (!("wakeLock" in navigator)) return;
+    if (on) {
+      if (wakeLock) return;
+      wakeLock = await navigator.wakeLock.request("screen");
+      wakeLock.addEventListener("release", () => { wakeLock = null; });
+    } else if (wakeLock) {
+      const w = wakeLock; wakeLock = null;
+      await w.release();
+    }
+  } catch (e) { wakeLock = null; }   // 브라우저가 거절해도 게임은 그대로 간다
+}
+// 탭을 다시 보면 잠금이 풀려 있으므로 다시 건다
+document.addEventListener("visibilitychange", () => {
+  if (document.visibilityState === "visible" &&
+      document.body.classList.contains("in-game")) keepScreenAwake(true);
+});
 
 /* =========================================================================
    시작 화면 — 제목 양옆에서 말들이 논다
@@ -4865,6 +5630,7 @@ const TitlePlay = (() => {
   return { start, stop };
 })();
 
+loadLook();      // 지난번에 고른 동물·색을 되살린다
 /* 시작 화면이 보일 때만 돌린다 (게임 중에는 쉰다) */
 TitlePlay.start();
 
