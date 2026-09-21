@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이42 · 규칙과 조작 개선</title>
+<title>K 윷놀이44 · 손가락 안내</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -1307,7 +1307,43 @@ body:not(.in-game) #setupScreen.settings-open #appearanceOpenBtn{font-size:23px;
 #nakBtn.manual-locked{opacity:.5;filter:saturate(.2);cursor:help}
 .input-notice{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:12000;width:min(540px,90vw);padding:15px 20px;border:2px solid #ffdb78;border-radius:16px;background:#24183eed;color:#fff3cb;font:800 17px/1.6 var(--body);text-align:center;pointer-events:none;box-shadow:0 8px 24px #0005}
 #cpuRulesDialog p{min-height:0}#cpuRulesDialog strong{color:#6b3c96}
-</style></head>
+</style><style id="mobile-result-43">
+/* Phone portrait and touch-phone landscape: keep the board visible. */
+.res-flash.compact-result{
+  inset:50% auto auto 50%;transform:translate(-50%,-50%);
+  width:min(240px,82vw);height:min(200px,78vh);
+}
+.res-flash.compact-result .veil{
+  border-radius:24px;background:radial-gradient(circle at center,#24344bea,#101c30e6);
+  box-shadow:0 8px 26px #0003;border:1px solid #ffd76a88;
+}
+.res-flash.compact-result.big .word{
+  font-size:clamp(60px,18vmin,86px);margin-top:-24px;
+  -webkit-text-stroke:3px #7a2c10;
+  text-shadow:0 0 18px #ffd15e77,0 4px 0 #0004;
+}
+.res-flash.compact-result .sub{
+  bottom:16px;left:10px;right:10px;text-align:center;
+  font-size:16px;line-height:1.45;letter-spacing:0;
+  -webkit-text-stroke:0;text-shadow:0 2px 3px #0008;
+}
+</style>
+<style id="hand-guide-44">
+#playHandGuide{position:fixed;z-index:9400;pointer-events:none;width:190px;max-width:calc(100vw - 16px);text-align:center;filter:drop-shadow(0 3px 5px #0003)}
+#playHandGuide[hidden]{display:none!important}
+#playHandGuide .hand-art{display:block;width:54px;height:62px;margin:0 auto;transform-origin:50% 80%}
+#playHandGuide .hand-caption{display:inline-block;background:#fff8e9;color:#503548;border:2px solid #ffadc6;border-radius:15px;padding:6px 10px;font:800 13px/1.35 var(--body);white-space:normal}
+#playHandGuide.above{display:flex;flex-direction:column-reverse;align-items:center}
+#playHandGuide.above .hand-art svg{transform:rotate(180deg)}
+#playHandGuide .hand-art svg{width:100%;height:100%;overflow:visible}
+#playHandGuide.tapping .hand-art{animation:handTap44 .85s ease-in-out 2}
+#playHandGuide.above.tapping .hand-art{animation-name:handTapDown44}
+@keyframes handTap44{0%,100%{transform:translateY(3px) rotate(-5deg)}45%{transform:translateY(-5px) rotate(3deg)}65%{transform:translateY(-2px) scale(.94)}}
+@keyframes handTapDown44{0%,100%{transform:translateY(-3px) rotate(5deg)}45%{transform:translateY(5px) rotate(-3deg)}65%{transform:translateY(2px) scale(.94)}}
+@media(max-width:600px),(max-height:500px) and (pointer:coarse){#playHandGuide{width:164px}#playHandGuide .hand-art{width:44px;height:50px}#playHandGuide .hand-caption{font-size:12px;padding:4px 8px}}
+@media(prefers-reduced-motion:reduce){#playHandGuide.tapping .hand-art{animation:none!important}}
+</style>
+</head>
 <body>
 <div class="page">
   <header>
@@ -1902,21 +1938,27 @@ window.FX = (function () {
   function resultFlash(label, big, extraText) {
     try {
       const layer = document.createElement("div");
-      layer.className = "res-flash" + (big ? " big" : "");
+      const compact = big && matchMedia("(max-width: 600px), (max-height: 500px) and (pointer: coarse)").matches;
+      layer.className = "res-flash" + (big ? " big" : "") + (compact ? " compact-result" : "");
       layer.innerHTML = '<div class="veil"></div><div class="word"></div>' +
                         (extraText ? '<div class="sub"></div>' : '');
       layer.querySelector(".word").textContent = label;
       if (extraText) layer.querySelector(".sub").textContent = extraText;
       document.body.appendChild(layer);
 
-      const life = big ? 1350 : 780;
+      const life = compact ? 950 : big ? 1350 : 780;
 
       effectAnimate(layer.querySelector(".veil"),
         [{opacity:0},{opacity:1,offset:.18},{opacity:1,offset:.68},{opacity:0}],
         {duration:life,easing:EASE.out,fill:"forwards"});
 
       effectAnimate(layer.querySelector(".word"),
-        big
+        compact
+        ? [{transform:"scale(.85)",opacity:0},
+           {transform:"scale(1.04)",opacity:1,offset:.22},
+           {transform:"scale(1)",opacity:1,offset:.7},
+           {transform:"scale(.97)",opacity:0}]
+        : big
         ? [{transform:"scale(.25) rotate(-16deg)",opacity:0,easing:EASE.outBack},
            {transform:"scale(1.35) rotate(6deg)",opacity:1,offset:.22},
            {transform:"scale(1.1) rotate(-2deg)",opacity:1,offset:.34},
@@ -1928,7 +1970,7 @@ window.FX = (function () {
            {transform:"scale(1.3)",opacity:0}],
         {duration:life,fill:"forwards"});
 
-      if (big) {
+      if (big && !compact) {
         // 빛줄기와 조각을 더 얹어 확실히 도드라지게
         for (let i = 0; i < 12; i++) {
           const beam = document.createElement("div");
@@ -5638,7 +5680,7 @@ const Feel = (() => {
     const tile = document.querySelector('.result-tile:not(:disabled)');
     return tile || null;
   }
-  function fire() { clearHint(); const t = hintTarget(); if (t) t.classList.add('idle-hint'); }
+  function fire() { clearHint(); }
   function kick() { clearHint(); clearTimeout(idleTimer); idleTimer = setTimeout(fire, IDLE_MS); }
   ['pointerdown', 'keydown', 'wheel', 'touchstart'].forEach(ev =>
     document.addEventListener(ev, kick, { passive: true }));
@@ -6417,6 +6459,75 @@ TitlePlay.start();
 
 buildSetup();
 
+</script>
+<script>
+/* One non-interactive, state-aware hand. Coordinates are viewport pixels,
+   so the guide also follows the scaled board and mobile scrolling. */
+const PlayHandGuide = (() => {
+  const box=document.createElement('div');box.id='playHandGuide';box.hidden=true;
+  box.setAttribute('aria-hidden','true');
+  box.innerHTML=`<span class="hand-art"><svg viewBox="0 0 64 76" xmlns="http://www.w3.org/2000/svg">
+    <path d="M18 53C13 48 8 40 10 36Q12 32 16 35L23 41V13C23 4 35 4 35 13V30C38 24 44 27 44 32C49 27 54 31 53 36C59 34 62 39 59 47L53 60Q37 68 21 60Z" fill="#fffdf8" stroke="#795471" stroke-width="2.8" stroke-linejoin="round"/>
+    <path d="M35 31V41M44 33V43M53 37L51 45" fill="none" stroke="#dfcbd6" stroke-width="2.4" stroke-linecap="round"/>
+    <ellipse cx="27" cy="49" rx="4" ry="2.8" fill="#ffbdd1"/><ellipse cx="46" cy="49" rx="4" ry="2.8" fill="#ffbdd1"/>
+    <circle cx="31" cy="45" r="1.7" fill="#795471"/><circle cx="42" cy="45" r="1.7" fill="#795471"/>
+    <path d="M34 50Q37 53 40 50" fill="none" stroke="#795471" stroke-width="1.8" stroke-linecap="round"/>
+    <path d="M20 59Q37 64 54 58L53 70Q37 75 21 70Z" fill="#ff9ebe" stroke="#795471" stroke-width="2.8"/>
+    <path d="M25 64L26 69M48 63L47 69" stroke="#ffe5ee" stroke-width="2.5" stroke-linecap="round"/>
+    <path d="M12 14L8 11M43 12L47 9" stroke="#ffcb64" stroke-width="3" stroke-linecap="round"/>
+  </svg></span><span class="hand-caption"></span>`;
+  document.body.appendChild(box);
+  let signature='',lastPulse=0,quietUntil=0;
+  function hide(){box.hidden=true;box.classList.remove('tapping');signature='';}
+  function targetFor(action){
+    if(action==='throw')return {target:throwBtn,label:'눌렀다 떼세요'};
+    if(action==='result')return {target:document.getElementById('resultTray'),label:'사용할 결과를 고르세요'};
+    if(action==='piece')return {target:document.getElementById('actionGuide'),label:'반짝이는 말을 고르세요'};
+    if(action==='destination'){
+      const hints=Array.from(document.querySelectorAll('#board-root .hint-dest'));
+      if(hints.length===1)return {target:hints[0].querySelector('.hint-sign')||hints[0],label:'여기에 놓으세요'};
+      if(hints.length>1)return {target:document.getElementById('actionGuide'),label:'빛나는 도착 칸을 고르세요'};
+    }
+    return null;
+  }
+  function refresh(){
+    const now=performance.now();
+    if(document.hidden||!document.body.classList.contains('in-game')||!teams.length||gameOver||isCpuTurn()||charge||fxBusy||nakLock||now<quietUntil||document.querySelector('dialog[open]')||document.querySelector('.res-flash,.turn-intro')){hide();return;}
+    const action=gameScreen.dataset.action;
+    const info=targetFor(action);
+    if(!info||!info.target||info.target.disabled){hide();return;}
+    let r=info.target.getBoundingClientRect();
+    const vw=document.documentElement.clientWidth||innerWidth,vh=innerHeight;
+    if(!r.width||!r.height){hide();return;}
+    // If the target is outside the visible viewport, point to the phase guide.
+    if(r.bottom<0||r.top>vh||r.right<0||r.left>vw){
+      r=document.getElementById('actionGuide').getBoundingClientRect();
+      if(r.bottom<0||r.top>vh){hide();return;}
+      info.label=action==='throw'?'아래 윷 던지기를 눌러 주세요':action==='result'?'결과 목록에서 골라 주세요':'말판의 도착 칸을 눌러 주세요';
+    }
+    box.querySelector('.hand-caption').textContent=info.label;
+    box.hidden=false;
+    const w=box.getBoundingClientRect().width||190;
+    const h=box.getBoundingClientRect().height||100;
+    const above=r.bottom+h+8>vh&&r.top>h+8;
+    box.classList.toggle('above',above);
+    box.style.left=Math.max(8,Math.min(vw-w-8,r.left+r.width/2-w/2))+'px';
+    box.style.top=Math.max(8,Math.min(vh-h-8,above?r.top-h-4:r.bottom+4))+'px';
+    const key=[action,boardSerial,pending?.selected,pending?.stage,info.label].join('|');
+    if(key!==signature||now-lastPulse>=8000){
+      box.classList.remove('tapping');void box.offsetWidth;box.classList.add('tapping');
+      signature=key;lastPulse=now;
+    }
+  }
+  function onInput(){quietUntil=performance.now()+500;hide();}
+  document.addEventListener('pointerdown',onInput,{passive:true,capture:true});
+  document.addEventListener('keydown',onInput,{capture:true});
+  document.addEventListener('scroll',refresh,{passive:true,capture:true});
+  document.addEventListener('visibilitychange',refresh);
+  window.addEventListener('resize',refresh,{passive:true});
+  setInterval(refresh,250);
+  return {refresh,hide,targetFor};
+})();
 </script>
 </body>
 </html>
