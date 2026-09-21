@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이44 · 손가락 안내</title>
+<title>K 윷놀이45 · 모바일 말과 연출 개선</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -1307,25 +1307,20 @@ body:not(.in-game) #setupScreen.settings-open #appearanceOpenBtn{font-size:23px;
 #nakBtn.manual-locked{opacity:.5;filter:saturate(.2);cursor:help}
 .input-notice{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:12000;width:min(540px,90vw);padding:15px 20px;border:2px solid #ffdb78;border-radius:16px;background:#24183eed;color:#fff3cb;font:800 17px/1.6 var(--body);text-align:center;pointer-events:none;box-shadow:0 8px 24px #0005}
 #cpuRulesDialog p{min-height:0}#cpuRulesDialog strong{color:#6b3c96}
-</style><style id="mobile-result-43">
-/* Phone portrait and touch-phone landscape: keep the board visible. */
-.res-flash.compact-result{
-  inset:50% auto auto 50%;transform:translate(-50%,-50%);
-  width:min(240px,82vw);height:min(200px,78vh);
-}
-.res-flash.compact-result .veil{
-  border-radius:24px;background:radial-gradient(circle at center,#24344bea,#101c30e6);
-  box-shadow:0 8px 26px #0003;border:1px solid #ffd76a88;
-}
-.res-flash.compact-result.big .word{
-  font-size:clamp(60px,18vmin,86px);margin-top:-24px;
-  -webkit-text-stroke:3px #7a2c10;
-  text-shadow:0 0 18px #ffd15e77,0 4px 0 #0004;
-}
-.res-flash.compact-result .sub{
-  bottom:16px;left:10px;right:10px;text-align:center;
-  font-size:16px;line-height:1.45;letter-spacing:0;
-  -webkit-text-stroke:0;text-shadow:0 2px 3px #0008;
+</style><style id="mobile-fit-45">
+@media(max-width:600px),(max-height:500px) and (pointer:coarse){
+  /* Enlarge the artwork and hit area without replacing move/shake transforms. */
+  #board-root .piece .piece-art{transform-box:view-box;transform:scale(1.2)}
+  /* Original celebration, measured against the shorter viewport dimension. */
+  body .res-flash.big .word{font-size:30vmin;-webkit-text-stroke:4px #7a2c10;
+    text-shadow:0 0 10vmin #ffd15e,0 0 18vmin #ff8a3c88,0 5px 0 #0005}
+  body .res-flash .beam{height:36vmin;width:5px}
+  body .res-flash .sub{bottom:auto;top:calc(50% + 25vmin);left:5%;right:5%;
+    text-align:center;font-size:clamp(16px,4.5vmin,24px);line-height:1.35;
+    -webkit-text-stroke:3px #2b1a06;text-shadow:0 2px 0 #0008,0 0 12px #ffbe3c99}
+  body .fx-burst .fx-burst-word{font-size:32vmin;-webkit-text-stroke:3px #fbf6e9;
+    text-shadow:0 0 7vmin #d69a1ebf}
+  body .fx-burst .fx-ring{width:15vmin!important;height:15vmin!important;border-width:3px}
 }
 </style>
 <style id="hand-guide-44">
@@ -1643,6 +1638,8 @@ window.FX = (function () {
     try {
       injectStyle();
 
+      const phone = matchMedia("(max-width: 600px), (max-height: 500px) and (pointer: coarse)").matches;
+      const spread = phone ? Math.min(innerWidth, innerHeight) / 1000 : 1;
       const layer = document.createElement("div");
       layer.className = "fx-burst";
 
@@ -1704,7 +1701,7 @@ window.FX = (function () {
 
       sparks.forEach((s, i) => {
         const angle = (Math.PI * 2 * i) / sparks.length + Math.random() * 0.4;
-        const dist = 200 + Math.random() * 300;
+        const dist = (200 + Math.random() * 300) * spread;
         const dx = Math.cos(angle) * dist;
         const dy = Math.sin(angle) * dist;
         effectAnimate(s,
@@ -1938,27 +1935,21 @@ window.FX = (function () {
   function resultFlash(label, big, extraText) {
     try {
       const layer = document.createElement("div");
-      const compact = big && matchMedia("(max-width: 600px), (max-height: 500px) and (pointer: coarse)").matches;
-      layer.className = "res-flash" + (big ? " big" : "") + (compact ? " compact-result" : "");
+      layer.className = "res-flash" + (big ? " big" : "");
       layer.innerHTML = '<div class="veil"></div><div class="word"></div>' +
                         (extraText ? '<div class="sub"></div>' : '');
       layer.querySelector(".word").textContent = label;
       if (extraText) layer.querySelector(".sub").textContent = extraText;
       document.body.appendChild(layer);
 
-      const life = compact ? 950 : big ? 1350 : 780;
+      const life = big ? 1350 : 780;
 
       effectAnimate(layer.querySelector(".veil"),
         [{opacity:0},{opacity:1,offset:.18},{opacity:1,offset:.68},{opacity:0}],
         {duration:life,easing:EASE.out,fill:"forwards"});
 
       effectAnimate(layer.querySelector(".word"),
-        compact
-        ? [{transform:"scale(.85)",opacity:0},
-           {transform:"scale(1.04)",opacity:1,offset:.22},
-           {transform:"scale(1)",opacity:1,offset:.7},
-           {transform:"scale(.97)",opacity:0}]
-        : big
+        big
         ? [{transform:"scale(.25) rotate(-16deg)",opacity:0,easing:EASE.outBack},
            {transform:"scale(1.35) rotate(6deg)",opacity:1,offset:.22},
            {transform:"scale(1.1) rotate(-2deg)",opacity:1,offset:.34},
@@ -1970,7 +1961,7 @@ window.FX = (function () {
            {transform:"scale(1.3)",opacity:0}],
         {duration:life,fill:"forwards"});
 
-      if (big && !compact) {
+      if (big) {
         // 빛줄기와 조각을 더 얹어 확실히 도드라지게
         for (let i = 0; i < 12; i++) {
           const beam = document.createElement("div");
@@ -2943,6 +2934,10 @@ function renderState() {
         t.textContent = String(item.unit.count);
         g.appendChild(t);
       }
+      const art = el("g", {class:"piece-art"});
+      art.style.transformOrigin = `${cx}px ${cy}px`;
+      Array.from(g.childNodes).forEach(child => art.appendChild(child));
+      g.appendChild(art);
       svg.appendChild(g);
 
       // 지금 차례인 팀의 말은 은은하게 빛나고 별이 반짝인다.
@@ -6492,7 +6487,7 @@ const PlayHandGuide = (() => {
   }
   function refresh(){
     const now=performance.now();
-    if(document.hidden||!document.body.classList.contains('in-game')||!teams.length||gameOver||isCpuTurn()||charge||fxBusy||nakLock||now<quietUntil||document.querySelector('dialog[open]')||document.querySelector('.res-flash,.turn-intro')){hide();return;}
+    if(document.hidden||!document.body.classList.contains('in-game')||!teams.length||gameOver||isCpuTurn()||charge||fxBusy||nakLock||now<quietUntil||document.querySelector('dialog[open]')||document.querySelector('.res-flash,.fx-burst,.turn-intro')){hide();return;}
     const action=gameScreen.dataset.action;
     const info=targetFor(action);
     if(!info||!info.target||info.target.disabled){hide();return;}
