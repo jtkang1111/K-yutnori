@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이38</title>
+<title>K 윷놀이40 · 2차 수정</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -1127,6 +1127,167 @@ body .welcome-title>span.play-stage{--ph:clamp(112px,14.6vh,172px);
 body.in-game .nak-btn strong{font-size:54px}
 body.in-game .nak-btn small{font-size:17px}
 body.in-game .nak-btn .tile-key{font-size:13px}
+
+/* 2차: 조작 설정, 첫 판 안내, 경기 기록 */
+.phase2-dialog{width:min(480px,90vw);max-height:86dvh;overflow:auto;border:2px solid #e6c174;border-radius:24px;padding:24px;background:#fff8e5;color:#342842;box-sizing:border-box;font-family:var(--body);line-height:1.65}
+.phase2-dialog::backdrop{background:#09051bcc}
+.phase2-dialog h2{margin:5px 0 12px;font-size:25px;color:#503278}
+.tutorial-progress{font-size:14px;font-weight:900;color:#785498}
+.tutorial-art{font-size:46px;letter-spacing:8px;padding:12px;text-align:center;border-radius:18px;background:#f3e7c9}
+.phase2-dialog p{font-size:17px;min-height:84px}
+.tutorial-check{display:flex;align-items:center;gap:8px;font-size:14px;margin:18px 0}
+.tutorial-check input{width:20px;height:20px;accent-color:#674494}
+.tutorial-actions{display:flex;flex-wrap:wrap;gap:9px;justify-content:flex-end}
+.tutorial-actions button{min-height:44px;border:0;border-radius:12px;padding:10px 16px;font:800 16px var(--body);cursor:pointer;background:#e9deed;color:#503278}
+.tutorial-actions .primary{background:#674494;color:white}
+.tutorial-actions button:disabled{opacity:.4;cursor:default}
+.menu-note{max-width:280px;font-size:13px;line-height:1.5;color:#ded0ef;margin:3px 0 8px}
+.menu-dialog button:disabled{opacity:.5;cursor:default}
+#winScreen{overflow:auto;align-items:safe center;padding:22px 0;box-sizing:border-box}
+#winScreen .win-card{width:min(780px,92vw);max-width:none;max-height:94dvh;overflow-y:auto;box-sizing:border-box;padding:16px 24px 24px;border-radius:24px;background:#1a113be8}
+#winScreen .win-face{width:90px;height:90px;margin:0 auto 6px}
+#winScreen .win-face svg{width:100%;height:100%}
+#winScreen .win-title{font-size:clamp(25px,4vw,42px)}
+#winScreen .win-sub{font-size:16px;margin:6px 0}
+#winScreen .win-actions{position:sticky;bottom:-24px;background:#1a113b;padding:14px 0 24px;margin-top:10px}
+#winScreen .win-actions button{padding:12px 16px;font-size:17px}
+.match-stats{margin:18px 0 8px;text-align:left;color:#f7eedb}
+.match-stats h3{font-size:19px;color:#ffdc85;margin:0 0 9px}
+.stats-scroll{overflow-x:auto;border:1px solid #ffffff30;border-radius:12px}
+.match-stats table{border-collapse:collapse;width:100%;min-width:380px;font-size:14px;text-align:center}
+.match-stats caption{padding:10px;text-align:left;font-size:13px;color:#dfd2e8}
+.match-stats th,.match-stats td{padding:10px 7px;border-bottom:1px solid #ffffff15}
+.match-stats thead{background:#ffffff10}.match-stats tbody th{text-align:left;max-width:130px;overflow-wrap:anywhere}
+.match-highlights{margin:12px 0 0;padding:0;list-style:none;display:grid;gap:6px;font-size:14px}
+.match-highlights li{background:#ffffff0c;border-radius:9px;padding:8px 10px;overflow-wrap:anywhere}
+.stats-note{font-size:12px;color:#d1c3dc;margin:8px 0 0}
+:focus-visible{outline:3px solid #51d8ff;outline-offset:3px}
+@media(orientation:portrait){.menu-dialog{width:94vw;max-width:520px}.menu-dialog .menu-grid{grid-template-columns:1fr;padding:12px 20px 24px;gap:15px}.menu-dialog .menu-col{min-width:0}.menu-note{max-width:none}#winScreen .win-card{padding:14px 14px 20px}#winScreen .win-actions{bottom:-20px;padding-bottom:20px}.match-stats table{font-size:13px}.phase2-dialog{transform:none}}
+
+</style>
+<style id="revision-one-layout">
+/* 39: 기존 말판/팀 디자인을 유지하고 시작·모바일·행동 안내를 정리한다. */
+.quick-entry{display:flex;flex-wrap:wrap;align-items:center;justify-content:center;gap:16px;margin:auto 0}
+.quick-entry p{flex-basis:100%;text-align:center;color:#e8ddfa;font-size:28px;margin:12px 0}
+.quick-entry button{border:2px solid #ffffff50;border-radius:22px;padding:22px 36px;font:900 32px var(--body);cursor:pointer;color:white;background:#513379}
+.quick-entry #quickStartBtn{font-size:42px;color:#3e2608;background:linear-gradient(#fff194,#ffbc2b);box-shadow:0 6px #b96c11}
+body:not(.in-game) #setupScreen:not(.settings-open) .welcome-actions{grid-template-columns:1fr 1fr;width:min(100%,720px)}
+body:not(.in-game) #setupScreen.settings-open .quick-entry{margin:0;flex:none;gap:10px}
+body:not(.in-game) #setupScreen.settings-open .quick-entry p,
+body:not(.in-game) #setupScreen.settings-open #quickStartBtn{display:none}
+body:not(.in-game) #setupScreen.settings-open #setupToggle{font-size:23px;padding:10px 24px}
+body:not(.in-game) #setupScreen.settings-open .welcome-title h2{font-size:76px}
+body:not(.in-game) #setupScreen.settings-open .welcome-title p{font-size:24px;margin-top:8px}
+button:focus-visible,.hint-dest:focus-visible{outline:3px solid #fff2a0;outline-offset:3px}
+.tc-compact{display:none}
+body.in-game #gameScreen{grid-template-rows:auto auto minmax(0,1fr) auto auto auto auto}
+body.in-game .action-guide{grid-column:2;grid-row:2;padding:12px 18px;border:2px solid #ffdb78;border-radius:16px;background:#183547;color:#fff4d2;font:800 28px/1.35 var(--body);min-width:0}
+body.in-game .action-guide small{display:block;color:#efc77a;font-size:.72em;margin-top:4px}
+body.in-game .status-line{grid-column:1/-1;grid-row:7;font-size:20px;padding:4px 12px;border:0;background:none;text-align:center;line-height:1.3}
+body.in-game .tray-caption{grid-column:1/-1;grid-row:1;color:#c4d6de;font:700 20px var(--body);text-align:center;letter-spacing:0}
+body.in-game .result-tile:not(.result-BACKDO){grid-row:2}
+body.in-game .result-BACKDO,body.in-game #nakBtn,body.in-game #throwBtn{grid-row:3}
+body.in-game #gameScreen[data-action="throw"] .result-tile.input-mode,
+body.in-game #gameScreen[data-action="throw"] #nakBtn{filter:saturate(.55);opacity:.65;box-shadow:none}
+body.in-game #gameScreen[data-action="throw"] #throwBtn:not(:disabled){outline:3px solid #fff0ab;outline-offset:3px}
+body.in-game #gameScreen[data-action="result"] .lo-item:not(:disabled){outline:3px solid #ffdf76;outline-offset:1px}
+body.in-game #gameScreen[data-action="piece"] .result-tile,
+body.in-game #gameScreen[data-action="destination"] .result-tile{opacity:.5;box-shadow:none}
+body.in-game #gameScreen[data-action="piece"] .result-tile.selected,
+body.in-game #gameScreen[data-action="destination"] .result-tile.selected{opacity:1}
+body.in-game #gameScreen[data-action="throw"] .piece.my-turn{animation:none;filter:none}
+body.in-game #gameScreen[data-action="throw"] .sparkle{display:none}
+body.in-game #gameScreen[data-action="busy"] #throwBtn{opacity:.55}
+.local-result{position:absolute;left:50%;top:42%;transform:translate(-50%,-50%);z-index:20;pointer-events:none;padding:12px 24px;border:2px solid #e1c9ff;border-radius:22px;background:#432469ed;color:#fff;font:900 clamp(18px,3vw,36px) var(--body);white-space:nowrap;box-shadow:0 8px 25px #0005}
+body.in-game #board-root{position:relative}
+@keyframes resultPop{0%{transform:scale(.88)}55%{transform:scale(1.08)}100%{transform:scale(1)}}
+body.in-game .result-tile.just-rolled{animation:resultPop .42s ease-out;opacity:1!important;filter:none!important;outline:3px solid #ffe8a4;outline-offset:1px}
+/* 세로 화면 및 가로로 돌린 휴대폰은 고정 1920px 무대를 사용하지 않는다. */
+@media (max-aspect-ratio:1/1), (max-width:950px) and (max-height:600px){
+  html,body{height:auto;overflow-x:clip;overflow-y:auto}
+  html body .page,html body.in-game .page,html:fullscreen body.in-game .page,
+  html body:has(#setupScreen:not(.hidden)) .page,html body:has(#gameScreen:not(.hidden)) .page{
+    position:static;left:auto;top:auto;transform:none;width:100%;height:auto;min-height:100dvh;max-width:760px;margin:0 auto;padding:12px;overflow:visible}
+  dialog[open]{transform:none;max-height:90dvh;overflow:auto}
+  html body #setupScreen{gap:16px;flex:none}
+  html body:not(.in-game) .welcome-title h2,html body:not(.in-game) #setupScreen.settings-open .welcome-title h2{font-size:clamp(44px,15vw,72px);line-height:1.35;padding:8px 0;letter-spacing:2px}
+  html body:not(.in-game) .welcome-title p{font-size:21px;margin:8px 0}
+  html body:not(.in-game) .welcome-title .play-stage{display:none}
+  .quick-entry{margin:24px 0;gap:12px}
+  .quick-entry p{font-size:19px}
+  .quick-entry button{width:100%;min-height:48px;font-size:21px;padding:16px}
+  .quick-entry #quickStartBtn{font-size:28px}
+  html body:not(.in-game) .welcome-grid{display:grid;grid-template-columns:1fr;flex:none;gap:14px}
+  html body:not(.in-game) .welcome-card{padding:16px;overflow:visible}
+  html body:not(.in-game) .welcome-options b{font-size:18px}
+  html body:not(.in-game) .welcome-options .choice{min-height:44px;padding:8px 12px;font-size:19px}
+  html body:not(.in-game) #nameRows{flex-wrap:wrap;margin-top:16px}
+  html body:not(.in-game) .name-row{flex:1 1 40%;max-width:none;padding:12px 8px;gap:10px}
+  html body:not(.in-game) .setup-avatar{width:68px;height:68px}
+  html body:not(.in-game) .name-row input{font-size:16px;min-height:44px}
+  html body:not(.in-game) .name-row .swatch{min-height:44px}
+  html body:not(.in-game) .order-team{min-height:44px;font-size:17px}
+  html body:not(.in-game) .welcome-order>b{font-size:17px}
+  html body:not(.in-game) .welcome-order .order-hint{font-size:15px}
+  html body:not(.in-game) .welcome-order>button{min-height:44px;font-size:16px}
+  html body:not(.in-game) .team-hint{font-size:15px}
+  html body:not(.in-game) .rule-row{min-height:44px;font-size:17px;padding:10px}
+  html body:not(.in-game) .rule-row b{font-size:14px}
+  html body:not(.in-game) .effect-options button{min-height:44px;font-size:17px}
+  html body:not(.in-game) .welcome-actions{width:100%;grid-template-columns:1fr 1fr;gap:10px;margin:12px 0}
+  html body:not(.in-game) .welcome-actions button{font-size:19px;padding:15px 8px;min-height:48px}
+  html body:not(.in-game) .welcome-actions #startBtn{grid-column:1/-1;grid-row:1;font-size:23px}
+  html body.in-game #gameScreen{display:flex;flex-direction:column;gap:8px;min-width:0}
+  html body.in-game #gameScreen>*{min-width:0;width:100%;flex:none}
+  html body.in-game .turn-banner{order:0;font-size:23px;padding:6px 10px;gap:10px;min-height:46px;border-radius:15px}
+  html body.in-game .turn-dot{width:34px;height:34px;flex:none;overflow:hidden;display:grid;place-items:center}
+  html body.in-game .turn-dot .team-char{width:100%;height:100%}
+  html body.in-game #board-root{order:1;align-self:center;width:min(100%,43dvh);height:auto;max-height:none;aspect-ratio:1;overflow:visible;box-shadow:none}
+  html body.in-game #board-root>svg{width:100%!important;height:auto!important;max-height:none;display:block}
+  html body.in-game .action-guide{order:2;font-size:19px;padding:8px 10px;line-height:1.3;border-radius:12px}
+  html body.in-game .festival-score,html body.in-game .festival-score[data-teams="3"],html body.in-game .festival-score[data-teams="4"]{order:3;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:none;grid-auto-rows:auto;gap:6px;overflow:visible;min-height:0}
+  html body.in-game .festival-score .team-card{container-type:normal;grid-column:auto;min-height:54px;height:auto;flex-direction:column;justify-content:center;align-items:stretch;padding:5px 8px;gap:3px;border-radius:12px;border-width:2px}
+  html body.in-game .festival-score .team-card .tc-head{justify-content:flex-start;gap:6px;min-width:0}
+  html body.in-game .festival-score .team-card .team-avatar{width:26px;height:26px;border-width:2px}
+  html body.in-game .festival-score .team-card strong{font-size:16px;min-width:0;overflow:hidden;text-overflow:ellipsis}
+  html body.in-game .festival-score .team-card .reserve-tokens,html body.in-game .festival-score .team-card .finish-stars,html body.in-game .festival-score .team-card .tc-done{display:none}
+  html body.in-game .team-card .tc-compact{display:block;color:#fff2d7;font-size:14px;line-height:1.2;text-align:left}
+  html body.in-game .leftover-yut{grid-column:1/-1;grid-row:auto;order:2;height:auto;min-height:0;max-width:100%;padding:6px;display:flex;flex-wrap:nowrap;gap:6px;overflow-x:auto;align-items:center}
+  html body.in-game .leftover-yut .lo-title{font-size:14px;flex:none;white-space:nowrap}
+  html body.in-game .leftover-yut .lo-item{min-width:44px;min-height:44px;padding:4px 8px;font-size:22px;flex:none}
+  html body.in-game .leftover-yut .lo-sticks{display:none}
+  html body.in-game .leftover-yut .lo-empty{font-size:13px;flex:none}
+  html body.in-game .panel{order:4;display:grid;grid-template-columns:1fr 2fr;gap:6px;background:#102c3cf5;padding:8px;border-radius:14px;position:sticky;bottom:calc(58px + env(safe-area-inset-bottom));z-index:30;align-content:start}
+  html body.in-game .tray-caption{grid-column:1/-1;grid-row:1;font-size:13px;line-height:1.2}
+  html body.in-game #resultTray{display:grid;grid-column:1/-1;grid-row:2;grid-template-columns:repeat(6,minmax(0,1fr));gap:5px;margin:0}
+  html body.no-backdo.in-game #resultTray{grid-template-columns:repeat(5,minmax(0,1fr))}
+  html body.in-game #resultTray .result-tile{grid-column:auto;grid-row:auto;min-height:48px;padding:4px 1px;border-radius:10px;border-width:2px;box-shadow:0 2px #ba8546}
+  html body.in-game #resultTray .result-tile strong{font-size:23px;line-height:1.1;letter-spacing:-1px}
+  html body.in-game #resultTray .result-tile small{display:block!important;font-size:12px;align-self:center;line-height:1.2}
+  html body.in-game .tile-key,html body.in-game #resultTray .tile-sticks{display:none}
+  html body.in-game #nakBtn,html body.no-backdo.in-game #nakBtn{grid-column:1;grid-row:3;min-height:56px;font-size:20px;padding:5px;margin:0}
+  html body.in-game #nakBtn .tile-sticks{display:none}
+  html body.in-game #nakBtn strong{font-size:24px}
+  html body.in-game #throwBtn,html body.no-backdo.in-game #throwBtn{grid-column:2;grid-row:3;min-height:56px;height:auto;margin:0;font-size:23px;border-radius:12px;padding:6px;box-shadow:0 3px #12705c;white-space:normal}
+  html body.in-game #throwBtn .tb-sub{font-size:14px}
+  html body.in-game #throwBtn .tb-key{display:none}
+  html body.in-game .right-tools{order:5;position:sticky;bottom:0;z-index:31;margin:0;gap:5px;padding:5px 0 calc(5px + env(safe-area-inset-bottom));background:#102c3cf5}
+  html body.in-game .right-tools button{min-height:44px;font-size:13px;padding:5px 2px;gap:3px;border-radius:10px}
+  html body.in-game .right-tools button .ico{font-size:19px}
+  html body.in-game .status-line{order:6;font-size:14px;padding:4px 0;background:none;line-height:1.35;text-align:left}
+  .fx-charge .ch-hint{font-size:24px;text-align:center}
+}
+@media (max-width:950px) and (max-height:600px) and (min-aspect-ratio:1/1){
+  html body.in-game .page{max-width:none}
+  html body.in-game #board-root{width:min(60vw,72dvh)}
+  html body.in-game .panel,html body.in-game .right-tools{position:static}
+}
+@media (min-aspect-ratio:1/1) and (min-height:601px){
+  body.in-game #gameScreen{display:grid}
+}
+@media (max-width:360px){
+  html body.in-game #resultTray,html body.no-backdo.in-game #resultTray{grid-template-columns:repeat(3,minmax(0,1fr))}
+}
 </style>
 </head>
 <body>
@@ -1141,7 +1302,12 @@ body.in-game .nak-btn .tile-key{font-size:13px}
   <!-- ===== 시작 화면 ===== -->
 <div class="setup" id="setupScreen">
   <div class="welcome-title"><span class="play-stage" id="playL"></span><h2 id="titleWord"><i>윷</i><i>놀</i><i>이</i></h2><span class="play-stage" id="playR"></span><p>우리 가족 윷놀이 한 판!</p></div>
-  <div class="welcome-grid">
+  <div class="quick-entry">
+    <p>2팀 · 말 4개 · 빽도 사용</p>
+    <button type="button" id="quickStartBtn">🎉 빠른 시작</button>
+    <button type="button" id="setupToggle" aria-expanded="false" aria-controls="setupDetails">⚙ 상세 설정</button>
+  </div>
+  <div class="welcome-grid hidden" id="setupDetails">
     <section class="welcome-card welcome-teams">
       <div class="welcome-options"><div><b>👨‍👩‍👧‍👦 팀 수</b><div class="choices" id="teamCountChoices"></div></div><div><b>🎲 말 개수</b><div class="choices" id="pieceCountChoices"></div></div></div>
       <div class="name-rows" id="nameRows"></div>
@@ -1149,9 +1315,17 @@ body.in-game .nak-btn .tile-key{font-size:13px}
     </section>
     <section class="welcome-card welcome-rules"><h3>📜 규칙</h3><button type="button" class="rule-row rule-switch" id="ruleBackdo" role="switch" aria-checked="true">빽도 사용 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleExact" role="switch" aria-checked="false">참먹이에 딱 서도 골인 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleToEnd" role="switch" aria-checked="false">끝까지 순위 가리기 <span class="sw"></span></button><div class="rule-row">모아둔 결과 <b>순서 선택</b></div><div class="rule-row">같은 팀 말 업기 <b>자동</b></div><div class="rule-row">윷·모 또는 상대 말 잡기 <b>한 번 더</b></div><h3>✨ 화면 효과</h3><div class="effect-options"><button type="button" id="richFx" aria-pressed="true">✨ 화려하게</button><button type="button" id="lightFx" aria-pressed="false">가볍게</button></div></section>
   </div>
-  <div class="welcome-actions"><button type="button" id="rulesOpenBtn">📖 규칙 보기</button><button class="start-btn" id="startBtn" disabled>🎉 게임 시작!</button><button type="button" id="resumeBtn">▶ 이어하기</button></div>
+  <div class="welcome-actions"><button type="button" id="rulesOpenBtn">📖 규칙 보기</button><button class="start-btn hidden" id="startBtn" disabled>🎉 이 설정으로 시작!</button><button type="button" id="resumeBtn">▶ 이어하기</button></div>
   <p class="welcome-tip">팀과 말 개수를 정하고, 시작 순서를 골라주세요.</p>
 </div>
+<dialog id="tutorialDialog" class="phase2-dialog" aria-labelledby="tutorialTitle" aria-describedby="tutorialBody">
+  <div id="tutorialProgress" class="tutorial-progress"></div>
+  <h2 id="tutorialTitle"></h2>
+  <div id="tutorialArt" class="tutorial-art" aria-hidden="true"></div>
+  <p id="tutorialBody" aria-live="polite"></p>
+  <label class="tutorial-check"><input type="checkbox" id="tutorialDontShow">다음 새 게임부터 이 안내 보지 않기</label>
+  <div class="tutorial-actions"><button type="button" id="tutorialSkip">건너뛰기</button><button type="button" id="tutorialPrev">이전</button><button type="button" id="tutorialNext" class="primary">다음</button></div>
+</dialog>
 <dialog id="askDialog" class="ask-dialog">
   <h3 id="askTitle"></h3><p id="askBody"></p>
   <div class="ask-actions">
@@ -1167,6 +1341,7 @@ body.in-game .nak-btn .tile-key{font-size:13px}
     <div id="turn-banner" class="turn-banner"><span class="turn-dot" id="turnDot"></span><span id="turnText"></span></div>
     <div id="board-root"></div>
     <div id="festivalScore" class="festival-score"></div>
+    <div class="action-guide" id="actionGuide" role="status" aria-live="polite" aria-atomic="true"></div>
     <div class="status-line" id="statusLine"></div>
 
     <div class="panel">
@@ -1179,6 +1354,7 @@ body.in-game .nak-btn .tile-key{font-size:13px}
         <div class="result-detail" id="resultDetail"></div>
         <div class="again-badge" id="againBadge">한 번 더 던지기!</div>
       </div>
+      <div class="tray-caption" id="trayCaption">실제 윷 결과 직접 입력</div>
       <div id="resultTray"></div>
       <button id="nakBtn" class="nak-btn" title="윷이 멍석 밖으로 나갔어요 (N)"><span class="tile-key">N</span><span class="tile-sticks nak"><i class="round"></i><i class="flat"></i><i class="round"></i><i class="out"></i></span><strong>낙</strong><small>없던 일</small></button>
       <button id="throwBtn"><span class="tb-key">R · Space</span><span class="tb-label">윷 던지기</span><span class="tb-sub">꾹 눌렀다 떼기 👆</span></button>
@@ -1192,8 +1368,9 @@ body.in-game .nak-btn .tile-key{font-size:13px}
         <h2 class="win-title" id="winTitle"></h2>
         <p class="win-sub" id="winSub"></p>
         <ol class="win-rank" id="winRank"></ol>
+        <section id="matchStats" class="match-stats" aria-label="이번 경기 기록"></section>
         <div class="win-actions">
-          <button type="button" id="winAgainBtn" class="win-go">🎉 한 판 더!</button>
+          <button type="button" id="winAgainBtn" class="win-go">🔄 같은 설정으로 재대결</button>
           <button type="button" id="winHomeBtn" class="win-home">🏠 처음으로</button>
         </div>
       </div>
@@ -1206,6 +1383,7 @@ body.in-game .nak-btn .tile-key{font-size:13px}
       <div class="menu-grid">
         <div class="menu-col">
           <button id="menuResume" class="menu-main">▶ 계속하기</button>
+          <button id="menuTutorial" class="menu-sub">💡 3단계 안내</button>
           <button id="menuRules" class="menu-sub">📖 규칙 보기</button>
           <button id="menuNew" class="menu-sub">🔄 새 게임</button>
           <button id="menuHome" class="menu-sub danger">🏠 처음 화면으로</button>
@@ -1216,6 +1394,12 @@ body.in-game .nak-btn .tile-key{font-size:13px}
             <button id="menuSfx">🔊 효과음</button>
             <button id="menuBgm">🎵 배경음악</button>
           </div>
+          <div class="menu-title">⏩ 진행 속도</div>
+          <div class="menu-fx"><button id="menuNormal">일반</button><button id="menuFast">빠르게</button></div>
+          <p class="menu-note">빠르게: 던지기·이동 연출 시간이 약 55% 줄어요.</p>
+          <div class="menu-title">📳 진동</div>
+          <div class="menu-fx"><button id="menuVibration" aria-pressed="false">진동 끔</button></div>
+          <p id="vibrationNote" class="menu-note">진동은 지원되는 기기에서만 동작해요.</p>
           <div class="menu-title">✨ 화면 효과</div>
           <div class="menu-fx">
             <button id="menuRich">✨ 화려하게</button>
@@ -1241,6 +1425,44 @@ body.in-game .nak-btn .tile-key{font-size:13px}
    3) shake     — 상대 말을 잡았을 때 화면이 짧게 흔들리기
    4) confetti  — 이겼을 때 색종이 쏟아지기
    ========================================================================= */
+
+/* 2차: 영구 속도 설정과 일시 빨리감기는 별개로 관리한다. */
+const PLAY_PREFS_KEY = 'yut-play-prefs-v2';
+const playPrefs = {fast:false, vibration:false};
+try { const p=JSON.parse(localStorage.getItem(PLAY_PREFS_KEY)||'{}');
+  playPrefs.fast=p.fast===true;playPrefs.vibration=p.vibration===true;
+} catch(e) {}
+const baseSpeed = () => playPrefs.fast ? 2.2 : 1;
+let FAST = baseSpeed();
+const effectAnimations = new Set();
+function effectMs(ms){return Math.max(0,Math.round(ms/FAST));}
+function effectTimer(fn,ms){return setTimeout(fn,effectMs(ms));}
+function effectAnimate(node,frames,options){
+  const a=node.animate(frames,options);a.playbackRate=FAST;
+  effectAnimations.add(a);
+  a.finished.then(()=>effectAnimations.delete(a),()=>effectAnimations.delete(a));
+  return a;
+}
+function savePlayPrefs(){try{localStorage.setItem(PLAY_PREFS_KEY,JSON.stringify(playPrefs));}catch(e){}}
+function setPlaySpeed(fast){
+  playPrefs.fast=!!fast;FAST=baseSpeed();savePlayPrefs();
+  effectAnimations.forEach(a=>{try{a.playbackRate=FAST;}catch(e){}});
+  syncPlayPrefs();
+}
+function haptic(kind){
+  if(!playPrefs.vibration||typeof navigator.vibrate!=='function'||document.hidden)return;
+  const patterns={release:18,big:[30,45,30],capture:[35,35,65],win:[55,55,55,55,110]};
+  try{navigator.vibrate(patterns[kind]||18);}catch(e){}
+}
+function syncPlayPrefs(){
+  document.getElementById('menuNormal').setAttribute('aria-pressed',String(!playPrefs.fast));
+  document.getElementById('menuFast').setAttribute('aria-pressed',String(playPrefs.fast));
+  const b=document.getElementById('menuVibration');
+  const supported=typeof navigator.vibrate==='function';
+  b.disabled=!supported;b.setAttribute('aria-pressed',String(supported&&playPrefs.vibration));
+  b.textContent=supported?(playPrefs.vibration?'진동 켬':'진동 끔'):'진동 미지원';
+  document.getElementById('vibrationNote').textContent=supported?'윷 놓기·윷/모·잡기·승리 때 짧게 울려요.':'이 브라우저에서는 진동을 지원하지 않아요.';
+}
 
 window.FX = (function () {
 
@@ -1384,7 +1606,7 @@ window.FX = (function () {
       shake("normal");
 
       // 글자: 확 커졌다가 살짝 줄고 사라짐
-      word.animate(
+      effectAnimate(word,
         [
           { transform: "scale(0.2) rotate(-14deg)", opacity: 0 },
           { transform: "scale(1.28) rotate(4deg)", opacity: 1, offset: 0.18 },
@@ -1396,7 +1618,7 @@ window.FX = (function () {
       );
 
       layer.querySelectorAll(".fx-ring").forEach((ring, i) => {
-        ring.animate(
+        effectAnimate(ring,
           [
             { transform: "scale(0.2)", opacity: 0.9 },
             { transform: "scale(4.2)", opacity: 0 },
@@ -1410,7 +1632,7 @@ window.FX = (function () {
         const dist = 200 + Math.random() * 300;
         const dx = Math.cos(angle) * dist;
         const dy = Math.sin(angle) * dist;
-        s.animate(
+        effectAnimate(s,
           [
             { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
             { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 },
@@ -1419,7 +1641,7 @@ window.FX = (function () {
         );
       });
 
-      setTimeout(() => { layer.remove(); }, 1400);
+      effectTimer(() => { layer.remove(); }, 1400);
 
     } catch (e) {
       console.warn("fx: 터지는 연출 실패, 그냥 넘어갑니다.", e);
@@ -1468,24 +1690,24 @@ window.FX = (function () {
         }
       }
 
-      const anim = target.animate(steps, { duration: L.dur });
+      const anim = effectAnimate(target,steps, { duration: L.dur });
       const cleanup = () => {
         target.style.transform = "";
         document.body.classList.remove("fx-shaking");
       };
       anim.onfinish = cleanup;
-      setTimeout(cleanup, L.dur + 320);   // 안전장치
+      effectTimer(cleanup, L.dur + 320);   // 안전장치
 
       // 붉은 기운이 잠깐 번쩍 (가벼운 흔들림에는 없음)
       if (L.flash > 0) {
         const flash = document.createElement("div");
         flash.className = "fx-flash";
         document.body.appendChild(flash);
-        flash.animate(
+        effectAnimate(flash,
           [{ opacity: 0 }, { opacity: L.flash, offset: 0.25 }, { opacity: 0 }],
           { duration: L.dur + 80, easing: EASE.out }
         );
-        setTimeout(() => flash.remove(), L.dur + 200);
+        effectTimer(() => flash.remove(), L.dur + 200);
       }
 
     } catch (e) {
@@ -1513,11 +1735,11 @@ window.FX = (function () {
       const glow = document.createElement("div");
       glow.className = "fx-winglow";
       document.body.appendChild(glow);
-      glow.animate(
+      effectAnimate(glow,
         [{ opacity: 0 }, { opacity: 1, offset: 0.2 }, { opacity: 0 }],
         { duration: 1500, easing: EASE.out }
       );
-      setTimeout(() => glow.remove(), 1600);
+      effectTimer(() => glow.remove(), 1600);
       shake("hard");
 
       const PALETTE = ["#B23A2E", "#D69A1E", "#1D4E89", "#2B2118", "#E7D7AE", "#7A9E5C"];
@@ -1531,7 +1753,7 @@ window.FX = (function () {
 
       for (let i = 0; i < TOTAL; i++) {
         const delay = Math.random() * SPREAD;
-        timers.push(setTimeout(() => {
+        timers.push(effectTimer(() => {
           if (!layer.isConnected) return;
 
           const pcs = document.createElement("div");
@@ -1554,7 +1776,7 @@ window.FX = (function () {
           const spinX = Math.random() * 1440 - 720;
           const spinZ = Math.random() * 1080 - 540;
 
-          const anim = pcs.animate(
+          const anim = effectAnimate(pcs,
             [
               { transform: "translate(0px, 0px) rotateX(0deg) rotateZ(0deg)", opacity: 1 },
               { transform: `translate(${drift * 0.5}px, ${fall * 0.5}px) rotateX(${spinX * 0.5}deg) rotateZ(${spinZ * 0.5}deg)`, opacity: 1, offset: 0.5 },
@@ -1563,13 +1785,13 @@ window.FX = (function () {
             { duration: dur, easing: EASE.out }
           );
           anim.onfinish = () => pcs.remove();
-          setTimeout(() => pcs.remove(), dur + 400);
+          effectTimer(() => pcs.remove(), dur + 400);
         }, delay));
       }
 
       // 다 떨어지고 나면 레이어 정리
       const stopAt = SPREAD + 5200;
-      setTimeout(() => {
+      effectTimer(() => {
         timers.forEach(clearTimeout);
         layer.remove();
       }, stopAt);
@@ -1611,21 +1833,21 @@ window.FX = (function () {
         ray.style.top = "50%";
         ray.style.transform = `rotate(${(i / 9) * 360}deg) translateY(-100%)`;
         layer.insertBefore(ray, layer.firstChild.nextSibling);
-        ray.animate([{opacity:0,transform:`rotate(${(i/9)*360}deg) translateY(-100%) scaleY(.2)`},
+        effectAnimate(ray,[{opacity:0,transform:`rotate(${(i/9)*360}deg) translateY(-100%) scaleY(.2)`},
                      {opacity:.5,transform:`rotate(${(i/9)*360+8}deg) translateY(-100%) scaleY(1)`,offset:.4},
                      {opacity:0,transform:`rotate(${(i/9)*360+16}deg) translateY(-100%) scaleY(1.1)`}],
                     {duration:1500,easing:EASE.out,fill:"forwards"});
       }
 
-      layer.querySelector(".veil").animate([{opacity:0},{opacity:1,offset:.2},{opacity:1,offset:.7},{opacity:0}],
+      effectAnimate(layer.querySelector(".veil"),[{opacity:0},{opacity:1,offset:.2},{opacity:1,offset:.7},{opacity:0}],
         {duration:1500,easing:EASE.out,fill:"forwards"});
-      layer.querySelector(".band").animate(
+      effectAnimate(layer.querySelector(".band"),
         [{transform:"translateY(0) scaleX(.2)",opacity:0},
          {transform:"translateY(0) scaleX(1)",opacity:.6,offset:.3},
          {transform:"translateY(0) scaleX(1)",opacity:.5,offset:.7},
          {transform:"translateY(0) scaleX(1.2)",opacity:0}],
         {duration:1500,easing:EASE.out,fill:"forwards"});
-      layer.querySelector(".who").animate(
+      effectAnimate(layer.querySelector(".who"),
         [{transform:"translateX(-40vw) scale(.7)",opacity:0,easing:EASE.outHard},
          {transform:"translateX(0) scale(1.08)",opacity:1,offset:.28,easing:EASE.outBack},
          {transform:"translateX(0) scale(1)",opacity:1,offset:.42,easing:'cubic-bezier(.5,0,1,1)'},
@@ -1633,7 +1855,7 @@ window.FX = (function () {
          {transform:"translateX(38vw) scale(.85)",opacity:0}],
         {duration:1500,fill:"forwards"});
 
-      setTimeout(() => layer.remove(), 1600);
+      effectTimer(() => layer.remove(), 1600);
     } catch (e) { console.warn("fx: 차례 알림 생략", e); }
   }
 
@@ -1650,11 +1872,11 @@ window.FX = (function () {
 
       const life = big ? 1350 : 780;
 
-      layer.querySelector(".veil").animate(
+      effectAnimate(layer.querySelector(".veil"),
         [{opacity:0},{opacity:1,offset:.18},{opacity:1,offset:.68},{opacity:0}],
         {duration:life,easing:EASE.out,fill:"forwards"});
 
-      layer.querySelector(".word").animate(
+      effectAnimate(layer.querySelector(".word"),
         big
         ? [{transform:"scale(.25) rotate(-16deg)",opacity:0,easing:EASE.outBack},
            {transform:"scale(1.35) rotate(6deg)",opacity:1,offset:.22},
@@ -1674,17 +1896,17 @@ window.FX = (function () {
           beam.className = "beam";
           beam.style.left = "50%"; beam.style.top = "50%";
           layer.appendChild(beam);
-          beam.animate(
+          effectAnimate(beam,
             [{opacity:0,transform:`rotate(${i*30}deg) translateY(-100%) scaleY(.1)`},
              {opacity:.55,transform:`rotate(${i*30+10}deg) translateY(-100%) scaleY(1)`,offset:.35},
              {opacity:0,transform:`rotate(${i*30+22}deg) translateY(-100%) scaleY(1.15)`}],
             {duration:life,easing:EASE.outHard,fill:"forwards"});
         }
         shake("normal");
-        setTimeout(() => burst(label), 120);
+        effectTimer(() => burst(label), 120);
       }
 
-      setTimeout(() => layer.remove(), life + 120);
+      effectTimer(() => layer.remove(), life + 120);
     } catch (e) { console.warn("fx: 결과 연출 생략", e); }
   }
 
@@ -2020,8 +2242,51 @@ const UNDO_MAX = 300;       // 메모리에 담아두는 개수
 const SAVE_UNDO_MAX = 30;   // 저장 파일에 담는 개수
 let undoStack = [];
 
+
+/* 경기 기록은 판 상태와 함께 저장/되돌린다. 옛 저장본은 이어한 시점부터 집계한다. */
+let matchStats = null;
+let matchEpoch = 0;
+function blankTeamStats(){return {throws:0,yut:0,mo:0,captures:0,capturedPieces:0,goals:0,nak:0,maxExtra:0};}
+function newMatchStats(partial=false){
+  return {version:1,partial,byTeam:Object.fromEntries(teams.map(t=>[t.id,blankTeamStats()])),chainTeam:null,chain:0};
+}
+function restoreMatchStats(raw){
+  const out=newMatchStats(!raw||raw.version!==1||raw.partial===true);
+  if(!raw||raw.version!==1)return out;
+  for(const t of teams){
+    const saved=raw.byTeam&&raw.byTeam[t.id];
+    if(!saved){out.partial=true;continue;}
+    for(const key of Object.keys(out.byTeam[t.id])){
+      const n=saved[key];out.byTeam[t.id][key]=Number.isSafeInteger(n)&&n>=0?n:0;
+    }
+  }
+  if(teams.some(t=>t.id===raw.chainTeam)&&Number.isSafeInteger(raw.chain)&&raw.chain>=0){out.chainTeam=raw.chainTeam;out.chain=raw.chain;}
+  return out;
+}
+function teamStats(team){
+  if(!matchStats)matchStats=newMatchStats(true);
+  return matchStats.byTeam[team.id]||(matchStats.byTeam[team.id]=blankTeamStats());
+}
+function recordExtra(team){
+  const row=teamStats(team);
+  if(matchStats.chainTeam!==team.id){matchStats.chainTeam=team.id;matchStats.chain=0;}
+  matchStats.chain++;row.maxExtra=Math.max(row.maxExtra,matchStats.chain);
+}
+function recordThrow(result){
+  const team=teams[currentTeamIndex],row=teamStats(team);row.throws++;
+  if(result==='YUT')row.yut++;if(result==='MO')row.mo++;if(result==='NAK')row.nak++;
+  if(EXTRA_THROW_RESULTS.has(result))recordExtra(team);
+}
+function recordMove(team,dest,count,capturedInfo){
+  const row=teamStats(team);
+  if(dest===FINISH)row.goals+=count;
+  if(capturedInfo.length){row.captures++;row.capturedPieces+=capturedInfo.reduce((n,x)=>n+x.count,0);haptic('capture');
+    if(team.finished<team.total)recordExtra(team);
+  }
+}
+
 function snapshot() {
-  return JSON.stringify({ teams, currentTeamIndex, gameOver, pending, finishedOrder });
+  return JSON.stringify({ teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats });
 }
 function pushUndo() {
   undoStack.push(snapshot());
@@ -2050,7 +2315,9 @@ function undoOnce() {
      판이 눈에 보이게 달라질 때까지 한 조각 더 되돌린다. */
   const restore = () => {
     const snap = JSON.parse(undoStack.pop());
+    matchEpoch++;
     teams = snap.teams;
+    matchStats = restoreMatchStats(snap.matchStats);
     currentTeamIndex = snap.currentTeamIndex;
     gameOver = snap.gameOver;
     pending = snap.pending;
@@ -2060,6 +2327,8 @@ function undoOnce() {
   restore();
   if (undoStack.length && JSON.stringify(teams) === beforeBoard) restore();
 
+  document.body.classList.remove('win-rolling');
+  document.getElementById('turn-banner').classList.remove('rolling');
   // 게임 끝 상태였다면 화면을 원래대로 돌려놓는다
   const banner = document.getElementById('turn-banner');
   if (banner) banner.classList.toggle('won', !!gameOver);
@@ -2083,7 +2352,7 @@ function undoOnce() {
 function saveGame() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      teams, currentTeamIndex, gameOver, pending, finishedOrder,
+      teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats,
       rules: { useBackdo: RULES.useBackdo, playToEnd: RULES.playToEnd, exactFinish: RULES.exactFinish },
       undo: undoStack.slice(-SAVE_UNDO_MAX),   // 되돌리기 기록도 함께 (최근 30걸음)
     }));
@@ -2273,8 +2542,12 @@ function escapeHtml(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" }[c]));
 }
 
-function startNewGame() {
-  teams = setupOrder.map((id) => {
+function startNewGame(rematchTeams) {
+  cancelAuto();bumpSerial();matchEpoch++;hurryReset();
+  cancelCharge(false);fxBusy=false;nakLock=false;gameScreen.inert=false;
+  hideWinScreen();document.body.classList.remove('win-rolling');
+  const banner=document.getElementById('turn-banner');banner.classList.remove('won','rolling');
+  teams = Array.isArray(rematchTeams) ? rematchTeams.map(t=>({id:t.id,name:t.name,total:t.total,waiting:t.total,finished:0,units:[]})) : setupOrder.map((id) => {
     return { id, name: nameOf(id), total: setupPieceCount, waiting: setupPieceCount, finished: 0, units: [] };
   });
   currentTeamIndex = 0;
@@ -2282,9 +2555,16 @@ function startNewGame() {
   pending = null;
   finishedOrder = [];
   undoStack = [];
+  matchStats = newMatchStats();
   clearSave();
   startGameScreen();
+  throwBtn.disabled=false;setThrowBtnText('윷 던지기','꾹 눌렀다 떼기 👆');
+  clearInteractive();renderState();renderPending();updateUndoBtn();
+  for(const id of ['resultWord','resultDetail','againBadge'])document.getElementById(id).classList.remove('show');
+  document.getElementById('placeholder').style.display='';
+  statusLine.innerHTML='🥢 <strong>'+escapeHtml(teams[0].name)+'</strong>: 윷 던지기를 눌렀다 떼세요.';
   saveGame();
+  maybeTutorial();
 }
 startBtn.onclick = startNewGame;
 
@@ -2779,6 +3059,7 @@ let charge = null;             // 지금 누르고 있는 중인지
 let lastThrowPower = 1;        // 마지막으로 던진 힘 (연출에 쓰임)
 
 function canCharge(){
+  if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]')) return false;
   if (gameOver || fxBusy || charge) return false;
   if (typeof nakLock !== 'undefined' && nakLock) return false;   // 낙이 끝날 때까지 못 던진다
   if (throwBtn.disabled) return false;
@@ -2792,15 +3073,10 @@ function chargeTick(){
   charge.power = p;
   if (charge.fx) charge.fx.setPower(p);
   throwBtn.style.setProperty('--pw', p.toFixed(3));
-  const pct = Math.round(p * 100);
-  if (pct !== charge.lastPct){
-    charge.lastPct = pct;
-    if (!charge.max) setThrowBtnText('윷 던지기', '파워 ' + pct + '%');
-  }
   if (p >= 1 && !charge.max){
     charge.max = true;
     throwBtn.classList.add('charge-max');
-    setThrowBtnText('윷 던지기', '지금이야! 떼세요! 👐');
+    setThrowBtnText('윷 던지기', '손을 떼면 던져요 👐');
     if (typeof Sound !== 'undefined') Sound.chargeFull();
   }
   charge.raf = requestAnimationFrame(chargeTick);
@@ -2812,7 +3088,7 @@ function startCharge(){
   if (window.FX && typeof FX.chargeSticks === 'function') charge.fx = FX.chargeSticks();
   throwBtn.classList.add('charging');
   throwBtn.classList.remove('charge-max');
-  setThrowBtnText('윷 던지기', '파워 0%');
+  setThrowBtnText('윷 던지기', '손을 떼면 던져요 👐');
   if (typeof Sound !== 'undefined') Sound.chargeStart();
   charge.raf = requestAnimationFrame(chargeTick);
   charge.timer = setTimeout(() => cancelCharge(true), CHARGE_MAX_HOLD);
@@ -2855,6 +3131,8 @@ throwBtn.addEventListener('pointercancel', () => { if (charge) cancelCharge(fals
 document.addEventListener('keydown', (e) => {
   if (e.repeat) return;
   if (e.target && /^(INPUT|TEXTAREA)$/.test(e.target.tagName)) return;
+  if (document.querySelector('dialog[open]') || !document.body.classList.contains('in-game')) return;
+  if (e.code === 'Space' && e.target.closest && e.target.closest('button') && e.target.closest('button') !== throwBtn) return;
   if (e.code === 'Space' || e.key === 'r' || e.key === 'R'){ e.preventDefault(); startCharge(); }
 });
 document.addEventListener('keyup', (e) => {
@@ -2864,11 +3142,13 @@ document.addEventListener('keyup', (e) => {
 });
 
 function doThrow(power){
+  if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || nakLock) return;
   if (gameOver || fxBusy) return;
   if (pending && pending.phase !== "throwing") return;
 
   lastThrowPower = 0.35 + (power || 0) * 0.65;   // 던지는 모습에만 반영
   window.lastThrowPower = lastThrowPower;
+  haptic('release');
   const { result, sticks } = throwYut();
 
   // 효과 부품(fx.js)이 있으면 막대를 굴린 뒤에 결과를 반영하고,
@@ -2881,8 +3161,8 @@ function doThrow(power){
     [resultWord, resultDetail, againBadge].forEach((e) => e.classList.remove("show"));
     placeholder.style.display = "none";
     statusLine.innerHTML = `<strong>${escapeHtml(teams[currentTeamIndex].name)}</strong>: 윷을 던지는 중…`;
-
-    if (typeof Sound !== 'undefined') Sound.throwStart(900);
+    renderTray();
+    if (typeof Sound !== 'undefined') Sound.throwStart(effectMs(900));
     FX.rollSticks(stickEls, sticks, () => {
       fxBusy = false;
       applyThrow(result, sticks);
@@ -2895,13 +3175,15 @@ function doThrow(power){
 /* 던진 결과를 실제 게임에 반영 (예전 로직 그대로) */
 function applyThrow(result, sticks) {
   pushUndo();                 // 던지기 전 모습을 저장
+  recordThrow(result);
   bumpSerial();
   showResult(result, sticks, true);
 
-  // 나온 결과를 화면 가득 알려준다 (윷·모는 더 화려하게)
+  // 보통 결과는 타일에서, 빽도는 말판 위에서, 윷·모만 전체 화면에서 알린다.
   const bigResult = EXTRA_THROW_RESULTS.has(result);
+  if(bigResult) haptic('big');
   if (typeof Sound !== 'undefined') { bigResult ? Sound.big() : Sound.small(); }
-  if (window.FX && typeof FX.resultFlash === "function" && !document.body.classList.contains("light-effects")) {
+  if (bigResult && window.FX && typeof FX.resultFlash === "function" && !document.body.classList.contains("light-effects") && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
     const big = bigResult;
     const phrase = stepPhrase(result) || (RESULT_STEPS[result] > 0 ? RESULT_STEPS[result] + "칸" : "뒤로 1칸");
     const why = SHAPE_WHY[result] ? ' · ' + SHAPE_WHY[result] : '';
@@ -2910,6 +3192,7 @@ function applyThrow(result, sticks) {
 
   if (!pending) pending = { results: [], phase: "throwing", selected: null, stage: null };
   pending.results.push({ result, sticks });
+  showLocalResult(result);
 
   if (EXTRA_THROW_RESULTS.has(result)) {
     // 윷·모 → 말은 그대로 두고 한 번 더 던진다
@@ -2953,7 +3236,7 @@ function beginMovingPhase() {
 
     const mySerial = boardSerial;
     // ① 먼저 큰 글씨로 알려준다
-    setTimeout(() => {
+    effectTimer(() => {
       if (mySerial !== boardSerial) return;
       try {
         if (typeof Festival !== 'undefined' && Festival.cheer) Festival.cheer("놓을 말이 없어요", TEAM_COLOR[team.id]);
@@ -2961,7 +3244,7 @@ function beginMovingPhase() {
       } catch (e) {}
     }, SKIP_NOTICE_AT);
     // ② 한 박자 쉬고 나서 차례를 넘긴다
-    setTimeout(() => {
+    effectTimer(() => {
       if (mySerial !== boardSerial || gameOver) return;
       nextTurn();
       updateTurnBanner();
@@ -3063,7 +3346,7 @@ function renderPending() {
 
     drawMoveHints(team, [opt], result, { chosen: true });
 
-    statusLine.innerHTML = `👉 <strong>한 번 더 누르면</strong> 갑니다`;
+    statusLine.innerHTML = `👉 <strong>빛나는 도착 칸</strong>을 누르면 갑니다. 고른 말을 한 번 더 눌러도 돼요.`;
   }
 
   else if (pending.stage === "pickDest") {
@@ -3232,6 +3515,8 @@ function commitMove(carry) {
     where = `${posLabel(dest)}${euro(posLabel(dest))} 이동했어요.`;
   }
 
+  recordMove(team,dest,movingCount,capturedInfo);
+
   // 방금 쓴 결과를 목록에서 뺀다
   pending.results.splice(pending.selected, 1);
   pending.selected = null;
@@ -3248,13 +3533,13 @@ function commitMove(carry) {
     Festival.cheer(many > 1 ? `잡았다! ${many}개나!` : '잡았다!', TEAM_COLOR[team.id], true);
     // 잡은 말이 다리를 뻗어 뻥 차고, 발이 닿는 순간 상대가 대기소로 날아간다
     const hitAt = (Festival.kick ? Festival.kick(team, dest) : 0);
-    capturedInfo.forEach((x) => setTimeout(() => Festival.flyHome(x.team, dest, x.count), hitAt));
+    capturedInfo.forEach((x) => effectTimer(() => Festival.flyHome(x.team, dest, x.count), hitAt));
   }
   else if (carry) Festival.cheer('함께 가요! 업기 성공', TEAM_COLOR[team.id]);
   if (captured) {
     // 소리와 흔들기도 '발이 닿는 순간'에 맞춘다 (미리 나면 김이 샌다)
     const delay = (typeof Festival !== 'undefined' && Festival.kick) ? 300 : 0;
-    setTimeout(() => {
+    effectTimer(() => {
       if (typeof Sound !== 'undefined') Sound.capture();
       if (window.FX && typeof FX.shake === "function") FX.shake("hard");
     }, delay);
@@ -3327,6 +3612,7 @@ function commitMove(carry) {
 }
 
 function nextTurn() {
+  if(matchStats){matchStats.chainTeam=null;matchStats.chain=0;}
   const before = currentTeamIndex;
   for (let i = 1; i <= teams.length; i++) {
     const idx = (currentTeamIndex + i) % teams.length;
@@ -3341,8 +3627,10 @@ function announceTurn() {
   const t = teams[currentTeamIndex];
   if (!t) return;
   if (typeof Sound !== 'undefined') Sound.turn();
-  if (window.FX && typeof FX.teamIntro === "function" && !document.body.classList.contains("light-effects")) {
-    FX.teamIntro(t.name, TEAM_COLOR[t.id], charHTML(t.id, 120));
+  if (!document.body.classList.contains("light-effects") && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    document.getElementById('turn-banner').animate(
+      [{filter:'brightness(1.35)',transform:'scale(.98)'},{filter:'brightness(1)',transform:'scale(1)'}],
+      {duration:420,easing:'ease-out'});
   }
 }
 
@@ -3400,7 +3688,7 @@ const Festival = (() => {
       p.style.cssText=`left:${x}px;top:${y}px;background:${[color,'#ffcf65','#71ead4','#ff7f97','#fff'][i%5]}`;
       document.body.appendChild(p);
       const a=Math.random()*Math.PI*2,r=45+Math.random()*130;
-      const anim=p.animate([{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+65}px) rotate(220deg) scale(.2)`,opacity:0}],{duration:650+Math.random()*450,easing:'cubic-bezier(.15,.7,.3,1)'});
+      const anim=effectAnimate(p,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+65}px) rotate(220deg) scale(.2)`,opacity:0}],{duration:650+Math.random()*450,easing:'cubic-bezier(.15,.7,.3,1)'});
       anim.finished.catch(()=>{}).finally(()=>p.remove());
     }
   }
@@ -3410,14 +3698,14 @@ const Festival = (() => {
     t.textContent=text;document.body.appendChild(t);
     const r=t.getBoundingClientRect();particles(r.x+r.width/2,r.y+r.height/2,color,big?72:36);
     const a = big
-      ? t.animate([
+      ? effectAnimate(t,[
           {opacity:0,transform:'translateX(-50%) scale(.3) rotate(-9deg)',easing:'cubic-bezier(.16,1.5,.35,1)'},
           {opacity:1,transform:'translateX(-50%) scale(1.22) rotate(4deg)',offset:.22},
           {opacity:1,transform:'translateX(-50%) scale(1.02) rotate(-1.5deg)',offset:.34},
           {opacity:1,transform:'translateX(-50%) scale(1.08) rotate(0deg)',offset:.72,easing:'cubic-bezier(.5,0,1,1)'},
           {opacity:0,transform:'translateX(-50%) scale(1.5)'}
         ],{duration:reduced()?500:1500})
-      : t.animate([{opacity:0,translate:'0 30px',scale:'.65'},{opacity:1,translate:'0 0',scale:'1.08',offset:.2},{opacity:1,scale:'1',offset:.75},{opacity:0,translate:'0 -30px',scale:'1'}],{duration:reduced()?450:1250,easing:'ease-out'});
+      : effectAnimate(t,[{opacity:0,translate:'0 30px',scale:'.65'},{opacity:1,translate:'0 0',scale:'1.08',offset:.2},{opacity:1,scale:'1',offset:.75},{opacity:0,translate:'0 -30px',scale:'1'}],{duration:reduced()?450:1250,easing:'ease-out'});
     a.finished.catch(()=>{}).finally(()=>t.remove());
   }
   function path(start,steps,dest) {
@@ -3463,7 +3751,7 @@ const Festival = (() => {
         longest = Math.max(longest, dur);
 
         /* 얻어맞고 → 붕 떠올라 빙글빙글 → 대기소에 툭 떨어져 한 번 튄다 */
-        const a = fly.animate([
+        const a = effectAnimate(fly,[
           { transform:'translate(-50%,-50%) translate(0,0) scale(1) rotate(0deg)', opacity:1,
             easing:'cubic-bezier(.2,-0.6,.5,1)' },
           // ① 맞는 순간 뒤로 밀린다
@@ -3482,16 +3770,16 @@ const Festival = (() => {
         ], { duration: dur, delay: i * 90, fill:'forwards' });
 
         // 대기소(팀 칸)가 움찔한다 — 말이 돌아왔다는 신호
-        setTimeout(() => {
+        effectTimer(() => {
           try{
-            card.animate([{transform:'scale(1)'},{transform:'scale(1.06)',offset:.4},{transform:'scale(1)'}],
+            effectAnimate(card,[{transform:'scale(1)'},{transform:'scale(1.06)',offset:.4},{transform:'scale(1)'}],
                          {duration:320,easing:'cubic-bezier(.16,1.4,.35,1)'});
             if (typeof Sound !== 'undefined' && Sound.step) Sound.step(0);
           }catch(e){}
         }, dur * 0.82 + i * 90);
 
         a.finished.then(()=>fly.remove()).catch(()=>fly.remove());
-        setTimeout(()=>fly.remove(), dur + i * 90 + 400);
+        effectTimer(()=>fly.remove(), dur + i * 90 + 400);
       }
       return longest;
     }catch(e){ return 0; }
@@ -3526,7 +3814,7 @@ const Festival = (() => {
 
       const DUR = 700, at = performance.now();
       (function run(now){
-        const r = Math.min(1,(now-at)/DUR);
+        const r = Math.min(1,(now-at)/effectMs(DUR));
         let thigh, shin, lean, op = 1;
         if (r < 0.34){
           // ① 다리를 뒤로 빼고 무릎을 접는다. 몸은 뒤로 젖힌다.
@@ -3566,7 +3854,7 @@ const Festival = (() => {
       })(performance.now());
 
       // 발이 닿는 순간 — 소리 · 충격 자국 · "뻥!"
-      setTimeout(()=>{
+      effectTimer(()=>{
         try{
           if (typeof Sound !== 'undefined' && Sound.kick) Sound.kick();
           // 충격 자국: 맞은 자리에서 사방으로 터지는 선
@@ -3578,22 +3866,22 @@ const Festival = (() => {
             burst.appendChild(el('path',{d:`M${x1} ${y1} L${x2} ${y2}`}));
           }
           svg.appendChild(burst);
-          burst.animate([{opacity:1,transform:'scale(.5)'},{opacity:0,transform:'scale(1.5)'}],
+          effectAnimate(burst,[{opacity:1,transform:'scale(.5)'},{opacity:0,transform:'scale(1.5)'}],
             {duration:300,easing:'cubic-bezier(.2,.7,.3,1)'})
             .finished.catch(()=>{}).finally(()=>burst.remove());
-          setTimeout(()=>burst.remove(),420);
+          effectTimer(()=>burst.remove(),420);
 
           const bang = el('text',{class:'kick-bang',x:p.x+54,y:p.y-16,'text-anchor':'middle'});
           bang.textContent='뻥!';
           svg.appendChild(bang);
-          bang.animate(
+          effectAnimate(bang,
             [{opacity:0,transform:`translate(-10px,6px) scale(.4) rotate(-14deg)`},
              {opacity:1,transform:`translate(4px,-14px) scale(1.35) rotate(6deg)`,offset:.28},
              {opacity:1,transform:`translate(8px,-24px) scale(1.05) rotate(-2deg)`,offset:.6},
              {opacity:0,transform:`translate(14px,-44px) scale(.9)`}],
             {duration:640,easing:'cubic-bezier(.16,1.3,.35,1)'}
           ).finished.catch(()=>{}).finally(()=>bang.remove());
-          setTimeout(()=>bang.remove(),820);
+          effectTimer(()=>bang.remove(),820);
         }catch(e){}
       }, KICK_HIT);
       return KICK_HIT;
@@ -3661,7 +3949,7 @@ const Festival = (() => {
       await new Promise(done=>{
         const at=performance.now();
         (function fly_(now){
-          const r=Math.min(1,(now-at)/DUR);
+          const r=Math.min(1,(now-at)/effectMs(DUR));
           // 처음과 끝만 부드럽게, 가운데는 시원하게 미끄러진다 (중간에 멈추지 않는다)
           const e = r<0.5 ? 4*r*r*r : 1-Math.pow(-2*r+2,3)/2;
           const pnow = bez(e);
@@ -3685,7 +3973,7 @@ const Festival = (() => {
                 `transform:translate(-100%,-50%) rotate(${ang.toFixed(1)}deg)`;
               st.style.setProperty('--team',TEAM_COLOR[team.id]);
               document.body.appendChild(st);
-              st.animate([{opacity:.6},{opacity:0}],{duration:320}).finished
+              effectAnimate(st,[{opacity:.6},{opacity:0}],{duration:320}).finished
                 .catch(()=>{}).finally(()=>st.remove());
             }catch(e){}
           }
@@ -3695,7 +3983,7 @@ const Festival = (() => {
 
       const dx=tx-fx, dy=ty-fy;
       // 톡 하고 내려앉는 반동
-      await fly.animate([
+      await effectAnimate(fly,[
         {transform:`translate(-50%,-50%) translate(${dx}px,${dy}px) scale(1)`},
         {transform:`translate(-50%,-50%) translate(${dx}px,${dy}px) scale(1.25,.78)`,offset:.4},
         {transform:`translate(-50%,-50%) translate(${dx}px,${dy}px) scale(1)`}
@@ -3730,7 +4018,7 @@ const Festival = (() => {
       trailLayer.appendChild(ghost);
       // 움직임(크기)은 확 줄었다 잦아들고, 투명도는 잠깐 머물다 사라지게 한다.
       // (투명도까지 ease-out을 주면 눈 깜짝할 새 사라져 잔상이 보이지 않음)
-      const a=ghost.animate(
+      const a=effectAnimate(ghost,
         [{opacity:.55,transform:`translate(${x}px, ${y}px) scale(1)`,offset:0,
           easing:'cubic-bezier(.16,.72,.28,1)'},                 // 크기는 확 줄었다 잦아들고
          {opacity:.5, transform:`translate(${x}px, ${y}px) scale(.82)`,offset:.5,
@@ -3739,7 +4027,7 @@ const Festival = (() => {
         {duration:420,fill:'forwards'}
       );
       a.onfinish=()=>ghost.remove();
-      setTimeout(()=>ghost.remove(),620);
+      effectTimer(()=>ghost.remove(),620);
     }
 
     /* ── 걸어가는 말 ────────────────────────────────────
@@ -3801,7 +4089,7 @@ const Festival = (() => {
       return new Promise(done=>{
         const from=limbT, at=performance.now();
         (function run(now){
-          const r=Math.min(1,(now-at)/ms);
+          const r=Math.min(1,(now-at)/effectMs(ms));
           // 자라날 때는 톡 튀어나오고, 들어갈 때는 스르르
           const e = to>from ? 1-Math.pow(1-r,3) : r*r;
           limbT = from + (to-from)*e;
@@ -3823,7 +4111,7 @@ const Festival = (() => {
       t.textContent=String(stepNo);
       t.setAttribute('transform',`translate(${x} ${y})`);
       svg.appendChild(t);
-      const a=t.animate(
+      const a=effectAnimate(t,
         [{opacity:0, transform:`translate(${x}px, ${y}px) scale(.5)`,offset:0,
           easing:'cubic-bezier(.16,1.3,.35,1)'},
          {opacity:1, transform:`translate(${x}px, ${y-20}px) scale(1.1)`,offset:.3,
@@ -3833,7 +4121,7 @@ const Festival = (() => {
         {duration:620,fill:'forwards'}
       );
       a.onfinish=()=>t.remove();
-      setTimeout(()=>t.remove(),820);
+      effectTimer(()=>t.remove(),820);
     }
 
     try{
@@ -3851,7 +4139,7 @@ const Festival = (() => {
           let lastGhost=0;
           const phase0=walkPhase;
           function tick(now){
-            const raw=Math.min(1,(now-at)/230);
+            const raw=Math.min(1,(now-at)/effectMs(230));
             const t=ease(raw);
             // 껑충 뛰지 않고 걷는다 — 한 칸에 두 걸음, 걸음마다 살짝만 들린다
             const hop=5*Math.abs(Math.sin(Math.PI*raw*2));
@@ -3879,19 +4167,19 @@ const Festival = (() => {
       await limbs(0, 155);
 
       // 도착 순간: 살짝 눌렸다 펴지는 반동 + 그림자가 퍼졌다 모임
-      g.animate(
+      effectAnimate(g,
         [{transform:`translate(${previous.x}px, ${previous.y}px) scale(1)`},
          {transform:`translate(${previous.x}px, ${previous.y+3}px) scale(1.18,.84)`,offset:.35},
          {transform:`translate(${previous.x}px, ${previous.y}px) scale(1)`}],
         {duration:240,easing:'cubic-bezier(.16,1.3,.35,1)'}
       );
-      shadow.animate(
+      effectAnimate(shadow,
         [{transform:`translate(${previous.x}px, ${previous.y+11}px) scale(1)`},
          {transform:`translate(${previous.x}px, ${previous.y+11}px) scale(1.35,1.15)`,offset:.35},
          {transform:`translate(${previous.x}px, ${previous.y+11}px) scale(1)`}],
         {duration:240,easing:'cubic-bezier(.16,1.3,.35,1)'}
       );
-      await new Promise(r=>setTimeout(r,150));
+      await new Promise(r=>effectTimer(r,150));
 
       const point=svg.createSVGPoint();point.x=previous.x;point.y=previous.y;const matrix=svg.getScreenCTM();if(matrix){const pt=point.matrixTransform(matrix);particles(pt.x,pt.y,color);}
     }finally{g.remove();shadow.remove();trailLayer.remove();if(old)old.style.opacity='';}
@@ -3989,9 +4277,9 @@ stickFaces.serial=0;
         '</svg>' +
         '<div class="ch-glow"></div>' +
         '<div class="ch-sticks"></div>' +
-        '<div class="ch-pct">0%</div>' +
+        '<div class="ch-pct" aria-hidden="true">🥢</div>' +
       '</div>' +
-      '<div class="ch-hint">꾹 누르고 있어요…</div>';
+      '<div class="ch-hint">손을 떼면 던져요 👐</div>';
     document.body.appendChild(layer);
 
     const stage = layer.querySelector('.ch-stage');
@@ -4046,13 +4334,13 @@ stickFaces.serial=0;
         if (closed) return;
         power = Math.max(0, Math.min(1, p));
         fill.style.strokeDashoffset = C * (1 - power);
-        pct.textContent = Math.round(power * 100) + '%';
+        pct.textContent = power >= 1 ? '👐' : '🥢';
         glow.style.opacity = (0.15 + power * 0.85).toFixed(2);
         stage.style.transform = `scale(${(1 + power * 0.09).toFixed(3)})`;
         if (power >= 1 && !maxed){
           maxed = true;
           layer.classList.add('ch-max');
-          layer.querySelector('.ch-hint').textContent = '지금이야! 떼세요! 👐';
+          layer.querySelector('.ch-hint').textContent = '손을 떼면 던져요 👐';
         }
       },
       /* thrown=true 면 윷이 위로 솟구치며 사라진다 (던지는 연출로 이어짐) */
@@ -4090,7 +4378,7 @@ stickFaces.serial=0;
       const tr=(x,y,s)=>`translate3d(${x}px,${y}px,0) scale(${s})`;
       const rt=(z,x,y)=>`rotateZ(${z}deg) rotateX(${x}deg) rotateY(${y}deg)`;
       const rand=(a,b)=>a+Math.random()*(b-a);
-      function run(el,kf,delay,duration){const a=el.animate(kf,{delay,duration,fill:'both'});animations.push(a);return a;}
+      function run(el,kf,delay,duration){const a=effectAnimate(el,kf,{delay,duration,fill:'both'});animations.push(a);return a;}
       const order=[0,1,2,3];for(let i=3;i>0;i--){let j=Math.floor(Math.random()*(i+1));[order[i],order[j]]=[order[j],order[i]];}
       const flights=[];
       for(let i=0;i<4;i++){
@@ -4131,10 +4419,10 @@ stickFaces.serial=0;
           // 멀어지면서 흐려진다
           run(slot,[{opacity:1,offset:0},{opacity:1,offset:.86},{opacity:.12,offset:1}],delay,NAK_DUR);
           // 맞는 순간 '탁!' — 그리고 튕겨 나가며 휙—
-          setTimeout(()=>{ try{
+          effectTimer(()=>{ try{
             if(typeof Sound!=='undefined'){
               if(Sound.stickLand) Sound.stickLand(false);
-              if(Sound.whoosh) setTimeout(()=>Sound.whoosh(), 70);
+              if(Sound.whoosh) effectTimer(()=>Sound.whoosh(), 70);
             }
           }catch(e){} }, delay + NAK_DUR*BOUNCE);
         }
@@ -4163,7 +4451,7 @@ stickFaces.serial=0;
             ],delay,NAK_DUR);
         else run(shadow,[{transform:tr(x0,y+6*vm,1.5),opacity:0,offset:0},{transform:tr(x+4*vm,y+5*vm,1.4),opacity:.25,offset:.4},{transform:tr(x+vm,y+vm,1),opacity:.9,offset:.72},{transform:tr(x+2*vm,y+2*vm,1.08),opacity:.7,offset:.83},{transform:tr(x+vm,y+vm,1),opacity:.9,offset:1}],delay,motion);
       }
-      timer=setTimeout(done,4000);
+      timer=effectTimer(done,4000);
       Promise.all(flights).then(()=>{if(closed)return;caption.textContent='';const fade=run(layer,[{opacity:1},{opacity:0}],hold,300);return fade.finished;}).then(done,done);
     }catch(e){console.warn('윷 연출을 생략합니다.',e);done();}
   };
@@ -4672,7 +4960,8 @@ function renderTeamCards(){
       +'<strong>'+escapeHtml(team.name)+'</strong></div>'
       +'<div class="reserve-tokens">'+Array.from({length:team.total},(_,k)=>'<i class="'+(k<team.waiting?'ready':'out')+'">'+charHTML(team.id,26)+'</i>').join('')+'</div>'
       +'<div class="finish-stars">'+Array.from({length:team.total},(_,k)=>'<b class="'+(k<team.finished?'done':'')+'">★</b>').join('')+'</div>'
-      +'<small class="tc-done">완주 '+team.finished+'/'+team.total+'</small>';
+      +'<small class="tc-done">완주 '+team.finished+'/'+team.total+'</small>'
+      +'<small class="tc-compact">대기 '+team.waiting+' · 완주 '+team.finished+'/'+team.total+'</small>';
     card.onclick=()=>{if(fxBusy||!canLaunch)return;/* 말판의 말과 똑같이 — 처음 누르면 고르고, 한 번 더 누르면 간다 */if(pending&&pending.stage==='confirmPiece'&&pending.option&&pending.option.type==='launch')pickPiece({type:'launch'});else selectPiece({type:'launch'});};host.appendChild(card);
   });
   const current=teams[currentTeamIndex];if(current){document.getElementById('turn-banner').style.setProperty('--team',TEAM_COLOR[current.id]);document.getElementById('turnDot').innerHTML=charHTML(current.id,76);}
@@ -4740,6 +5029,7 @@ const TILE_KEYS=['DO','GAE','GEOL','YUT','MO','BACKDO'];
 const TILE_HOTKEY={DO:'1',GAE:'2',GEOL:'3',YUT:'4',MO:'5',BACKDO:'B'};
 
 function canInputResult(){
+  if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || charge) return false;
   return !nakLock && !fxBusy && !gameOver && (!pending || pending.phase==='throwing');
 }
 /* 결과별 윷 막대 모양 (1 = 젖혀짐) */
@@ -4784,7 +5074,7 @@ function inputResult(key){
     placeholder.style.display = "none";
     statusLine.innerHTML = `<strong>${escapeHtml(teams[currentTeamIndex].name)}</strong>: 윷을 던지는 중…`;
     renderTray();
-    if (typeof Sound !== 'undefined') Sound.throwStart(900);
+    if (typeof Sound !== 'undefined') Sound.throwStart(effectMs(900));
     FX.rollSticks(stickEls, sticks, () => { fxBusy = false; applyThrow(key, sticks); });
   } else {
     applyThrow(key, sticks);
@@ -4810,7 +5100,7 @@ function renderTray(){
       +'<small>'+(key==='BACKDO'?'뒤로 1칸':RESULT_STEPS[key]+'칸')+'</small>'
       +'<em>'+(inputMode?'누르면 나와요':(matches.length?matches.length+'개 보유':'대기'))+'</em>';
     b.onclick=()=>{
-      if(fxBusy)return;
+      if(fxBusy||charge||nakLock||document.querySelector('dialog[open]'))return;
       if(canInputResult()){ inputResult(key); return; }
       if(!chosen)return;
       pending.selected=chosen.i;pending.stage='pickPiece';pending.option=null;pending.dest=null;pending.dests=null;
@@ -4826,6 +5116,7 @@ function renderTray(){
    모아 둔 게 없으면 차례가 다음 팀으로 넘어간다.
    되돌리기로 되살릴 수 있다. */
 function canCallNak(){
+  if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || charge) return false;
   return !nakLock && !fxBusy && !gameOver && (!pending || pending.phase === 'throwing');
 }
 function syncNakBtn(){
@@ -4854,7 +5145,7 @@ function callNak(){
     renderTray();            // 도·개·걸·윷·모·빽도를 곧바로 잠근 모습으로 다시 그린다
     updateUndoBtn();
     statusLine.innerHTML = `<strong>${escapeHtml(team.name)}</strong>: 윷을 던지는 중…`;
-    if (typeof Sound !== 'undefined') Sound.throwStart(900);
+    if (typeof Sound !== 'undefined') Sound.throwStart(effectMs(900));
     // 던지기 연출이 끝나도 잠금은 그대로 — 차례가 넘어갈 때 한꺼번에 푼다
     FX.rollSticks(stickEls, [0,1,0,1], () => { finishNak(team, had); }, { nak: true });
   } else {
@@ -4866,7 +5157,7 @@ function callNak(){
 function finishNak(team, had){
   fxBusy = true;             // 안내가 떠 있는 동안에도 계속 잠가 둔다
   nakLock = true;
-  pushUndo(); bumpSerial();
+  pushUndo(); recordThrow('NAK'); bumpSerial();
   cancelAuto();
   clearInteractive();
   throwBtn.disabled = true;
@@ -4889,7 +5180,7 @@ function finishNak(team, had){
   saveGame();
 
   const mySerial = boardSerial;
-  setTimeout(() => {
+  effectTimer(() => {
     // 무슨 일이 있어도 잠금은 반드시 풀린다
     nakLock = false;
     fxBusy = false;
@@ -5042,7 +5333,7 @@ document.addEventListener('fullscreenchange', fitStage);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitStage).catch(()=>{});
 
 const menuDlg=document.getElementById('menuDialog');
-document.getElementById('menuOpenBtn').onclick=()=>menuDlg.showModal();
+document.getElementById('menuOpenBtn').onclick=()=>{if(fxBusy||nakLock)return;cancelCharge(false);syncPlayPrefs();syncMenuFx();menuDlg.showModal();};
 document.getElementById('menuResume').onclick=()=>menuDlg.close();
 document.getElementById('menuRules').onclick=()=>{menuDlg.close();openRules(1);};
 document.getElementById('menuNew').onclick=()=>{menuDlg.close();document.getElementById('newGameBtn').click();};
@@ -5066,7 +5357,9 @@ document.getElementById('screenModeBtn').onclick=()=>{
 function restoreSavedGame() {
   const saved = loadGame();
   if (saved) {
+    matchEpoch++;bumpSerial();
     teams = saved.teams;
+    matchStats = restoreMatchStats(saved.matchStats);
     currentTeamIndex = saved.currentTeamIndex || 0;
     gameOver = !!saved.gameOver;
     pending = saved.pending || null;
@@ -5296,15 +5589,15 @@ const WIN_TUNE   = 4300;   // 팡파르 뒤 승리 가락까지
    빨리감기 — 연출이 도는 동안 아무 데나 누르면 남은 장면을 빠르게 넘긴다
    교실에서 스무 번쯤 보고 나면 연출이 길게 느껴진다.
    ========================================================================= */
-let FAST = 1;                 // 기다리는 시간을 나누는 값
+// FAST는 앞쪽의 진행 속도 설정에서 초기화한다.
 let hurryTimer = null;
 
 function hurryNow() {
-  if (!fxBusy || FAST > 1) return;
+  if (!fxBusy || FAST >= 3) return;
   FAST = 3;
   const boost = () => {
     try {
-      document.getAnimations().forEach((a) => {
+      effectAnimations.forEach((a) => {
         try { if (a.playbackRate < 3) a.playbackRate = 3; } catch (e) {}
       });
     } catch (e) {}
@@ -5320,13 +5613,13 @@ function hurryNow() {
 }
 
 function hurryReset() {
-  FAST = 1;
+  FAST = baseSpeed();
   clearInterval(hurryTimer);
   hurryTimer = null;
 }
 
 /* 연출이 끝나면(fxBusy 가 풀리면) 원래 속도로 돌아간다 */
-setInterval(() => { if (!fxBusy && FAST > 1) hurryReset(); }, 200);
+setInterval(() => { if (!fxBusy && FAST > baseSpeed()) hurryReset(); }, 200);
 
 /* 화면 어디를 눌러도 된다. 소리·전체화면 같은 도구 단추는 빼고 */
 function hurryExempt(t) {
@@ -5419,6 +5712,7 @@ function showWinScreen(team) {
     });
   }
 
+  renderMatchStats();
   host.classList.remove('hidden');
   try { document.getElementById('winAgainBtn').focus(); } catch (e) {}
   try { if (window.FX && FX.confetti) FX.confetti(color); } catch (e) {}
@@ -5429,7 +5723,7 @@ function hideWinScreen() {
   if (host) host.classList.add('hidden');
 }
 
-document.getElementById('winAgainBtn').onclick = () => { hideWinScreen(); startNewGame(); };
+document.getElementById('winAgainBtn').onclick = () => { if(fxBusy)return;const config=teams.map(t=>({...t}));hideWinScreen(); startNewGame(config); };
 document.getElementById('winHomeBtn').onclick = () => {
   hideWinScreen();
   clearSave();
@@ -5442,28 +5736,33 @@ document.getElementById('winUndoBtn').onclick = () => {
 };
 
 async function celebrateWin(team) {
+  const epoch=matchEpoch;
+  const stillCurrent=()=>gameOver && matchEpoch===epoch;
   const color = TEAM_COLOR[team.id];
   const banner = document.getElementById('turn-banner');
   try { Feel.clearHint(); } catch (e) {}
 
   // ① 숨 고르기 — 직전 소리가 끝나길 기다린다
   await wait(WIN_LEAD);
+  if(!stillCurrent())return;
 
   // ② 두구두구… 화면이 서서히 조여든다
   document.body.classList.add('win-rolling');
   if (banner) banner.classList.add('rolling');
-  try { Sound.drumroll(WIN_ROLL); } catch (e) {}
+  try { Sound.drumroll(effectMs(WIN_ROLL)); } catch (e) {}
   await wait(WIN_ROLL);
+  if(!stillCurrent())return;
 
   // ③ 최고점 — 팡파르와 색종이가 '동시에' 터진다
   document.body.classList.remove('win-rolling');
   if (banner) banner.classList.remove('rolling');
+  haptic('win');
   try { Sound.win(); } catch (e) {}
   try { showWinScreen(team); } catch (e) { console.warn(e); }
 
   // ④ 승리 가락은 팡파르가 다 울린 뒤에 (겹치면 둘 다 안 들린다)
-  await wait(WIN_TUNE);
-  if (!gameOver) return;
+  await new Promise(resolve=>setTimeout(resolve,WIN_TUNE));
+  if (!stillCurrent()) return;
   try { Sound.victory(); } catch (e) {}
 }
 window.celebrateWin = celebrateWin;
@@ -5650,6 +5949,183 @@ const TitlePlay = (() => {
   function stop(){ running = false; }
   return { start, stop };
 })();
+
+/* 1차 수정: 시작 선택, 결과별 연출, 단계별 행동 안내. 규칙/이동 계산은 원본 유지. */
+document.getElementById('setupToggle').onclick = () => {
+  const open = !setupScreen.classList.contains('settings-open');
+  setupScreen.classList.toggle('settings-open', open);
+  document.getElementById('setupDetails').classList.toggle('hidden', !open);
+  startBtn.classList.toggle('hidden', !open);
+  const toggle = document.getElementById('setupToggle');
+  toggle.setAttribute('aria-expanded', String(open));
+  toggle.textContent = open ? '⚙ 상세 설정 접기' : '⚙ 상세 설정';
+};
+document.getElementById('quickStartBtn').onclick = async () => {
+  if (loadGame() && !await askYesNo('새 게임을 시작할까요?', '두던 판이 저장돼 있어요. 새로 시작하면 지워집니다.', '새로 시작')) return;
+  setupTeamCount = 2;
+  setupPieceCount = 4;
+  setupOrder = TEAM_PRESET.slice(0, 2).map(t => t.id);
+  RULES.useBackdo = true;
+  RULES.playToEnd = false;
+  RULES.exactFinish = false;
+  syncRuleSwitches();
+  startNewGame();
+};
+
+function showLocalResult(result) {
+  document.querySelectorAll('.local-result').forEach(n => n.remove());
+  const mild = document.body.classList.contains('light-effects') || matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (EXTRA_THROW_RESULTS.has(result)) return;
+  if (result === 'BACKDO') {
+    const notice = document.createElement('div');
+    notice.className = 'local-result';
+    notice.textContent = '빽도 · 뒤로 한 칸';
+    document.getElementById('board-root').appendChild(notice);
+    if (!mild) notice.animate([{opacity:0},{opacity:1,offset:.18},{opacity:1,offset:.8},{opacity:0}], {duration:750});
+    setTimeout(() => notice.remove(), 800);
+  } else if (!mild) {
+    // renderPending가 타일을 다시 만들기 때문에 다음 화면 갱신 때 강조한다.
+    requestAnimationFrame(() => {
+      const tile = document.querySelector('.result-' + result);
+      if (!tile) return;
+      tile.classList.add('just-rolled');
+      setTimeout(() => tile.classList.remove('just-rolled'), 450);
+    });
+  }
+}
+
+function syncActionGuide() {
+  if (!document.body.classList.contains('in-game') || !teams.length) return;
+  const guide = document.getElementById('actionGuide');
+  let action = 'throw', text = '🥢 윷 던지기를 눌렀다 떼세요', detail = '';
+  const team = teams[currentTeamIndex];
+  if (gameOver) { action = 'done'; text = '🏆 경기가 끝났어요'; }
+  else if (charge) { action = 'busy'; text = '👐 손을 떼면 윷을 던져요'; }
+  else if (fxBusy || nakLock) { action = 'busy'; text = '잠깐, 진행 중이에요'; }
+  else if (pending && pending.phase === 'moving') {
+    if (pending.selected === null || pending.selected === undefined) {
+      action = 'result'; text = '① 먼저 사용할 결과를 고르세요';
+    } else {
+      const r = pending.results[pending.selected];
+      if (!r) return;
+      if (pending.stage === 'pickPiece') {
+        action = 'piece'; text = '② ' + LABEL[r.result] + ' · 움직일 말을 고르세요';
+      } else {
+        action = 'destination'; text = '③ 빛나는 도착 칸을 누르세요';
+        const opt = pending.option;
+        if (opt) {
+          const from = opt.type === 'launch' ? START : team.units[opt.unitIndex]?.pos;
+          const dests = pending.stage === 'pickDest' ? pending.dests :
+            r.result === 'BACKDO' ? backwardDestinations(from, trailOf(team, opt)) : forwardDestinations(from, RESULT_STEPS[r.result]);
+          const victims = teams.filter(t => t !== team && t.units.some(u => dests.includes(u.pos)));
+          if (victims.length) detail = victims.map(t => t.name).join('·') + (dests.length > 1 ? '을 잡을 수 있는 길이 있어요! 잡으면 한 번 더' : '을 잡아요! + 한 번 더 던지기');
+          else if (dests.includes(FINISH)) detail = '이동하면 완주해요!';
+          else if (pending.stage === 'pickDest') detail = '뒤로 갈 두 길 중 하나를 고르세요';
+        }
+      }
+    }
+  } else if (throwBtn.disabled) {
+    action = 'busy'; text = '다음 차례로 넘어가는 중이에요';
+  } else if (pending && pending.phase === 'throwing') {
+    text = '🎁 한 번 더! 윷을 던지세요';
+  }
+  gameScreen.dataset.action = action;
+  const markup = escapeHtml(text) + (detail ? '<small>' + escapeHtml(detail) + '</small>' : '');
+  if (guide.innerHTML !== markup) guide.innerHTML = markup;
+  const caption = document.getElementById('trayCaption');
+  caption.textContent = action === 'throw' ? '실제 윷을 던졌다면 아래 결과를 직접 입력' :
+    pending && pending.phase === 'moving' ? '보유한 결과를 선택하거나 바꿀 수 있어요' : '도 · 개 · 걸 · 윷 · 모 · 빽도';
+}
+let guideQueued = false;
+function queueActionGuide() {
+  if (guideQueued) return;
+  guideQueued = true;
+  queueMicrotask(() => { guideQueued = false; syncActionGuide(); });
+}
+for (const name of ['renderState','renderPending','renderTray','updateTurnBanner','startGameScreen',
+  'doThrow','inputResult','applyThrow','beginMovingPhase','finishMove','commitMove','endGame',
+  'startCharge','endCharge','syncNakBtn','undoOnce']) {
+  const original = window[name];
+  if (typeof original === 'function') window[name] = function(...args) {
+    const result = original.apply(this, args);
+    queueActionGuide();
+    if (result && typeof result.then === 'function') result.then(queueActionGuide, queueActionGuide);
+    return result;
+  };
+}
+// Enter/스크린리더의 버튼 활성화는 누르고 떼는 포인터 입력 없이도 동작한다.
+throwBtn.addEventListener('click', e => { if (e.detail === 0 && canCharge()) doThrow(0); });
+window.addEventListener('blur', () => cancelCharge(false));
+document.addEventListener('visibilitychange', () => { if (document.hidden) cancelCharge(false); });
+
+
+/* 2차: 3단계 첫 판 안내 — 실제 판을 진행시키지 않는 설명 화면 */
+const tutorialDlg=document.getElementById('tutorialDialog');
+const tutorialSteps=[
+  {title:'① 윷을 던져요',art:'🖐️ 🥢',text:'윷 던지기를 꾹 눌렀다 떼세요. 누르는 시간은 연출만 바꾸며 결과 확률은 같아요. 실제 윷으로 놀 때는 결과 타일을 눌러 입력할 수 있어요.'},
+  {title:'② 말과 도착 칸을 골라요',art:'🐾 → ✨',text:'보유한 결과를 선택하고, 움직일 말과 빛나는 도착 칸을 누르세요. 고를 것이 하나뿐이면 자동으로 선택돼요. 같은 팀 말에 도착하면 업어서 함께 움직여요.'},
+  {title:'③ 잡고, 한 번 더 던져요',art:'🥢 🎁 🏁',text:'상대 말을 잡거나 윷·모가 나오면 한 번 더 던져요. 내 말을 모두 완주시키면 승리! 메뉴에서 빠른 모드·진동을 켜거나 이 안내를 다시 볼 수 있어요.'}
+];
+let tutorialStep=0;
+function renderTutorial(){
+  const row=tutorialSteps[tutorialStep];
+  document.getElementById('tutorialProgress').textContent=`처음이라면 · ${tutorialStep+1} / 3`;
+  document.getElementById('tutorialTitle').textContent=row.title;
+  document.getElementById('tutorialArt').textContent=row.art;
+  document.getElementById('tutorialBody').textContent=row.text;
+  document.getElementById('tutorialPrev').disabled=tutorialStep===0;
+  document.getElementById('tutorialNext').textContent=tutorialStep===2?'게임 시작':'다음';
+}
+function openTutorial(){
+  if(fxBusy||charge||tutorialDlg.open)return;
+  tutorialStep=0;
+  try{document.getElementById('tutorialDontShow').checked=localStorage.getItem('yut-tutorial-hidden-v2')==='yes';}catch(e){}
+  renderTutorial();tutorialDlg.showModal();document.getElementById('tutorialNext').focus();
+}
+function maybeTutorial(){
+  let hidden=false;try{hidden=localStorage.getItem('yut-tutorial-hidden-v2')==='yes';}catch(e){}
+  if(!hidden)openTutorial();
+}
+function closeTutorial(){
+  try{localStorage.setItem('yut-tutorial-hidden-v2',document.getElementById('tutorialDontShow').checked?'yes':'no');}catch(e){}
+  tutorialDlg.close();
+  if(!gameOver)throwBtn.focus();
+}
+function renderMatchStats(){
+  const host=document.getElementById('matchStats');
+  if(!matchStats)matchStats=newMatchStats(true);
+  const rows=teams.map(t=>({t,s:teamStats(t)}));
+  const total=rows.reduce((n,r)=>n+r.s.throws,0);
+  let html='<h3>📊 이번 경기 기록</h3><div class="stats-scroll" tabindex="0" role="region" aria-label="팀별 경기 기록 표"><table><caption>총 '+total+'번 던졌어요'+(matchStats.partial?' · 이어한 이후 기록':'')+'</caption><thead><tr><th scope="col">팀</th><th scope="col">던짐</th><th scope="col">윷</th><th scope="col">모</th><th scope="col">잡기</th><th scope="col">골인</th><th scope="col">추가</th></tr></thead><tbody>';
+  for(const {t,s} of rows)html+='<tr><th scope="row">'+escapeHtml(t.name)+'</th><td>'+s.throws+'</td><td>'+s.yut+'</td><td>'+s.mo+'</td><td>'+s.captures+'</td><td>'+s.goals+'</td><td>'+s.maxExtra+'</td></tr>';
+  html+='</tbody></table></div><p class="stats-note">잡기: 성공 횟수 · 골인: 말 개수 · 추가: 한 차례에 얻은 최대 추가 던지기 횟수. 던짐에는 낙과 직접 입력도 포함돼요.</p><ul class="match-highlights">';
+  const highlights=[
+    {value:r=>r.s.yut+r.s.mo,label:n=>'윷·모 행운왕 · '+n+'번',emoji:'🥢'},
+    {value:r=>r.s.capturedPieces,label:n=>'잡기 활약 · 상대 말 '+n+'개',emoji:'🎯'},
+    {value:r=>r.s.maxExtra,label:n=>'추가 던지기 최다 · 한 차례 '+n+'번',emoji:'🎁'}
+  ];
+  let count=0;
+  for(const h of highlights){const best=Math.max(...rows.map(h.value));if(!best)continue;
+    const names=rows.filter(r=>h.value(r)===best).map(r=>r.t.name).join(' · ');
+    html+='<li>'+h.emoji+' <strong>'+escapeHtml(names)+'</strong><br>'+h.label(best)+'</li>';count++;
+  }
+  if(!count)html+='<li>🏁 한 걸음씩 완주한 경기였어요!</li>';
+  html+='</ul>';
+  if(matchStats.partial)html+='<p class="stats-note">이전 버전에는 기록이 없어, 이번 버전에서 이어한 이후의 활동만 표시합니다.</p>';
+  host.innerHTML=html;
+}
+document.getElementById('menuNormal').onclick=()=>setPlaySpeed(false);
+document.getElementById('menuFast').onclick=()=>setPlaySpeed(true);
+document.getElementById('menuVibration').onclick=()=>{
+  playPrefs.vibration=!playPrefs.vibration;savePlayPrefs();syncPlayPrefs();
+  if(playPrefs.vibration)haptic('release');else try{navigator.vibrate(0);}catch(e){}
+};
+document.getElementById('menuTutorial').onclick=()=>{menuDlg.close();openTutorial();};
+document.getElementById('tutorialNext').onclick=()=>{if(tutorialStep===2)closeTutorial();else{tutorialStep++;renderTutorial();}};
+document.getElementById('tutorialPrev').onclick=()=>{if(tutorialStep>0){tutorialStep--;renderTutorial();}};
+document.getElementById('tutorialSkip').onclick=closeTutorial;
+tutorialDlg.addEventListener('cancel',e=>{e.preventDefault();closeTutorial();});
+syncPlayPrefs();
 
 loadLook();      // 지난번에 고른 동물·색을 되살린다
 /* 시작 화면이 보일 때만 돌린다 (게임 중에는 쉰다) */
