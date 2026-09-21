@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>K 윷놀이40 · 2차 수정</title>
+<title>K 윷놀이42 · 규칙과 조작 개선</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Gugi&family=Poor+Story&family=Single+Day&display=swap" rel="stylesheet">
@@ -1026,36 +1026,13 @@ body.in-game .team-card.card-chosen .reserve-tokens i:not(.out){
 /* ═══════════════════════════════════════════════════════════
    대기소에서 날아오는 말 — 망토를 두른 슈퍼맨
    ═══════════════════════════════════════════════════════════ */
-/* 날아올 때만 평소보다 크게 (망토가 보이려면 자리가 필요하다) */
-.fly-token.hero{width:calc(62px * var(--stage,1));height:calc(62px * var(--stage,1));
-  overflow:visible;background:none;border:0;box-shadow:none}
-.fly-token.hero .team-char{position:relative;z-index:2;width:100%;height:100%;
-  background:#fff2dc;border:calc(3.5px * var(--stage,1)) solid var(--team);
-  border-radius:50%;box-shadow:0 7px 16px #0006}
-/* 망토 — 몸 뒤에서 물결치며 길게 흐른다 */
-.fly-token.hero .cape-wrap{position:absolute;z-index:1;right:44%;top:-34%;
-  width:158%;height:168%;pointer-events:none}
-.fly-token.hero .cape-wrap svg{width:100%;height:100%;overflow:visible;display:block}
-.fly-token.hero .cape-p{fill:var(--team);stroke:#00000033;stroke-width:2;
-  stroke-linejoin:round;filter:drop-shadow(0 4px 7px #0005);
-  transform-box:fill-box;transform-origin:100% 50%;
-  animation:capeFlap .3s ease-in-out infinite alternate}
-@keyframes capeFlap{
-  from{transform:rotate(-7deg) scaleY(.88) scaleX(.96)}
-  to  {transform:rotate(8deg)  scaleY(1.12) scaleX(1.04)}
-}
-/* 앞으로 쭉 뻗은 주먹 */
-.fly-token.hero .fist{position:absolute;z-index:3;
-  left:74%;top:8%;width:42%;height:42%;border-radius:50%;
-  background:#fff2dc;border:calc(2.5px * var(--stage,1)) solid var(--team);
-  box-shadow:0 4px 9px #0005}
-/* 왼쪽으로 날아갈 때는 좌우를 바꾼다 */
-.fly-token.hero.hero-left .cape-wrap{right:auto;left:44%;transform:scaleX(-1)}
-.fly-token.hero.hero-left .fist{left:auto;right:74%}
-/* 지나간 자리에 남는 속도선 */
-.hero-streak{position:fixed;z-index:9399;pointer-events:none;height:5px;border-radius:99px;
-  background:linear-gradient(90deg,#ffffff00,var(--team));opacity:.55}
-.light-effects .fly-token.hero .cape-p{animation:none}
+/* 넓은 천 한 장이 어깨 뒤에서 흐르는 비행 복장. 천 모양은 비행 프레임마다 갱신한다. */
+.fly-token.hero{width:calc(88px * var(--stage,1));height:calc(70px * var(--stage,1));overflow:visible;background:none;border:0;box-shadow:none}
+.fly-token.hero .hero-rig{width:100%;height:100%;overflow:visible;transform-origin:center;filter:drop-shadow(0 5px 4px #0005)}
+.fly-token.hero.hero-left .hero-rig{transform:scaleX(-1)}
+.hero-cloth{fill:#df334b;stroke:#7f2039;stroke-width:2.2;stroke-linejoin:round}
+.hero-fold{fill:#ff7180;opacity:.72;stroke:none}.hero-hem{fill:none;stroke:#ffb0a5;stroke-width:2;opacity:.8;stroke-linecap:round}
+.hero-streak{position:fixed;z-index:9399;pointer-events:none;height:4px;border-radius:99px;background:linear-gradient(90deg,#ffffff00,var(--team));opacity:.45}
 
 /* 뻥! 하는 충격 글자 */
 .kick-bang{font:900 30px var(--display),sans-serif;fill:#fff3d0;
@@ -1163,6 +1140,35 @@ body.in-game .nak-btn .tile-key{font-size:13px}
 .stats-note{font-size:12px;color:#d1c3dc;margin:8px 0 0}
 :focus-visible{outline:3px solid #51d8ff;outline-offset:3px}
 @media(orientation:portrait){.menu-dialog{width:94vw;max-width:520px}.menu-dialog .menu-grid{grid-template-columns:1fr;padding:12px 20px 24px;gap:15px}.menu-dialog .menu-col{min-width:0}.menu-note{max-width:none}#winScreen .win-card{padding:14px 14px 20px}#winScreen .win-actions{bottom:-20px;padding-bottom:20px}.match-stats table{font-size:13px}.phase2-dialog{transform:none}}
+
+
+/* 3차: 컴퓨터 대전과 꾸미기 */
+.quick-entry #cpuStartBtn{background:linear-gradient(#88e3d4,#2ba99a);color:#102f35;box-shadow:0 5px #156a66}
+.quick-entry #appearanceOpenBtn{background:#4d357d;color:#fff;box-shadow:0 4px #211337}
+.cpu-difficulty{display:flex;gap:10px;align-items:center;flex-wrap:wrap;font-weight:800;margin:14px 0 5px}
+.cpu-difficulty select,.controller-select{border:1px solid #baa4d6;border-radius:10px;background:#2a1949;color:#fff;font:700 16px var(--body);padding:8px;min-height:42px;max-width:100%}
+.controller-label{display:flex;flex-direction:column;gap:4px;font-size:13px;text-align:center;color:#e5d9f2}
+.cpu-tag{font-size:12px;color:#ffe18c;white-space:nowrap;margin-left:4px}
+body.cpu-turn #throwBtn{opacity:.7;cursor:wait}
+body.cpu-turn #board-root .piece,body.cpu-turn #board-root .move-hint,body.cpu-turn .result-tile,body.cpu-turn .team-card{cursor:default}
+.cpu-resume{grid-column:2;grid-row:2;z-index:4;justify-self:end;align-self:center;border:2px solid #ffd56f;border-radius:12px;padding:8px 12px;background:#4a306f;color:#fff;font:800 15px var(--body);cursor:pointer}
+.appearance-dialog{width:min(650px,94vw);max-height:90dvh}
+.appearance-dialog p{min-height:0;font-size:14px;margin:8px 0 16px}
+.appearance-dialog h3{font-size:18px;margin:18px 0 9px}
+.theme-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.theme-choice,.animal-choice,.appearance-team{border:2px solid #d8c5df;border-radius:13px;background:#fff;color:#483258;font:800 16px var(--body);padding:10px;cursor:pointer}
+.theme-choice[aria-pressed=true],.animal-choice[aria-pressed=true],.appearance-team[aria-pressed=true]{border-color:#674494;background:#eee3ff;box-shadow:0 0 0 2px #67449433}
+.theme-swatch{display:block;height:46px;border-radius:8px;margin-bottom:7px;border:1px solid #0002}
+.appearance-teams{display:flex;flex-wrap:wrap;gap:6px}.appearance-team{font-size:14px;padding:8px 10px}
+.animal-choices{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-top:12px}
+.animal-choice svg{display:block;width:50px;height:50px;margin:0 auto 3px}.animal-choice small{display:block;font-size:11px;color:#776180;min-height:17px}
+body[data-board-theme=moon]{background:#171c38!important;background-image:radial-gradient(ellipse at 10% 10%,#4d5079,transparent 65%)!important}
+body[data-board-theme=picnic]{background:#234c45!important;background-image:radial-gradient(ellipse at 20% 10%,#5e9275,transparent 65%)!important}
+body[data-board-theme=moon] #board-root{--theme-node:#f1eeff;--theme-edge:#9faadf;box-shadow:0 0 25px #b9a0eb33}
+body[data-board-theme=picnic] #board-root{--theme-node:#fff9e9;--theme-edge:#84a87a;box-shadow:0 0 25px #b9e2ae33}
+body[data-board-theme=moon] #board-root svg>circle,body[data-board-theme=picnic] #board-root svg>circle{fill:var(--theme-node);stroke:var(--theme-edge)}
+body[data-board-theme=moon] #board-root svg>line,body[data-board-theme=picnic] #board-root svg>line{stroke:var(--theme-edge);stroke-width:5;stroke-opacity:.7}
+@media(orientation:portrait){.cpu-resume{position:fixed;right:12px;bottom:90px;width:auto!important;max-width:220px!important;z-index:8000}.quick-entry{gap:10px}.animal-choice{font-size:14px;padding:7px 3px}.appearance-dialog{padding:18px}.theme-choice{font-size:14px;padding:8px 5px}}
 
 </style>
 <style id="revision-one-layout">
@@ -1289,7 +1295,19 @@ body.in-game .result-tile.just-rolled{animation:resultPop .42s ease-out;opacity:
   html body.in-game #resultTray,html body.no-backdo.in-game #resultTray{grid-template-columns:repeat(3,minmax(0,1fr))}
 }
 </style>
-</head>
+<style id="revision-three-layout">
+body:not(.in-game) #setupScreen.settings-open #cpuStartBtn{display:none}
+body:not(.in-game) #setupScreen.settings-open #appearanceOpenBtn{font-size:23px;padding:10px 24px}
+.cpu-resume{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);width:max-content!important;max-width:90vw!important;z-index:8500}
+@media(orientation:portrait){.cpu-resume{left:auto;right:12px;bottom:90px;transform:none}.quick-entry #appearanceOpenBtn,.quick-entry #setupToggle{width:calc(50% - 6px);font-size:18px!important;padding:14px 6px!important}}
+</style><style id="revision-42">
+#board-root .piece.threatened{transform-box:fill-box;transform-origin:center;animation:threatShake .38s ease-in-out infinite!important;filter:drop-shadow(0 0 8px #ff493dcc)!important}
+@media(prefers-reduced-motion:reduce){#board-root .piece.threatened{animation:none!important;filter:drop-shadow(0 0 8px #ff493dcc)!important}}
+.result-tile.manual-locked{opacity:.55;filter:saturate(.35);cursor:help;box-shadow:none}
+#nakBtn.manual-locked{opacity:.5;filter:saturate(.2);cursor:help}
+.input-notice{position:fixed;left:50%;bottom:28px;transform:translateX(-50%);z-index:12000;width:min(540px,90vw);padding:15px 20px;border:2px solid #ffdb78;border-radius:16px;background:#24183eed;color:#fff3cb;font:800 17px/1.6 var(--body);text-align:center;pointer-events:none;box-shadow:0 8px 24px #0005}
+#cpuRulesDialog p{min-height:0}#cpuRulesDialog strong{color:#6b3c96}
+</style></head>
 <body>
 <div class="page">
   <header>
@@ -1303,21 +1321,39 @@ body.in-game .result-tile.just-rolled{animation:resultPop .42s ease-out;opacity:
 <div class="setup" id="setupScreen">
   <div class="welcome-title"><span class="play-stage" id="playL"></span><h2 id="titleWord"><i>윷</i><i>놀</i><i>이</i></h2><span class="play-stage" id="playR"></span><p>우리 가족 윷놀이 한 판!</p></div>
   <div class="quick-entry">
-    <p>2팀 · 말 4개 · 빽도 사용</p>
+    <p>함께 놀거나, 컴퓨터와 한 판!</p>
     <button type="button" id="quickStartBtn">🎉 빠른 시작</button>
+    <button type="button" id="cpuStartBtn">🤖 컴퓨터와 시작</button>
+    <button type="button" id="appearanceOpenBtn">🎨 말판·캐릭터</button>
     <button type="button" id="setupToggle" aria-expanded="false" aria-controls="setupDetails">⚙ 상세 설정</button>
   </div>
   <div class="welcome-grid hidden" id="setupDetails">
     <section class="welcome-card welcome-teams">
       <div class="welcome-options"><div><b>👨‍👩‍👧‍👦 팀 수</b><div class="choices" id="teamCountChoices"></div></div><div><b>🎲 말 개수</b><div class="choices" id="pieceCountChoices"></div></div></div>
+      <label class="cpu-difficulty">컴퓨터 실력 <select id="setupDifficulty"><option value="easy">쉬움 · 자유롭게 선택</option><option value="normal" selected>보통 · 잡기와 완주 우선</option></select></label>
       <div class="name-rows" id="nameRows"></div>
-      <p class="team-hint">🖐️ 동그라미를 누르면 동물이, 아래 막대를 누르면 색이 바뀌어요</p><div class="welcome-order"><b>먼저 시작할 팀부터 차례로 눌러주세요</b><div class="order-hint" id="orderHint"></div><div class="order-teams" id="orderTeams"></div><button type="button" id="resetOrderBtn">순서 다시 정하기</button></div>
+      <p class="team-hint">🖐️ 동그라미에서 캐릭터를 고르고, 아래 막대에서 색을 바꿔요</p><div class="welcome-order"><b>먼저 시작할 팀부터 차례로 눌러주세요</b><div class="order-hint" id="orderHint"></div><div class="order-teams" id="orderTeams"></div><button type="button" id="resetOrderBtn">순서 다시 정하기</button></div>
     </section>
     <section class="welcome-card welcome-rules"><h3>📜 규칙</h3><button type="button" class="rule-row rule-switch" id="ruleBackdo" role="switch" aria-checked="true">빽도 사용 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleExact" role="switch" aria-checked="false">참먹이에 딱 서도 골인 <span class="sw"></span></button><button type="button" class="rule-row rule-switch" id="ruleToEnd" role="switch" aria-checked="false">끝까지 순위 가리기 <span class="sw"></span></button><div class="rule-row">모아둔 결과 <b>순서 선택</b></div><div class="rule-row">같은 팀 말 업기 <b>자동</b></div><div class="rule-row">윷·모 또는 상대 말 잡기 <b>한 번 더</b></div><h3>✨ 화면 효과</h3><div class="effect-options"><button type="button" id="richFx" aria-pressed="true">✨ 화려하게</button><button type="button" id="lightFx" aria-pressed="false">가볍게</button></div></section>
   </div>
   <div class="welcome-actions"><button type="button" id="rulesOpenBtn">📖 규칙 보기</button><button class="start-btn hidden" id="startBtn" disabled>🎉 이 설정으로 시작!</button><button type="button" id="resumeBtn">▶ 이어하기</button></div>
   <p class="welcome-tip">팀과 말 개수를 정하고, 시작 순서를 골라주세요.</p>
 </div>
+<div id="manualInputNotice" class="input-notice hidden" role="status" aria-live="polite" aria-atomic="true"></div>
+<dialog id="cpuRulesDialog" class="phase2-dialog" aria-labelledby="cpuRulesTitle">
+ <h2 id="cpuRulesTitle">🤖 컴퓨터 대전 안내</h2>
+ <p>내 차례에는 <strong>‘윷 던지기’ 버튼을 눌렀다 떼세요.</strong></p>
+ <p>공정한 대전을 위해 도·개·걸·윷·모·빽도 결과를 직접 입력하거나 ‘낙’을 지정할 수 없어요. 사람과 컴퓨터 모두 같은 확률로 던집니다.</p>
+ <p>던진 뒤 <strong>보유한 결과와 움직일 말을 고르는 것</strong>은 그대로 할 수 있어요.</p>
+ <div class="tutorial-actions"><button type="button" id="cpuRulesOkay" class="primary">알겠어요 · 시작</button></div>
+</dialog>
+<dialog id="appearanceDialog" class="phase2-dialog appearance-dialog" aria-labelledby="appearanceTitle">
+ <h2 id="appearanceTitle">🎨 말판과 캐릭터</h2><p class="appearance-intro">꾸미기는 경기 중에도 바꿀 수 있어요.</p>
+ <h3>말판 분위기</h3><div id="themeChoices" class="theme-choices"></div>
+ <h3>우리 팀 캐릭터</h3><div id="appearanceTeams" class="appearance-teams"></div><div id="animalChoices" class="animal-choices"></div>
+ <p class="appearance-note">다른 팀이 쓰는 캐릭터는 표시돼요. 선택하면 두 팀의 캐릭터를 서로 바꿉니다.</p>
+ <div class="tutorial-actions"><button type="button" id="appearanceDone" class="primary">완료</button></div>
+</dialog>
 <dialog id="tutorialDialog" class="phase2-dialog" aria-labelledby="tutorialTitle" aria-describedby="tutorialBody">
   <div id="tutorialProgress" class="tutorial-progress"></div>
   <h2 id="tutorialTitle"></h2>
@@ -1341,6 +1377,7 @@ body.in-game .result-tile.just-rolled{animation:resultPop .42s ease-out;opacity:
     <div id="turn-banner" class="turn-banner"><span class="turn-dot" id="turnDot"></span><span id="turnText"></span></div>
     <div id="board-root"></div>
     <div id="festivalScore" class="festival-score"></div>
+    <button type="button" id="cpuResumeBtn" class="cpu-resume hidden">▶ 컴퓨터 진행 계속</button>
     <div class="action-guide" id="actionGuide" role="status" aria-live="polite" aria-atomic="true"></div>
     <div class="status-line" id="statusLine"></div>
 
@@ -1383,6 +1420,8 @@ body.in-game .result-tile.just-rolled{animation:resultPop .42s ease-out;opacity:
       <div class="menu-grid">
         <div class="menu-col">
           <button id="menuResume" class="menu-main">▶ 계속하기</button>
+          <button id="menuAppearance" class="menu-sub">🎨 말판·캐릭터</button>
+          <button id="menuCpuPause" class="menu-sub hidden">⏸ 컴퓨터 잠시 멈춤</button>
           <button id="menuTutorial" class="menu-sub">💡 3단계 안내</button>
           <button id="menuRules" class="menu-sub">📖 규칙 보기</button>
           <button id="menuNew" class="menu-sub">🔄 새 게임</button>
@@ -1951,7 +1990,7 @@ const DIAG_B_NEXT = { B1:"B2", B2:CENTER, B3:"B4", B4:0 };      // B4 다음도 
 
 const PREV = {};
 for (let i = 2; i <= 19; i++) PREV[i] = i - 1;
-PREV[1] = WAIT;
+PREV[1] = 0; // 도 자리의 빽도는 대기소가 아닌 참먹이에 머문다.
 PREV[0] = 19;
 PREV[15] = 14;
 PREV["A1"] = 5;  PREV["A2"] = "A1"; PREV["A3"] = CENTER; PREV["A4"] = "A3";
@@ -2103,6 +2142,7 @@ function forwardPath(start, steps) {
    말이 지나온 길을 적어 두었으면 묻지 않고 그 칸으로 돌아간다.
    (적어 둔 게 없을 때만 — 옛 저장본 등 — PREV 표를 쓴다) */
 function backwardDestinations(pos, trail) {
+  if (pos === 1) return [0]; // 옛 저장본의 이동 이력과 관계없이 참먹이로 이동
   if (trail && trail.length) return [trail[trail.length - 1]];
   if (PREV_CHOICES[pos]) return PREV_CHOICES[pos].slice();
   if (!(pos in PREV)) return [];
@@ -2300,6 +2340,7 @@ function updateUndoBtn() {
   b.title = undoStack.length ? '한 걸음 전으로 되돌리기' : '더 되돌릴 게 없어요';
 }
 function undoOnce() {
+  if(teams.some(t=>t.controller==='cpu')){cpuPaused=true;cpuDue=0;cpuSignature='';}
   const b = document.getElementById('undoBtn');
   if (fxBusy) return;
   if (!undoStack.length) {
@@ -2352,7 +2393,7 @@ function undoOnce() {
 function saveGame() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats,
+      teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats, matchOptions,
       rules: { useBackdo: RULES.useBackdo, playToEnd: RULES.playToEnd, exactFinish: RULES.exactFinish },
       undo: undoStack.slice(-SAVE_UNDO_MAX),   // 되돌리기 기록도 함께 (최근 30걸음)
     }));
@@ -2425,6 +2466,12 @@ function clearSave() {
 /* =========================================================================
    5) 시작 화면
    ========================================================================= */
+const setupControllers={blue:'human',red:'human',yellow:'human',black:'human'};
+let setupDifficulty='normal';
+let matchOptions={difficulty:'normal'};
+let cpuActing=false, cpuPaused=false, cpuDue=0, cpuSignature='';
+let boardTheme='classic', appearanceTeam='blue';
+try{const t=localStorage.getItem('yut-board-theme-v3');if(['classic','moon','picnic'].includes(t))boardTheme=t;}catch(e){}
 let setupTeamCount = 2;
 let setupPieceCount = 4;
 let setupOrder = [];  // 팀 id 순서
@@ -2482,7 +2529,7 @@ function buildSetup() {
     avatar.innerHTML=charHTML(t.id,62);
     avatar.title='다른 동물로 바꾸기';
     avatar.setAttribute('aria-label', nameOf(t.id)+' 동물 바꾸기');
-    avatar.onclick=()=>{ cycleAnimal(t.id); buildSetup(); if(typeof Sound!=='undefined') Sound.tap(); };
+    avatar.onclick=()=>openAppearance(t.id);
     row.appendChild(avatar);
     // 색 동그라미를 누르면 다음 색으로
     const sw = document.createElement("button");
@@ -2508,6 +2555,10 @@ function buildSetup() {
     };
     row.appendChild(sw);
     row.appendChild(input);
+    const controlLabel=document.createElement('label');controlLabel.className='controller-label';controlLabel.textContent='누가 둘까요?';
+    const control=document.createElement('select');control.className='controller-select';control.setAttribute('aria-label',nameOf(t.id)+' 조작 방식');
+    control.innerHTML='<option value="human">사람</option><option value="cpu">컴퓨터</option>';control.value=setupControllers[t.id]||'human';
+    control.onchange=()=>{setupControllers[t.id]=control.value==='cpu'?'cpu':'human';buildSetup();};controlLabel.appendChild(control);row.appendChild(controlLabel);
     const reserve=document.createElement('div');reserve.className='setup-reserve';
     reserve.innerHTML=Array.from({length:setupPieceCount},()=>'<i>'+charHTML(t.id,22)+'</i>').join('');row.appendChild(reserve);
     nr.appendChild(row);
@@ -2515,7 +2566,9 @@ function buildSetup() {
 
   renderOrderTeams();
 
-  startBtn.disabled = setupOrder.length !== setupTeamCount;
+  const hasHuman=TEAM_PRESET.slice(0,setupTeamCount).some(t=>setupControllers[t.id]!=='cpu');
+  startBtn.disabled = setupOrder.length !== setupTeamCount || !hasHuman;
+  if(!hasHuman)document.getElementById('orderHint').textContent='사람 팀을 한 팀 이상 골라주세요.';
 }
 
 function renderOrderTeams() {
@@ -2543,12 +2596,13 @@ function escapeHtml(s) {
 }
 
 function startNewGame(rematchTeams) {
-  cancelAuto();bumpSerial();matchEpoch++;hurryReset();
+  cancelAuto();bumpSerial();matchEpoch++;hurryReset();resetCpu();
+  if(!Array.isArray(rematchTeams))matchOptions={difficulty:setupDifficulty};
   cancelCharge(false);fxBusy=false;nakLock=false;gameScreen.inert=false;
   hideWinScreen();document.body.classList.remove('win-rolling');
   const banner=document.getElementById('turn-banner');banner.classList.remove('won','rolling');
-  teams = Array.isArray(rematchTeams) ? rematchTeams.map(t=>({id:t.id,name:t.name,total:t.total,waiting:t.total,finished:0,units:[]})) : setupOrder.map((id) => {
-    return { id, name: nameOf(id), total: setupPieceCount, waiting: setupPieceCount, finished: 0, units: [] };
+  teams = Array.isArray(rematchTeams) ? rematchTeams.map(t=>({id:t.id,name:t.name,total:t.total,waiting:t.total,finished:0,units:[],controller:t.controller==='cpu'?'cpu':'human'})) : setupOrder.map((id) => {
+    return { id, name: nameOf(id), total: setupPieceCount, waiting: setupPieceCount, finished: 0, units: [],controller:setupControllers[id]==='cpu'?'cpu':'human' };
   });
   currentTeamIndex = 0;
   gameOver = false;
@@ -2564,7 +2618,7 @@ function startNewGame(rematchTeams) {
   document.getElementById('placeholder').style.display='';
   statusLine.innerHTML='🥢 <strong>'+escapeHtml(teams[0].name)+'</strong>: 윷 던지기를 눌렀다 떼세요.';
   saveGame();
-  maybeTutorial();
+  if(hasCpuOpponent())openCpuRules();else maybeTutorial();
 }
 startBtn.onclick = startNewGame;
 
@@ -2594,6 +2648,7 @@ function waitBoxFor(i) {
 }
 
 function decorateBoard(){
+  if(boardTheme!=='classic'){decorateThemeBoard();return;}
   const art=el('g',{'pointer-events':'none',class:'board-art'});
   art.innerHTML=`<defs>
     <linearGradient id="boardCream" x2="1" y2="1"><stop stop-color="#fff8de"/><stop offset="1" stop-color="#e6c693"/></linearGradient>
@@ -2919,7 +2974,7 @@ function drawMoveHints(team, options, result, opts) {
       }
 
       // 2) 도착 칸 표시 — 칸 위에 동그란 표지판이 뜨고, 아래로 화살대가 내려와 칸을 가리킨다
-      const g = el("g", { class: "hint-dest" + (willCapture ? " capture" : "") });
+      const g = el("g", { class: "hint-dest" + (willCapture ? " capture" : ""), "data-dest":String(dest) });
       const signY = p.y - 62;
 
       // 칸을 감싸는 빛나는 테두리
@@ -3059,6 +3114,7 @@ let charge = null;             // 지금 누르고 있는 중인지
 let lastThrowPower = 1;        // 마지막으로 던진 힘 (연출에 쓰임)
 
 function canCharge(){
+  if(isCpuTurn())return false;
   if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]')) return false;
   if (gameOver || fxBusy || charge) return false;
   if (typeof nakLock !== 'undefined' && nakLock) return false;   // 낙이 끝날 때까지 못 던진다
@@ -3142,6 +3198,7 @@ document.addEventListener('keyup', (e) => {
 });
 
 function doThrow(power){
+  if(isCpuTurn()&&!cpuActing)return;
   if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || nakLock) return;
   if (gameOver || fxBusy) return;
   if (pending && pending.phase !== "throwing") return;
@@ -3391,6 +3448,7 @@ function markPieceNodes(team, options, onClick, mark) {
 
 /* 말을 고르기만 한다 — 이때 비로소 그 말의 길이 보인다 */
 function selectPiece(opt) {
+  if(isCpuTurn()&&!cpuActing)return;
   if (fxBusy || !pending || pending.phase !== "moving") return;
   cancelAuto();
   pending.option = opt;
@@ -3402,6 +3460,7 @@ function selectPiece(opt) {
 }
 
 function pickPiece(opt) {
+  if(isCpuTurn()&&!cpuActing)return;
   const team = teams[currentTeamIndex];
   const result = pending.results[pending.selected].result;
   const steps = RESULT_STEPS[result];
@@ -3424,6 +3483,7 @@ function pickPiece(opt) {
 }
 
 function pickDest(dest) {
+  if(isCpuTurn()&&!cpuActing)return;
   const team = teams[currentTeamIndex];
   pending.dest = dest;
 
@@ -3438,6 +3498,7 @@ function pickDest(dest) {
 
 
 async function finishMove(carry) {
+  if(isCpuTurn()&&!cpuActing)return;
   if (fxBusy || !pending) return;
   const mySerial = boardSerial;
   fxBusy = true;
@@ -3466,7 +3527,7 @@ function commitMove(carry) {
     movingCount = 1;
     team.waiting -= 1;
     // 대기소에서 나온 말 — 출발 칸(0)은 적지 않는다.
-    // 적어 둔 게 없으면 1번 칸에서 빽도가 나왔을 때 대기소로 돌아간다.
+    // 1번 칸에서 빽도가 나오면 참먹이(0)에 머문다.
     movingTrail = forwardPath(START, steps).slice(0, -1);
   } else {
     const unit = team.units[option.unitIndex];
@@ -3656,7 +3717,7 @@ function updateTurnBanner() {
   if (gameOver) return;
   const team = teams[currentTeamIndex];
   document.getElementById("turnDot").style.background = TEAM_COLOR[team.id];
-  document.getElementById("turnText").textContent = `${team.name} 차례`;
+  document.getElementById("turnText").textContent = `${team.name}${team.controller==='cpu'?' · 컴퓨터':''} 차례`;
   // 말판 테두리도 같은 색으로 숨 쉬게 — 판만 보고 있어도 누구 차례인지 안다
   try { document.body.style.setProperty("--turn", TEAM_COLOR[team.id]); } catch (e) {}
 }
@@ -3889,6 +3950,7 @@ const Festival = (() => {
   }
 
   async function flyFromReserve(team){
+    let fly=null;
     try{
       const card=document.querySelector(`.team-card[data-team="${team.id}"]`)
                 || document.querySelectorAll('.team-card')[teams.indexOf(team)];
@@ -3902,15 +3964,10 @@ const Festival = (() => {
       const m=svg.getScreenCTM();if(!m)return;
       const to=pt.matrixTransform(m);
 
-      const fly=document.createElement('div');
+      fly=document.createElement('div');
       fly.className='fly-token hero';
-      /* 망토 + 앞으로 뻗은 주먹을 달아 슈퍼맨처럼 날아온다 */
-      fly.innerHTML =
-        `<span class="cape-wrap"><svg viewBox="-62 -34 70 68" aria-hidden="true">` +
-        `<path class="cape-p" d="M-4 -22 C -26 -34 -48 -28 -58 -14 C -44 -16 -36 -8 -44 2 ` +
-        `C -30 -2 -20 4 -26 16 C -12 10 -6 14 -2 22 Z"/></svg></span>` +
-        charHTML(team.id,34) +
-        `<span class="fist"></span>`;
+      fly.innerHTML=heroFlightMarkup(team.id);
+      const cape=fly.querySelector('.hero-cloth'),fold=fly.querySelector('.hero-fold'),hem=fly.querySelector('.hero-hem'),capeClip=fly.querySelector('.hero-clip');
       fly.style.setProperty('--team',TEAM_COLOR[team.id]);
       fly.style.left=(from.left+from.width/2)+'px';
       fly.style.top=(from.top+from.height/2)+'px';
@@ -3943,7 +4000,7 @@ const Festival = (() => {
         return {x:a*P0.x+b*P1.x+c*P2.x+d*P3.x, y:a*P0.y+b*P1.y+c*P2.y+d*P3.y};
       };
 
-      const DUR = 840;
+      const DUR = 1150;
       if(typeof Sound!=='undefined'&&Sound.whoosh)Sound.whoosh();
       let lastStreak = 0;
       await new Promise(done=>{
@@ -3955,10 +4012,12 @@ const Festival = (() => {
           const pnow = bez(e);
           const pnext = bez(Math.min(1,e+0.02));
           const ang = Math.atan2(pnext.y-pnow.y, pnext.x-pnow.x)*180/Math.PI;
-          // 가는 쪽을 보고, 그 방향으로 몸을 눕힌다
+          const cloth=heroCapeShape((now-at)*baseSpeed()/1000);
+          cape.setAttribute('d',cloth.cloth);capeClip.setAttribute('d',cloth.cloth);fold.setAttribute('d',cloth.fold);hem.setAttribute('d',cloth.hem);
+          // 몸 전체가 방향을 바꾸고, 망토는 항상 등 뒤로 흐른다
           const goingLeft = (pnext.x-pnow.x) < 0;
           fly.classList.toggle('hero-left', goingLeft);
-          const tilt = goingLeft ? (180-ang) : ang;          // 뒤집힌 겹에서는 각도도 뒤집는다
+          const tilt = goingLeft ? (ang>0?ang-180:ang+180) : ang;          // 뒤집힌 겹에서는 각도도 뒤집는다
           const sc = 0.55 + 0.75*Math.sin(Math.PI*Math.min(1,r*1.08));   // 떴다가 내려앉으며 작아짐
           fly.style.transform =
             `translate(-50%,-50%) translate(${(pnow.x-fx).toFixed(1)}px,${(pnow.y-fy).toFixed(1)}px) `+
@@ -3991,6 +4050,7 @@ const Festival = (() => {
       if(typeof Sound!=='undefined')Sound.step();
       fly.remove();
     }catch(e){ /* 효과 실패는 게임에 영향 없음 */ }
+    finally{if(fly)fly.remove();}
   }
 
   async function travel(team,option,dest,result) {
@@ -4951,13 +5011,13 @@ function renderTeamCards(){
     const card=document.createElement('button');card.type='button';card.className='team-card'+(i===currentTeamIndex?' active':'');card.dataset.team=team.id;card.style.setProperty('--team',TEAM_COLOR[team.id]);
     /* 대기소는 말을 고르는 중(pickPiece)에도, 이미 고른 뒤(confirmPiece)에도 누를 수 있다 */
     const stageOK=pending&&pending.phase==='moving'&&(pending.stage==='pickPiece'||pending.stage==='confirmPiece');
-    const canLaunch=!fxBusy&&!gameOver&&i===currentTeamIndex&&stageOK&&pending.selected!==null&&getMovableOptions(team,pending.results[pending.selected].result).some(o=>o.type==='launch');
+    const canLaunch=!isCpuTurn()&&!fxBusy&&!gameOver&&i===currentTeamIndex&&stageOK&&pending.selected!==null&&getMovableOptions(team,pending.results[pending.selected].result).some(o=>o.type==='launch');
     const isChosen=!!(canLaunch&&pending.stage==='confirmPiece'&&pending.option&&pending.option.type==='launch');
     card.disabled=!canLaunch;card.classList.toggle('can-launch',canLaunch&&!isChosen);card.classList.toggle('card-chosen',isChosen);
     card.setAttribute('aria-label',team.name+' 대기 말 '+team.waiting+'개, 완주 '+team.finished+'개'+(canLaunch?', 새 말 출발':''));
     card.innerHTML=
       '<div class="tc-head"><div class="team-avatar">'+charHTML(team.id,44)+'</div>'
-      +'<strong>'+escapeHtml(team.name)+'</strong></div>'
+      +'<strong>'+escapeHtml(team.name)+(team.controller==='cpu'?'<span class="cpu-tag">🤖</span>':'')+'</strong></div>'
       +'<div class="reserve-tokens">'+Array.from({length:team.total},(_,k)=>'<i class="'+(k<team.waiting?'ready':'out')+'">'+charHTML(team.id,26)+'</i>').join('')+'</div>'
       +'<div class="finish-stars">'+Array.from({length:team.total},(_,k)=>'<b class="'+(k<team.finished?'done':'')+'">★</b>').join('')+'</div>'
       +'<small class="tc-done">완주 '+team.finished+'/'+team.total+'</small>'
@@ -4988,7 +5048,7 @@ function renderLeftoverYut(){
   title.textContent='남은 윷 '+list.length+'개';
   host.appendChild(title);
 
-  const canPick = !fxBusy && !gameOver && pending.phase==='moving';
+  const canPick = !isCpuTurn() && !fxBusy && !gameOver && pending.phase==='moving';
 
   list.forEach(r=>{
     const b=document.createElement('button');
@@ -5000,7 +5060,7 @@ function renderLeftoverYut(){
       +'<small>'+(r.result==='BACKDO'?'뒤로 1칸':RESULT_STEPS[r.result]+'칸')+'</small>';
     b.title=r.usable?'이 윷으로 말 옮기기':'지금은 쓸 수 없어요';
     b.onclick=()=>{
-      if(fxBusy||!pending) return;
+      if(isCpuTurn()||fxBusy||!pending) return;
       pending.selected=r.i; pending.stage='pickPiece';
       pending.option=null; pending.dest=null; pending.dests=null;
       renderPending(); saveGame();
@@ -5017,9 +5077,9 @@ function renderLeftoverYut(){
 }
 
 const baseRenderState=renderState;
-renderState=function(){baseRenderState();renderTeamCards();renderLeftoverYut();};
+renderState=function(){baseRenderState();renderTeamCards();renderLeftoverYut();syncCaptureThreats();};
 const baseRenderPending=renderPending;
-renderPending=function(){baseRenderPending();renderTeamCards();renderLeftoverYut();updateUndoBtn();};
+renderPending=function(){baseRenderPending();renderTeamCards();renderLeftoverYut();updateUndoBtn();syncCaptureThreats();};
 const baseTurnBanner=updateTurnBanner;
 updateTurnBanner=function(){baseTurnBanner();renderTeamCards();renderLeftoverYut();};
 /* 결과 타일은 두 가지로 쓰인다.
@@ -5029,6 +5089,7 @@ const TILE_KEYS=['DO','GAE','GEOL','YUT','MO','BACKDO'];
 const TILE_HOTKEY={DO:'1',GAE:'2',GEOL:'3',YUT:'4',MO:'5',BACKDO:'B'};
 
 function canInputResult(){
+  if(hasCpuOpponent())return false;
   if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || charge) return false;
   return !nakLock && !fxBusy && !gameOver && (!pending || pending.phase==='throwing');
 }
@@ -5062,6 +5123,7 @@ const SHAPE_WHY = {
 
 /* 직접 고른 결과도 '진짜로 던지는' 연출을 거쳐 나온다 */
 function inputResult(key){
+  if(hasCpuOpponent()){explainManualRestriction();return;}
   if(!canInputResult())return;
   const sticks = TILE_STICKS[key] || TILE_STICKS.DO;
 
@@ -5088,19 +5150,23 @@ function renderTray(){
   const tray=document.getElementById('resultTray');tray.innerHTML='';
   const list=pending?usableResults(teams[currentTeamIndex]):[];
   const inputMode=canInputResult();
+  const restricted=hasCpuOpponent()&&isThrowPhase()&&!gameOver;
   TILE_KEYS.forEach(key=>{
     const matches=list.filter(r=>r.result===key),chosen=matches.find(r=>pending&&r.i===pending.selected)||matches[0];
     const b=document.createElement('button');b.type='button';
     b.className='result-tile result-'+key+(chosen&&pending&&pending.selected===chosen.i?' selected':'')+(inputMode?' input-mode':'');
-    b.disabled = inputMode ? false : !(chosen&&chosen.usable&&pending.phase==='moving');
+    b.disabled = restricted ? (fxBusy||nakLock||!!charge) : isCpuTurn() || (inputMode ? false : !(chosen&&chosen.usable&&pending.phase==='moving'));
+    b.classList.toggle('manual-locked',restricted);b.setAttribute('aria-disabled',String(restricted||b.disabled));
+    if(restricted)b.title='컴퓨터 대전에서는 윷 던지기를 사용하세요';
     const pattern=(TILE_STICKS[key]||[]).map(v=>'<i class="'+(v===1?'flat':'round')+'"></i>').join('');
     b.innerHTML='<span class="tile-key">'+TILE_HOTKEY[key]+'</span>'
       +'<span class="tile-sticks">'+pattern+'</span>'
       +'<strong>'+LABEL[key]+'</strong>'
       +'<small>'+(key==='BACKDO'?'뒤로 1칸':RESULT_STEPS[key]+'칸')+'</small>'
-      +'<em>'+(inputMode?'누르면 나와요':(matches.length?matches.length+'개 보유':'대기'))+'</em>';
+      +'<em>'+(restricted?'직접 입력 불가':inputMode?'누르면 나와요':(matches.length?matches.length+'개 보유':'대기'))+'</em>';
     b.onclick=()=>{
-      if(fxBusy||charge||nakLock||document.querySelector('dialog[open]'))return;
+      if(restricted){explainManualRestriction();return;}
+      if(isCpuTurn()||fxBusy||charge||nakLock||document.querySelector('dialog[open]'))return;
       if(canInputResult()){ inputResult(key); return; }
       if(!chosen)return;
       pending.selected=chosen.i;pending.stage='pickPiece';pending.option=null;pending.dest=null;pending.dests=null;
@@ -5116,16 +5182,23 @@ function renderTray(){
    모아 둔 게 없으면 차례가 다음 팀으로 넘어간다.
    되돌리기로 되살릴 수 있다. */
 function canCallNak(){
+  if(hasCpuOpponent())return false;
   if (!document.body.classList.contains('in-game') || document.querySelector('dialog[open]') || charge) return false;
   return !nakLock && !fxBusy && !gameOver && (!pending || pending.phase === 'throwing');
 }
 function syncNakBtn(){
   const b = document.getElementById('nakBtn');
-  if (b) b.disabled = !canCallNak();
+  if (b) {
+    const restricted=hasCpuOpponent()&&!gameOver;
+    b.disabled=restricted?(fxBusy||nakLock||!!charge):!canCallNak();
+    b.classList.toggle('manual-locked',restricted);b.setAttribute('aria-disabled',String(restricted||b.disabled));
+    b.title=restricted?'컴퓨터 대전에서는 윷 던지기를 사용하세요':'윷이 멍석 밖으로 나갔어요 (N)';
+  }
   // 낙이 진행되는 동안에는 던지기 버튼도 잠근다
   if (nakLock && typeof throwBtn !== 'undefined' && throwBtn) throwBtn.disabled = true;
 }
 function callNak(){
+  if(hasCpuOpponent()){explainManualRestriction();return;}
   if (!canCallNak()) return;
   const team = teams[currentTeamIndex];
   const had = pending && pending.results ? pending.results.length : 0;
@@ -5212,6 +5285,7 @@ document.addEventListener('keydown',(e)=>{
   const map={'1':'DO','2':'GAE','3':'GEOL','4':'YUT','5':'MO','b':'BACKDO','B':'BACKDO','ㅠ':'BACKDO'};
   const key=map[e.key];
   if(key==='BACKDO'&&!RULES.useBackdo)return;      // 안 쓰기로 한 결과는 넣을 수 없다
+  if(key&&hasCpuOpponent()&&isThrowPhase()){e.preventDefault();explainManualRestriction();return;}
   if(key&&canInputResult()){e.preventDefault();inputResult(key);}
 });
 document.getElementById('undoBtn').onclick=()=>undoOnce();
@@ -5285,7 +5359,7 @@ document.addEventListener('keydown', (e) => {
     return;
   }
 
-  if (fxBusy || gameOver) return;
+  if (fxBusy || gameOver || isCpuTurn()) return;
 
   // ── 말 고르기 ──
   if (k === 'ArrowRight' || k === 'ArrowDown' || (k === 'Tab' && !e.shiftKey)) {
@@ -5333,7 +5407,7 @@ document.addEventListener('fullscreenchange', fitStage);
 if (document.fonts && document.fonts.ready) document.fonts.ready.then(fitStage).catch(()=>{});
 
 const menuDlg=document.getElementById('menuDialog');
-document.getElementById('menuOpenBtn').onclick=()=>{if(fxBusy||nakLock)return;cancelCharge(false);syncPlayPrefs();syncMenuFx();menuDlg.showModal();};
+document.getElementById('menuOpenBtn').onclick=()=>{if(fxBusy||nakLock)return;cancelCharge(false);syncPlayPrefs();syncMenuFx();syncCpuMenu();menuDlg.showModal();};
 document.getElementById('menuResume').onclick=()=>menuDlg.close();
 document.getElementById('menuRules').onclick=()=>{menuDlg.close();openRules(1);};
 document.getElementById('menuNew').onclick=()=>{menuDlg.close();document.getElementById('newGameBtn').click();};
@@ -5360,6 +5434,9 @@ function restoreSavedGame() {
     matchEpoch++;bumpSerial();
     teams = saved.teams;
     matchStats = restoreMatchStats(saved.matchStats);
+    teams.forEach(t=>{t.controller=t.controller==='cpu'?'cpu':'human';});
+    matchOptions={difficulty:saved.matchOptions&&saved.matchOptions.difficulty==='easy'?'easy':'normal'};
+    resetCpu();
     currentTeamIndex = saved.currentTeamIndex || 0;
     gameOver = !!saved.gameOver;
     pending = saved.pending || null;
@@ -5448,7 +5525,7 @@ function rdHowCards(){
     ? '한 바퀴를 돌아 <b>참먹이</b>에 닿으면 바로 납니다. (지나쳐도 납니다)'
     : '한 바퀴를 돌아 <b>참먹이를 지나야</b> 납니다. 참먹이에 딱 서면 다음 차례에 한 칸 더 가야 해요.';
   const backdo = RULES.useBackdo
-    ? '빨간 표시가 있는 가락만 배로 나오면 빽도. 왔던 길로 한 칸 되돌아갑니다. 첫 칸에서 나오면 대기소로 돌아가요.'
+    ? '빨간 표시가 있는 가락만 배로 나오면 빽도. 왔던 길로 한 칸 되돌아갑니다. 도 자리에서 나오면 참먹이에 머물고, 다음 전진 때 완주해요.'
     : '이번 판은 빽도를 쓰지 않기로 했어요. (시작화면에서 켤 수 있어요)';
   const end = RULES.playToEnd
     ? '한 팀이 다 나가도 끝나지 않고, 남은 팀끼리 순위를 끝까지 가립니다.'
@@ -5963,6 +6040,7 @@ document.getElementById('setupToggle').onclick = () => {
 document.getElementById('quickStartBtn').onclick = async () => {
   if (loadGame() && !await askYesNo('새 게임을 시작할까요?', '두던 판이 저장돼 있어요. 새로 시작하면 지워집니다.', '새로 시작')) return;
   setupTeamCount = 2;
+  Object.keys(setupControllers).forEach(id=>setupControllers[id]='human');
   setupPieceCount = 4;
   setupOrder = TEAM_PRESET.slice(0, 2).map(t => t.id);
   RULES.useBackdo = true;
@@ -6030,10 +6108,15 @@ function syncActionGuide() {
     text = '🎁 한 번 더! 윷을 던지세요';
   }
   gameScreen.dataset.action = action;
+  if(isCpuTurn()&&!gameOver){action='cpu';text=cpuPaused?'⏸ 컴퓨터 진행을 멈췄어요':'🤖 '+team.name+'이 생각하고 있어요';detail=cpuPaused?'계속 버튼을 누르면 다시 진행해요':'던지기와 말 이동을 자동으로 진행해요';}
+  document.body.classList.toggle('cpu-turn',isCpuTurn()&&!gameOver);
+  throwBtn.setAttribute('aria-disabled',String(isCpuTurn()||throwBtn.disabled));
+  gameScreen.dataset.action=action;
+  const resume=document.getElementById('cpuResumeBtn');resume.classList.toggle('hidden',!(cpuPaused&&teams.some(t=>t.controller==='cpu')&&!gameOver));
   const markup = escapeHtml(text) + (detail ? '<small>' + escapeHtml(detail) + '</small>' : '');
   if (guide.innerHTML !== markup) guide.innerHTML = markup;
   const caption = document.getElementById('trayCaption');
-  caption.textContent = action === 'throw' ? '실제 윷을 던졌다면 아래 결과를 직접 입력' :
+  caption.textContent = hasCpuOpponent()&&isThrowPhase() ? '컴퓨터 대전 · 새 결과는 윷 던지기로만' : action === 'throw' ? '실제 윷을 던졌다면 아래 결과를 직접 입력' :
     pending && pending.phase === 'moving' ? '보유한 결과를 선택하거나 바꿀 수 있어요' : '도 · 개 · 걸 · 윷 · 모 · 빽도';
 }
 let guideQueued = false;
@@ -6072,7 +6155,7 @@ function renderTutorial(){
   document.getElementById('tutorialProgress').textContent=`처음이라면 · ${tutorialStep+1} / 3`;
   document.getElementById('tutorialTitle').textContent=row.title;
   document.getElementById('tutorialArt').textContent=row.art;
-  document.getElementById('tutorialBody').textContent=row.text;
+  document.getElementById('tutorialBody').textContent=tutorialStep===0&&hasCpuOpponent()?'윷 던지기를 꾹 눌렀다 떼세요. 사람과 컴퓨터 모두 같은 확률로 던져요. 컴퓨터 대전에서는 결과 타일로 새 결과를 직접 입력할 수 없어요.':row.text;
   document.getElementById('tutorialPrev').disabled=tutorialStep===0;
   document.getElementById('tutorialNext').textContent=tutorialStep===2?'게임 시작':'다음';
 }
@@ -6126,6 +6209,207 @@ document.getElementById('tutorialPrev').onclick=()=>{if(tutorialStep>0){tutorial
 document.getElementById('tutorialSkip').onclick=closeTutorial;
 tutorialDlg.addEventListener('cancel',e=>{e.preventDefault();closeTutorial();});
 syncPlayPrefs();
+
+
+/* 3차: 사람과 같은 확률/경로를 쓰는 컴퓨터 플레이어 */
+function isCpuTurn(){return !!(teams[currentTeamIndex]&&teams[currentTeamIndex].controller==='cpu'&&!gameOver);}
+function resetCpu(){cpuPaused=false;cpuDue=0;cpuSignature='';}
+function cpuLegalMoves(){
+  if(!pending||pending.phase!=='moving')return [];
+  const team=teams[currentTeamIndex],out=[];
+  pending.results.forEach((entry,index)=>{
+    getMovableOptions(team,entry.result).forEach(option=>{
+      const from=option.type==='launch'?START:team.units[option.unitIndex].pos;
+      const dests=entry.result==='BACKDO'?backwardDestinations(from,trailOf(team,option)):forwardDestinations(from,RESULT_STEPS[entry.result]);
+      for(const dest of dests)out.push({index,option,dest,result:entry.result,from});
+    });
+  });return out;
+}
+function cpuDistance(pos){
+  if(pos===FINISH)return 0;
+  if(pos===WAIT)pos=START;
+  // 1칸씩 가능한 길로 갔을 때의 남은 거리. 같은 칸을 다시 찾으면 중단한다.
+  const visited=new Set(),queue=[[pos,0]];
+  while(queue.length){const [at,d]=queue.shift();if(at===FINISH)return d;if(visited.has(at)||d>30)continue;visited.add(at);
+    for(const next of forwardDestinations(at,1))queue.push([next,d+1]);
+  }return 24;
+}
+function scoreCpuMove(move){
+  const team=teams[currentTeamIndex];
+  const count=move.option.type==='launch'?1:team.units[move.option.unitIndex].count;
+  if(move.dest===FINISH)return (team.finished+count>=team.total?10000:300)+count*100;
+  if(move.dest===WAIT)return -90*count;
+  let score=(cpuDistance(move.from)-cpuDistance(move.dest))*5*count;
+  for(const other of teams){
+    if(other===team)continue;
+    for(const unit of other.units){
+      if(unit.pos===move.dest){score+=150+unit.count*55;continue;}
+      // 도~모로 바로 잡힐 수 있는 자리일수록 큰 묶음은 조심한다.
+      for(let n=1;n<=5;n++)if(forwardDestinations(unit.pos,n).includes(move.dest)){score-=count*[0,3,5,4,2,2][n];break;}
+    }
+  }
+  const own=team.units.find((u,i)=>u.pos===move.dest&&!(move.option.type==='unit'&&i===move.option.unitIndex));
+  if(own)score+=18+own.count*7;
+  if(move.dest===5||move.dest===10||move.dest===CENTER)score+=14;
+  if(move.option.type==='launch')score+=6;
+  return score;
+}
+function chooseCpuMove(){
+  const moves=cpuLegalMoves();if(!moves.length)return null;
+  if(matchOptions.difficulty==='easy')return moves[Math.floor(Math.random()*moves.length)];
+  let best=-Infinity,pool=[];
+  for(const move of moves){const score=scoreCpuMove(move);if(score>best){best=score;pool=[move];}else if(score===best)pool.push(move);}
+  return pool[Math.floor(Math.random()*pool.length)];
+}
+function cpuStep(){
+  if(!isCpuTurn()||cpuPaused||fxBusy||nakLock||charge||gameOver||document.hidden||!document.body.classList.contains('in-game')||document.querySelector('dialog[open]')){cpuDue=0;cpuSignature='';return;}
+  // 빽도로 갈 곳이 없어 다음 팀을 기다리는 잠깐도 존중한다.
+  if(!pending&&throwBtn.disabled)return;
+  const signature=matchEpoch+':'+boardSerial+':'+currentTeamIndex+':'+(pending?pending.phase+':'+pending.results.map(r=>r.result).join(','):'throw');
+  if(cpuSignature!==signature){cpuSignature=signature;cpuDue=Date.now()+(playPrefs.fast?360:750);return;}
+  if(Date.now()<cpuDue)return;
+  cpuDue=Infinity;
+  cpuActing=true;
+  try{
+    if(!pending||pending.phase==='throwing')doThrow(.55);
+    else{const move=chooseCpuMove();if(!move){beginMovingPhase();return;}
+      pending.selected=move.index;pending.option=move.option;pending.stage='confirmPiece';pending.dests=null;
+      pickDest(move.dest);
+    }
+  }finally{cpuActing=false;}
+}
+function syncCpuMenu(){
+  const exists=teams.some(t=>t.controller==='cpu'),b=document.getElementById('menuCpuPause');
+  b.classList.toggle('hidden',!exists||gameOver);b.textContent=cpuPaused?'▶ 컴퓨터 진행 계속':'⏸ 컴퓨터 잠시 멈춤';
+  b.setAttribute('aria-pressed',String(cpuPaused));
+}
+function toggleCpuPause(){cpuPaused=!cpuPaused;cpuDue=0;cpuSignature='';syncCpuMenu();queueActionGuide();}
+
+/* 한 장의 망토: 목 부근은 고정하고, 뒤로 갈수록 파동이 커진다. */
+function heroCapeShape(seconds){
+  const p=seconds*Math.PI*7,w=Math.sin(p),v=Math.sin(p-1.25),tail=Math.sin(p-2.1);
+  const n=x=>Number(x.toFixed(2));
+  const top=n(-32+v*9),end=n(-22+tail*13),bottom=n(29+tail*10),mid=n(22+v*7);
+  return {
+    cloth:`M 1 -19 C -27 -26 -47 ${top} -76 ${top} C -94 ${top} -104 ${end-9} -126 ${end} Q -116 ${n(3+tail*10)} -130 ${bottom} C -102 ${bottom+5} -82 ${mid+7} -59 ${mid} Q -28 ${n(20+w*3)} -7 17 Z`,
+    fold:`M -2 -17 C -35 -18 -60 ${n(-9+v*7)} -90 ${n(-8+tail*10)} Q -108 ${n(-5+tail*10)} -123 ${end+5} C -100 ${end+14} -62 ${n(7+v*8)} -8 12 Z`,
+    hem:`M -10 -18 C -47 ${top+7} -79 ${top+4} -117 ${end+3} M -15 15 Q -59 ${mid+1} -82 ${mid+6} Q -104 ${bottom+1} -123 ${bottom}`
+  };
+}
+function heroFlightMarkup(id){
+  const c=TEAM_COLOR[id],d=shade(c,-.35),p=heroCapeShape(0);
+  return `<svg class="hero-rig" viewBox="-50 -40 100 80" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <defs><clipPath id="heroCape-${id}"><path class="hero-clip" d="${p.cloth}"/></clipPath></defs><path class="hero-cloth" d="${p.cloth}"/><g clip-path="url(#heroCape-${id})"><path class="hero-fold" d="${p.fold}"/><path class="hero-hem" d="${p.hem}"/></g>
+    <path d="M-18 15 L-54 18 M-16 6 L-52 3" fill="none" stroke="${d}" stroke-width="13" stroke-linecap="round"/>
+    <path d="M-48 18 L-61 17 M-47 3 L-61 0" fill="none" stroke="#ffcf64" stroke-width="12" stroke-linecap="round"/>
+    <ellipse cx="-8" cy="7" rx="29" ry="18" fill="${c}" stroke="${d}" stroke-width="2"/>
+    <path d="M-6 12 L48 4 L63 1" fill="none" stroke="${d}" stroke-width="15" stroke-linecap="round"/>
+    <path d="M-5 10 L48 2" fill="none" stroke="${c}" stroke-width="11" stroke-linecap="round"/>
+    <ellipse cx="64" cy="1" rx="10" ry="8" fill="#fff0d7" stroke="${d}" stroke-width="2"/>
+    <circle cx="19" cy="-13" r="23" fill="#fff2db" stroke="${c}" stroke-width="3"/>
+    <g transform="translate(-5 -38) scale(.48)">${charInner(id)}</g>
+    <path d="M-5 -16 Q1 -9 7 -8" fill="none" stroke="#ffc36e" stroke-width="4" stroke-linecap="round"/>
+  </svg>`;
+}
+
+/* 말판 배경은 장식만 교체하며 칸 좌표와 게임 경로는 공유한다. */
+const BOARD_THEMES={classic:{name:'전통 마당',swatch:'linear-gradient(135deg,#147d78,#f2cf84)'},moon:{name:'달빛 정원',swatch:'linear-gradient(135deg,#242c54,#ada5db)'},picnic:{name:'봄 소풍',swatch:'linear-gradient(135deg,#709a76,#f5d7c4)'}};
+function decorateThemeBoard(){
+  const moon=boardTheme==='moon';
+  const rim=moon?'#343c68':'#5a8c74',paper=moon?'#e9e6f7':'#fff5e5',edge=moon?'#a7a6d6':'#a6c59a',ink=moon?'#4a476e':'#426953';
+  const art=el('g',{'pointer-events':'none',class:'board-art'});
+  let decoration='';
+  if(moon){decoration='<circle cx="330" cy="177" r="38" fill="#fff8ca"/><circle cx="345" cy="164" r="34" fill="'+paper+'"/>';
+    for(const [x,y] of [[150,170],[488,156],[184,464],[466,485],[330,521]])decoration+=`<path d="M${x} ${y-10} L${x+3} ${y-3} L${x+10} ${y} L${x+3} ${y+3} L${x} ${y+10} L${x-3} ${y+3} L${x-10} ${y} L${x-3} ${y-3}Z" fill="#b6a5ce" opacity=".65"/>`;
+  }else{for(const [x,y] of [[330,174],[168,330],[490,330],[330,495]]){decoration+=`<g transform="translate(${x} ${y})" opacity=".45">`;for(let i=0;i<5;i++)decoration+=`<ellipse cx="0" cy="-18" rx="12" ry="19" transform="rotate(${i*72})" fill="#e9a7b8"/>`;decoration+='<circle r="10" fill="#edc165"/></g>';}}
+  art.innerHTML=`<rect x="9" y="9" width="642" height="642" rx="30" fill="${rim}" stroke="${edge}" stroke-width="5"/><rect x="42" y="42" width="576" height="576" rx="24" fill="${paper}" stroke="${edge}" stroke-width="3"/>${decoration}`;
+  const original=svg.querySelector(':scope > rect');if(original)original.remove();svg.insertBefore(art,svg.firstChild);
+  const labels=el('g',{'pointer-events':'none',class:'board-labels'});
+  for(const [x,y,label] of [[38,32,'뒷모'],[624,32,'모'],[38,638,'찌모'],[330,383,'방'],[542,639,'참먹이 · 출발']]){
+    labels.appendChild(el('rect',{x:x-32,y:y-17,width:label.length>3?128:64,height:28,rx:14,fill:rim}));
+    const t=el('text',{x:label.length>3?x+30:x,y:y+3,'text-anchor':'middle',fill:'#fff7dd','font-size':15,'font-weight':900});t.textContent=label;labels.appendChild(t);
+  }
+  const center=el('circle',{cx:330,cy:330,r:32,fill:moon?'#f8e6a7':'#dfab7c',stroke:ink,'stroke-width':3});labels.appendChild(center);
+  const symbol=el('text',{x:330,y:341,'text-anchor':'middle',fill:ink,'font-size':30});symbol.textContent=moon?'☾':'✿';labels.appendChild(symbol);
+  svg.appendChild(labels);
+}
+function refreshAppearance(){
+  document.body.dataset.boardTheme=boardTheme;
+  if(document.body.classList.contains('in-game')){buildBoard();renderPending();if(gameOver){const w=teams.find(t=>t.id===finishedOrder[0])||teams.find(t=>t.finished>=t.total);if(w)showWinScreen(w);}}
+  else{buildSetup();TitlePlay.stop();TitlePlay.start();}
+}
+function setBoardTheme(theme){
+  if(!BOARD_THEMES[theme])return;boardTheme=theme;
+  try{localStorage.setItem('yut-board-theme-v3',theme);}catch(e){}
+  refreshAppearance();renderAppearance();
+}
+function appearanceIds(){return document.body.classList.contains('in-game')?teams.map(t=>t.id):TEAM_PRESET.slice(0,setupTeamCount).map(t=>t.id);}
+function chooseAnimal(key){
+  if(!ANIMALS.some(a=>a.key===key))return;
+  const old=TEAM_ANIMAL[appearanceTeam],other=TEAM_PRESET.find(t=>t.id!==appearanceTeam&&TEAM_ANIMAL[t.id]===key);
+  if(other)TEAM_ANIMAL[other.id]=old;
+  TEAM_ANIMAL[appearanceTeam]=key;saveLook();refreshAppearance();renderAppearance();
+}
+function renderAppearance(){
+  const ids=appearanceIds();if(!ids.includes(appearanceTeam))appearanceTeam=ids[0];
+  const themes=document.getElementById('themeChoices');themes.innerHTML='';
+  for(const [key,row] of Object.entries(BOARD_THEMES)){const b=document.createElement('button');b.type='button';b.className='theme-choice';b.setAttribute('aria-pressed',String(key===boardTheme));b.innerHTML='<span class="theme-swatch" style="background:'+row.swatch+'"></span>'+row.name;b.onclick=()=>setBoardTheme(key);themes.appendChild(b);}
+  const teamsHost=document.getElementById('appearanceTeams');teamsHost.innerHTML='';
+  for(const id of ids){const b=document.createElement('button');b.type='button';b.className='appearance-team';b.textContent=teams.find(t=>t.id===id)?.name||nameOf(id);b.setAttribute('aria-pressed',String(id===appearanceTeam));b.onclick=()=>{appearanceTeam=id;renderAppearance();};teamsHost.appendChild(b);}
+  const animals=document.getElementById('animalChoices');animals.innerHTML='';
+  for(const animal of ANIMALS){const b=document.createElement('button');b.type='button';b.className='animal-choice';const saved=TEAM_ANIMAL[appearanceTeam];
+    const owner=ids.find(id=>id!==appearanceTeam&&TEAM_ANIMAL[id]===animal.key);
+    let art;try{TEAM_ANIMAL[appearanceTeam]=animal.key;art=charHTML(appearanceTeam,50);}finally{TEAM_ANIMAL[appearanceTeam]=saved;}
+    b.innerHTML=art+animal.name+'<small>'+(owner?'다른 팀 사용 중':'')+'</small>';b.setAttribute('aria-pressed',String(saved===animal.key));b.onclick=()=>chooseAnimal(animal.key);animals.appendChild(b);
+  }
+}
+function openAppearance(id){if(fxBusy||nakLock||charge)return;if(id)appearanceTeam=id;renderAppearance();document.getElementById('appearanceDialog').showModal();}
+document.getElementById('appearanceOpenBtn').onclick=()=>openAppearance();
+document.getElementById('menuAppearance').onclick=()=>{menuDlg.close();openAppearance();};
+document.getElementById('appearanceDone').onclick=()=>document.getElementById('appearanceDialog').close();
+document.getElementById('setupDifficulty').onchange=e=>{setupDifficulty=e.target.value==='easy'?'easy':'normal';};
+document.getElementById('menuCpuPause').onclick=toggleCpuPause;
+document.getElementById('cpuResumeBtn').onclick=()=>{cpuPaused=false;cpuDue=0;cpuSignature='';syncCpuMenu();queueActionGuide();};
+document.getElementById('cpuStartBtn').onclick=async()=>{
+  if(loadGame()&&!await askYesNo('컴퓨터와 새로 시작할까요?','두던 판 대신 새 경기를 시작해요.','시작'))return;
+  setupTeamCount=2;setupPieceCount=4;setupOrder=['blue','red'];setupControllers.blue='human';setupControllers.red='cpu';
+  RULES.useBackdo=true;RULES.playToEnd=false;RULES.exactFinish=false;syncRuleSwitches();startNewGame();
+};
+setInterval(cpuStep,120);
+document.body.dataset.boardTheme=boardTheme;
+
+
+/* 직접 입력 제한은 현재 차례가 아닌 경기 전체의 컴퓨터 참가 여부로 판단한다. */
+let manualNoticeTimer=null;
+function hasCpuOpponent(){return teams.some(t=>t.controller==='cpu');}
+function isThrowPhase(){return !pending||pending.phase==='throwing';}
+function explainManualRestriction(){
+  if(!hasCpuOpponent()||gameOver||!document.body.classList.contains('in-game')||document.querySelector('dialog[open]'))return;
+  const box=document.getElementById('manualInputNotice');
+  box.textContent=isCpuTurn()?'지금은 컴퓨터 차례예요. 내 차례가 오면 ‘윷 던지기’를 눌러 주세요.':
+    isThrowPhase()?'컴퓨터 대전에서는 결과를 직접 입력할 수 없어요. ‘윷 던지기’를 눌러 주세요.':'컴퓨터 대전에서는 결과·낙을 직접 입력할 수 없어요. 보유한 결과로 말을 옮긴 뒤, 다음 던지기 차례에 ‘윷 던지기’를 눌러 주세요.';
+  box.classList.remove('hidden');clearTimeout(manualNoticeTimer);
+  manualNoticeTimer=setTimeout(()=>box.classList.add('hidden'),3400);
+  if(canCharge())throwBtn.focus();
+}
+function openCpuRules(){document.getElementById('cpuRulesDialog').showModal();}
+function closeCpuRules(){document.getElementById('cpuRulesDialog').close();maybeTutorial();}
+document.getElementById('cpuRulesOkay').onclick=closeCpuRules;
+document.getElementById('cpuRulesDialog').addEventListener('cancel',e=>{e.preventDefault();closeCpuRules();});
+
+/* 판의 말 DOM이 다시 만들어져도 현재 보이는 도착 안내를 기준으로 잡기 표시를 복원한다. */
+function syncCaptureThreats(){
+  if(!svg)return;
+  svg.querySelectorAll('.piece.threatened').forEach(n=>n.classList.remove('threatened'));
+  if(!pending||pending.phase!=='moving'||fxBusy||gameOver)return;
+  const targets=new Set(Array.from(svg.querySelectorAll('.hint-dest.capture')).map(n=>n.getAttribute('data-dest')));
+  const current=teams[currentTeamIndex];
+  teams.forEach(t=>{if(t===current)return;t.units.forEach((u,i)=>{
+    if(!targets.has(String(u.pos)))return;
+    const node=svg.querySelector('.piece[data-team="'+t.id+'"][data-unit-index="'+i+'"]');
+    if(node)node.classList.add('threatened');
+  });});
+}
 
 loadLook();      // 지난번에 고른 동물·색을 되살린다
 /* 시작 화면이 보일 때만 돌린다 (게임 중에는 쉰다) */
