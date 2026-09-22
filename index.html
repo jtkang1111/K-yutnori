@@ -1494,9 +1494,10 @@ body.in-game #versionCredit{display:none!important}
  html body:not(.in-game) #setupScreen.settings-open .welcome-tip{font-size:13px;margin:0;line-height:1.4}
 }
 </style>
+<style id="revision-56">.win-rank .rank-place{font-size:.72em;white-space:nowrap;color:#ffe9b0}.win-rank li{column-gap:8px}</style>
 </head>
 <body>
-<p id="versionCredit"><span>v.1.55</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.1.56</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -2152,7 +2153,7 @@ window.FX = (function () {
 let analyticsMatch = {completed:false};
 function trackGameEvent(eventName, params={}) {
   try {
-    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'1.55',...params});
+    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'1.56',...params});
   } catch(e) { /* Analytics must never interrupt a game. */ }
 }
 function analyticsGameContext(){
@@ -3830,7 +3831,7 @@ function commitMove(carry) {
     if (!RULES.playToEnd || left.length <= 1) {
       // 끝까지 가리기가 꺼져 있으면 첫 완주로 끝난다.
       // 켜져 있어도 남은 팀이 하나뿐이면 더 겨룰 상대가 없다.
-      left.forEach((t) => { if (!finishedOrder.includes(t.id)) finishedOrder.push(t.id); });
+      // finishedOrder에는 모든 말을 완주한 팀만 기록한다.
       pending = null;
       endGame(teams.find((t) => t.id === finishedOrder[0]) || team, true);
       renderTray();
@@ -5964,7 +5965,7 @@ function askYesNo(title, body, yesLabel) {
 function fullRanking() {
   return teams.map((t, i) => {
     const onBoard = t.total - t.waiting - t.finished;
-    const done = finishedOrder.indexOf(t.id);     // 먼저 끝낸 순서가 최우선
+    const done = t.finished >= t.total ? finishedOrder.indexOf(t.id) : -1; // 이전 저장 기록의 미완주 팀도 제외
     return { t, i, onBoard, done: done < 0 ? 99 : done };
   }).sort((a, b) =>
     (a.done - b.done) ||
@@ -6003,7 +6004,7 @@ function showWinScreen(team) {
       const li = document.createElement('li');
       if (n === 0) li.className = 'first';
       li.style.setProperty('--team', TEAM_COLOR[row.t.id]);
-      li.innerHTML = `<span class="medal">${MEDALS[n] || '🏅'}</span>` +
+      li.innerHTML = `<span class="medal" aria-hidden="true">${MEDALS[n] || '🏅'}</span><span class="rank-place">${n + 1}위</span>` +
         `<span class="who">${escapeHtml(row.t.name)}</span>` +
         `<span class="howmany">🏁 ${row.t.finished} / ${row.t.total}</span>`;
       rank.appendChild(li);
