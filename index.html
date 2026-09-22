@@ -1392,7 +1392,7 @@ body.in-game #versionCredit{display:none!important}
 </style>
 </head>
 <body>
-<p id="versionCredit"><span>v.1.49</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.1.50</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -6531,13 +6531,15 @@ const PlayHandGuide = (() => {
     if(action==='throw')return {target:throwBtn,label:'눌렀다 떼세요'};
     if(action==='result')return {target:document.getElementById('resultTray'),label:'사용할 결과를 고르세요'};
     if(action==='piece'){
-      const key=[boardSerial,currentTeamIndex,pending?.selected,pending?.stage].join('|');
-      if(key!==choiceKey){choiceKey=key;choiceSince=performance.now();}
+      const choices=Array.from(document.querySelectorAll('#board-root .piece.movable')).map(n=>({
+        target:n,label:'움직이는 말을 고르세요',anchor:'piece-'+n.dataset.team+'-'+n.dataset.unitIndex
+      }));
       const reserve=Array.from(document.querySelectorAll('.team-card.can-launch')).find(n=>!n.disabled);
-      const boardChoices=document.querySelectorAll('#board-root .piece.movable').length;
-      const showReserve=reserve&&(!boardChoices||Math.floor((performance.now()-choiceSince)/5000)%2===1);
-      if(showReserve)return {target:reserve,label:boardChoices?'대기소 말도 선택할 수 있어요':'대기소 말을 고르세요'};
-      return {target:document.getElementById('actionGuide'),label:'움직이는 말을 고르세요'};
+      if(reserve)choices.push({target:reserve,label:choices.length?'대기소 말도 선택할 수 있어요':'대기소 말을 고르세요',anchor:'reserve-'+reserve.dataset.team});
+      if(!choices.length)return null;
+      const key=[boardSerial,currentTeamIndex,pending?.selected,pending?.stage,choices.map(c=>c.anchor).join(',')].join('|');
+      if(key!==choiceKey){choiceKey=key;choiceSince=performance.now();}
+      return choices[Math.floor((performance.now()-choiceSince)/3000)%choices.length];
     }
     if(action==='destination'){
       const hints=Array.from(document.querySelectorAll('#board-root .hint-dest'));
@@ -6557,6 +6559,7 @@ const PlayHandGuide = (() => {
     if(!r.width||!r.height){hide();return;}
     // If the target is outside the visible viewport, point to the phase guide.
     if(r.bottom<0||r.top>vh||r.right<0||r.left>vw){
+      if(action==='piece'){hide();return;}
       r=document.getElementById('actionGuide').getBoundingClientRect();
       if(r.bottom<0||r.top>vh){hide();return;}
       info.label=action==='throw'?'아래 윷 던지기를 눌러 주세요':action==='result'?'결과 목록에서 골라 주세요':action==='piece'?'움직이는 말이나 대기소 말을 고르세요':'말판의 도착 칸을 눌러 주세요';
@@ -6567,9 +6570,13 @@ const PlayHandGuide = (() => {
     const h=box.getBoundingClientRect().height||100;
     const above=r.bottom+h+8>vh&&r.top>h+8;
     box.classList.toggle('above',above);
-    box.style.left=Math.max(8,Math.min(vw-w-8,r.left+r.width/2-w/2))+'px';
+    const left=Math.max(8,Math.min(vw-w-8,r.left+r.width/2-w/2));
+    box.style.left=left+'px';
+    const hand=box.querySelector('.hand-art');
+    hand.style.position='relative';
+    hand.style.left=(r.left+r.width/2-left-w/2)+'px';
     box.style.top=Math.max(8,Math.min(vh-h-8,above?r.top-h-4:r.bottom+4))+'px';
-    const key=[action,boardSerial,pending?.selected,pending?.stage,info.label].join('|');
+    const key=[action,boardSerial,pending?.selected,pending?.stage,info.anchor,info.label].join('|');
     if(key!==signature||now-lastPulse>=8000){
       box.classList.remove('tapping');void box.offsetWidth;box.classList.add('tapping');
       signature=key;lastPulse=now;
