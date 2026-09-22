@@ -1498,7 +1498,7 @@ body.in-game #versionCredit{display:none!important}
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/favicon.svg">
 </head>
 <body>
-<p id="versionCredit"><span>v.2.01</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.2.04</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -2155,7 +2155,7 @@ window.FX = (function () {
 let analyticsMatch = {completed:false};
 function trackGameEvent(eventName, params={}) {
   try {
-    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.01',page_location:location.origin+location.pathname,...params});
+    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.04',page_location:location.origin+location.pathname,...params});
   } catch(e) { /* Analytics must never interrupt a game. */ }
 }
 function analyticsGameContext(){
@@ -6781,9 +6781,10 @@ body.online-observer #handGuide{display:none!important}
  const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='terminal.local'||location.hostname==='game.test'?location.origin:HOSTED;
  let room=null,token='',state=null,busy=false,connected=false,timer=null,applying=false,lastGameVersion=-1,qrUrl=null,queued=null;
  const invite=new URLSearchParams(location.hash.slice(1)).get('room');
+ const newId=()=>{if(globalThis.crypto?.randomUUID)return crypto.randomUUID();const a=new Uint8Array(16);(globalThis.crypto?.getRandomValues?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.floor(Math.random()*256)));a[6]=(a[6]&15)|64;a[8]=(a[8]&63)|128;const h=[...a].map(x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);};
  const validRoom=x=>/^[a-f0-9]{32}$/.test(x||'');
  const key=id=>'yut-online57-'+id;
- const credentials=()=>crypto.randomUUID().replaceAll('-','')+crypto.randomUUID().replaceAll('-','');
+ const credentials=()=>newId().replaceAll('-','')+newId().replaceAll('-','');
  const error=s=>$('onError').textContent=s||'';
  const active=()=>!!state?.game;
  const myTurn=()=>active()&&connected&&!busy&&!applying&&!document.hidden&&!gameOver&&teams[currentTeamIndex]?.playerId===state.me;
@@ -6798,7 +6799,7 @@ body.online-observer #handGuide{display:none!important}
  function controls(){
  if(!active())return;
  document.body.classList.toggle('online-observer',!myTurn());
- if(!myTurn()){clearInteractive();throwBtn.disabled=true;cancelCharge(false);}
+ if(!myTurn()){if(svg)clearInteractive();throwBtn.disabled=true;cancelCharge(false);}
  else{throwBtn.disabled=gameOver||!!pending&&pending.phase!=='throwing';}
  const me=state.players.find(p=>p.id===state.me),turn=teams[currentTeamIndex];
  $('onConnection').textContent=!connected?'연결이 끊겼어요 · 다시 연결 중':busy||applying?'친구들과 판을 맞추는 중':gameOver?'경기 종료 · '+(me?.name||''):'나: '+(me?.name||'')+' · '+(myTurn()?'내 차례':(turn?.name||'친구')+' 차례');
@@ -6815,7 +6816,7 @@ body.online-observer #handGuide{display:none!important}
  $('onInvite').hidden=!waiting;$('onReady').hidden=!waiting||host;$('onStart').hidden=!waiting||!host;$('onReady').textContent=me?.ready?'준비 취소':'준비 완료';
  $('onStart').disabled=busy||state.players.length!==state.capacity||state.players.some(p=>!p.ready);$('onReady').disabled=busy;
  $('onRematch').hidden=state.status!=='ended'||!host;$('onBackGame').hidden=!state.game;
- $('onLeave').textContent=state.status==='playing'?'잠시 나가기':'방 나가기';
+ $('onLeave').textContent=state.status==='playing'?'방 완전히 나가기':'방 나가기';
  $('onLobbyHint').textContent=waiting?'모두 준비되면 방장이 시작해요. 입장 순서대로 차례가 돌아가요.':state.status==='ended'?'방장이 재대결을 열면 다시 준비할 수 있어요.':'연결이 끊겨도 같은 기기의 같은 브라우저에서 돌아오면 이어집니다.';
  $('onLink').value=API+'/#room='+room;
  }
@@ -6830,8 +6831,17 @@ body.online-observer #handGuide{display:none!important}
  }
  applying=true;controls();
  try{
- const g=next.game,event=g.event,canAnimate=old?.game&&next.version===old.version+1&&lastGameVersion===old.version;
+ const g=next.game,event=g.event,canAnimate=old?.game&&next.version>lastGameVersion;
  if(canAnimate&&event?.type==='move'&&teams[currentTeamIndex]?.id===event.teamId){try{await Festival.travel(teams[currentTeamIndex],event.option,event.dest,event.result);}catch{}}
+ if(canAnimate&&event?.type==='throw'){
+  lastThrowPower=.9;window.lastThrowPower=lastThrowPower;
+  haptic('release');
+  [resultWord,resultDetail,againBadge].forEach(e=>e.classList.remove('show'));
+  placeholder.style.display='none';
+  statusLine.innerHTML=`<strong>${escapeHtml(teams[currentTeamIndex]?.name||'친구')}</strong>: 윷을 던지는 중…`;
+  if(typeof Sound!=='undefined')Sound.throwStart(effectMs(900));
+  if(window.FX&&typeof FX.rollSticks==='function')await new Promise(resolve=>FX.rollSticks(stickEls,event.sticks,resolve));
+ }
  cancelAuto();bumpSerial();resetCpu();fxBusy=false;nakLock=false;gameScreen.inert=false;undoStack=[];
  teams=structuredClone(g.teams);currentTeamIndex=g.currentTeamIndex;pending=structuredClone(g.pending);finishedOrder=[...g.finishedOrder];gameOver=g.gameOver;matchStats=structuredClone(g.matchStats);Object.assign(RULES,g.rules);
  // Shared defaults ensure the same team looks the same on every phone.
@@ -6842,10 +6852,11 @@ body.online-observer #handGuide{display:none!important}
  if(new Set(usable.map(r=>r.result)).size===1){pending.selected=usable[0].i;pending.stage='pickPiece';}
  }
  renderState();updateTurnBanner();
- if(event?.type==='throw'&&canAnimate){showResult(event.result,event.sticks,true);showLocalResult(event.result);if(event.skipped)statusLine.textContent='빽도로 움직일 말이 없어 다음 차례로 넘어갔어요.';else if(EXTRA_THROW_RESULTS.has(event.result)&&!document.body.classList.contains('light-effects'))FX?.resultFlash?.(LABEL[event.result],true,'한 번 더 던져요!');}
+ if(event?.type==='throw'&&canAnimate){showResult(event.result,event.sticks,true);showLocalResult(event.result);const big=EXTRA_THROW_RESULTS.has(event.result);if(typeof Sound!=='undefined'){big?Sound.big():Sound.small();}if(big)haptic('big');if(event.skipped)statusLine.textContent='빽도로 움직일 말이 없어 다음 차례로 넘어갔어요.';else if(big&&!document.body.classList.contains('light-effects')&&!matchMedia('(prefers-reduced-motion: reduce)').matches)FX?.resultFlash?.(LABEL[event.result],true,'한 번 더 던져요!');}
  if(event?.type==='move'&&canAnimate&&(event.captures?.length||event.dest==='FINISH'))Festival.cheer(event.dest==='FINISH'?'완주! 잘했어요!':'잡았다!',TEAM_COLOR[event.teamId]);
  if(gameOver){showWinScreen(teams.find(t=>t.id===finishedOrder[0])||teams[0]);$('winAgainBtn').textContent=state.me===state.host?'🔄 같은 방에서 재대결':'🔄 재대결 기다리기';$('winHomeBtn').textContent='👥 우리 방';}
  lastGameVersion=next.version;
+ if(!gameOver&&(!document.body.classList.contains('in-game')||gameScreen.classList.contains('hidden')))returnToOnlineBoard();
  }finally{applying=false;renderPending();controls();if(queued){const q=queued;queued=null;await accept(q);}}
  }
  async function poll(){
@@ -6855,7 +6866,7 @@ body.online-observer #handGuide{display:none!important}
  }
  async function send(op,extra={}){
  if(busy)return;if(op==='action'&&!myTurn())return;busy=true;controls();lobby();error('');
- try{const next=await fetchJSON('/api/online',{method:'POST',body:JSON.stringify({op,room,version:state?.version,requestId:crypto.randomUUID(),...extra})});await accept(next);}
+ try{const next=await fetchJSON('/api/online',{method:'POST',body:JSON.stringify({op,room,version:state?.version,requestId:newId(),...extra})});await accept(next);}
  catch(e){error(e.message||'연결하지 못했어요. 다시 시도해 주세요.');if(e.status===409)await poll();else if(!e.status){connected=false;controls();}}
  finally{busy=false;if(active())renderPending();lobby();controls();}
  }
@@ -6869,7 +6880,17 @@ body.online-observer #handGuide{display:none!important}
  $('onEntry').hidden=false;$('onLobby').hidden=true;$('onCreateFields').hidden=validRoom(invite);$('onInviteHint').hidden=!validRoom(invite);$('onEnter').textContent=validRoom(invite)?'초대받은 방 입장':'방 만들기';
  $('onName').value=localStorage.getItem('yut-online-name')||'';
  }
- $('onlineOpenBtn').onclick=open;$('onRoomButton').onclick=()=>{dialog.showModal();lobby();};$('onCancel').onclick=()=>dialog.close();$('onBackGame').onclick=()=>dialog.close();
+ function returnToOnlineBoard(){
+  if(!active())return;
+  dialog.close();
+  document.querySelectorAll('dialog[open]').forEach(d=>d.close());
+  document.body.classList.add('online-game');
+  if(!document.body.classList.contains('in-game')||gameScreen.classList.contains('hidden'))startGameScreen();
+  setupScreen.classList.add('hidden');gameScreen.classList.remove('hidden');
+  if(gameOver)showWinScreen(teams.find(t=>t.id===finishedOrder[0])||teams[0]);else hideWinScreen();
+  renderState();updateTurnBanner();renderPending();window.dispatchEvent(new Event('resize'));
+ }
+ $('onlineOpenBtn').onclick=open;$('onRoomButton').onclick=()=>{dialog.showModal();lobby();};$('onCancel').onclick=()=>dialog.close();$('onBackGame').onclick=returnToOnlineBoard;
  $('onEnter').onclick=async()=>{
  if(busy)return;busy=true;$('onEnter').disabled=true;error('');
  try{
@@ -6884,8 +6905,10 @@ body.online-observer #handGuide{display:none!important}
  $('onCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('onLink').value);error('초대 링크를 복사했어요. 친구에게 보내 주세요.');}catch{$('onLink').focus();$('onLink').select();error('위 링크를 길게 눌러 복사해 주세요.');}};
  $('onShare').onclick=async()=>{if(!navigator.share){$('onCopy').click();return;}try{await navigator.share({title:'K-윷놀이',text:'우리 함께 윷놀이 해요!',url:$('onLink').value});}catch(e){if(e.name!=='AbortError')$('onCopy').click();}};
  $('onLeave').onclick=async()=>{
- if(state.status==='playing'){if(confirm('자리는 그대로 보관됩니다. 잠시 나갈까요?'))location.href=API+'/';return;}
- if(!confirm('이 방에서 나갈까요?'))return;await send('leave');if(!state.players.some(p=>p.id===state.me)){localStorage.removeItem(key(room));localStorage.removeItem('yut-online-last');location.href=API+'/';}
+ const playing=state.status==='playing';
+ if(!confirm(playing?'방에서 완전히 나갈까요? 진행 중인 경기는 종료되고 남은 친구들은 대기방으로 돌아갑니다.':'이 방에서 완전히 나갈까요?'))return;
+ const leavingRoom=room;await send('leave');
+ if(!state?.players?.some(p=>p.id===state.me)){localStorage.removeItem(key(leavingRoom));if(localStorage.getItem('yut-online-last')===leavingRoom)localStorage.removeItem('yut-online-last');room=null;token='';state=null;clearTimeout(timer);history.replaceState(null,'',API+'/');location.href=API+'/';}
  };
  document.addEventListener('click',e=>{
  if(!active())return;
@@ -6907,7 +6930,7 @@ body.online-observer #handGuide{display:none!important}
  room=invite;token=localStorage.getItem(key(room))||'';open();
  if(token)fetchJSON('/api/online?room='+room).then(async s=>{await accept(s);await qr();poll();}).catch(e=>{token='';error(e.message);});
  }else{
- const last=localStorage.getItem('yut-online-last');if(validRoom(last)&&localStorage.getItem(key(last))){const b=document.createElement('button');b.type='button';b.textContent='👥 온라인 방으로 돌아가기';b.onclick=()=>location.href=API+'/#room='+last;$('onlineOpenBtn').after(b);}
+ const last=localStorage.getItem('yut-online-last');if(validRoom(last)&&localStorage.getItem(key(last))){const b=document.createElement('button');b.type='button';b.textContent='👥 온라인 방으로 돌아가기';b.onclick=()=>{location.hash='room='+last;location.reload();};$('onlineOpenBtn').after(b);}
  }
 })();
 
