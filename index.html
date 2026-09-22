@@ -3,6 +3,14 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-3Y3M9V0RKW"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-3Y3M9V0RKW');
+</script>
 <title>K-윷놀이</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1392,7 +1400,7 @@ body.in-game #versionCredit{display:none!important}
 </style>
 </head>
 <body>
-<p id="versionCredit"><span>v.1.51</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.1.53</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -2044,6 +2052,27 @@ window.FX = (function () {
 /* =========================================================================
    1) 말판 구조 — engine.py / board.html 과 동일 (그대로 옮김)
    ========================================================================= */
+/* Analytics: fixed categories only; custom team names are never sent. */
+let analyticsMatch = {completed:false};
+function trackGameEvent(eventName, params={}) {
+  try {
+    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'1.53',...params});
+  } catch(e) { /* Analytics must never interrupt a game. */ }
+}
+function analyticsGameContext(){
+  return {game_mode:teams.some(t=>t.controller==='cpu')?'computer':'local',
+    team_count:teams.length,pieces_per_team:teams[0]?.total||0};
+}
+function trackGameStart(rematch){
+  analyticsMatch={completed:false};
+  trackGameEvent('game_start',{...analyticsGameContext(),start_type:rematch?'rematch':'new'});
+}
+function trackGameComplete(team){
+  if(analyticsMatch.completed)return;
+  analyticsMatch.completed=true;
+  trackGameEvent('game_complete',{...analyticsGameContext(),winner_type:team.controller==='cpu'?'computer':'human'});
+}
+
 const WAIT = "WAIT";
 const FINISH = "FINISH";
 const CENTER = "C";   // 한가운데 '방' — 두 지름길이 만나는 한 칸
@@ -2479,7 +2508,7 @@ function undoOnce() {
 function saveGame() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({
-      teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats, matchOptions,
+      teams, currentTeamIndex, gameOver, pending, finishedOrder, matchStats, matchOptions, analyticsMatch,
       rules: { useBackdo: RULES.useBackdo, playToEnd: RULES.playToEnd, exactFinish: RULES.exactFinish },
       undo: undoStack.slice(-SAVE_UNDO_MAX),   // 되돌리기 기록도 함께 (최근 30걸음)
     }));
@@ -2644,7 +2673,7 @@ function buildSetup() {
     const controlLabel=document.createElement('label');controlLabel.className='controller-label';controlLabel.textContent='누가 둘까요?';
     const control=document.createElement('select');control.className='controller-select';control.setAttribute('aria-label',nameOf(t.id)+' 조작 방식');
     control.innerHTML='<option value="human">사람</option><option value="cpu">컴퓨터</option>';control.value=setupControllers[t.id]||'human';
-    control.onchange=()=>{setupControllers[t.id]=control.value==='cpu'?'cpu':'human';buildSetup();};controlLabel.appendChild(control);row.appendChild(controlLabel);
+    control.onchange=()=>{if(control.value==='cpu'&&setupControllers[t.id]!=='cpu')trackGameEvent('computer_mode_select',{selection_source:'team_settings'});setupControllers[t.id]=control.value==='cpu'?'cpu':'human';buildSetup();};controlLabel.appendChild(control);row.appendChild(controlLabel);
     const reserve=document.createElement('div');reserve.className='setup-reserve';
     reserve.innerHTML=Array.from({length:setupPieceCount},()=>'<i>'+charHTML(t.id,22)+'</i>').join('');row.appendChild(reserve);
     nr.appendChild(row);
@@ -2696,6 +2725,7 @@ function startNewGame(rematchTeams) {
   finishedOrder = [];
   undoStack = [];
   matchStats = newMatchStats();
+  trackGameStart(Array.isArray(rematchTeams));
   clearSave();
   startGameScreen();
   throwBtn.disabled=false;setThrowBtnText('윷 던지기','꾹 눌렀다 떼기 👆');
@@ -3297,6 +3327,7 @@ function doThrow(power){
   window.lastThrowPower = lastThrowPower;
   haptic('release');
   const { result, sticks } = throwYut();
+  trackGameEvent(isCpuTurn()?'cpu_yut_throw':'yut_throw',{...analyticsGameContext(),throw_result:result});
 
   // 효과 부품(fx.js)이 있으면 막대를 굴린 뒤에 결과를 반영하고,
   // 없으면 예전처럼 바로 반영한다. (게임 진행 내용은 어느 쪽이든 똑같음)
@@ -3786,9 +3817,11 @@ function announceTurn() {
 }
 
 function endGame(team, celebrate) {
+  if(celebrate)trackGameComplete(team);
   gameOver = true;
   pending = null;
   throwBtn.disabled = true;
+  saveGame();
   setThrowBtnText("게임 끝", "");
   const banner = document.getElementById("turn-banner");
   banner.classList.add("won");
@@ -5529,6 +5562,8 @@ function restoreSavedGame() {
     resetCpu();
     currentTeamIndex = saved.currentTeamIndex || 0;
     gameOver = !!saved.gameOver;
+    analyticsMatch={completed:gameOver||saved.analyticsMatch?.completed===true};
+    if(!gameOver)trackGameEvent('game_resume',analyticsGameContext());
     pending = saved.pending || null;
     finishedOrder = Array.isArray(saved.finishedOrder) ? saved.finishedOrder : [];
     if (saved.rules) {              // 그 판을 시작할 때의 규칙 그대로 이어서 둔다
@@ -6461,6 +6496,7 @@ document.getElementById('setupDifficulty').onchange=e=>{setupDifficulty=e.target
 document.getElementById('menuCpuPause').onclick=toggleCpuPause;
 document.getElementById('cpuResumeBtn').onclick=()=>{cpuPaused=false;cpuDue=0;cpuSignature='';syncCpuMenu();queueActionGuide();};
 document.getElementById('cpuStartBtn').onclick=async()=>{
+  trackGameEvent('computer_mode_select',{selection_source:'quick_start'});
   if(loadGame()&&!await askYesNo('컴퓨터와 새로 시작할까요?','두던 판 대신 새 경기를 시작해요.','시작'))return;
   setupTeamCount=2;setupPieceCount=4;setupOrder=['blue','red'];setupControllers.blue='human';setupControllers.red='cpu';
   RULES.useBackdo=true;RULES.playToEnd=false;RULES.exactFinish=false;syncRuleSwitches();startNewGame();
