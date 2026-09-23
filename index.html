@@ -1498,7 +1498,7 @@ body.in-game #versionCredit{display:none!important}
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/favicon.svg">
 </head>
 <body>
-<p id="versionCredit"><span>v.2.05</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.2.06</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -1855,7 +1855,7 @@ window.FX = (function () {
             { transform: "scale(0.2)", opacity: 0.9 },
             { transform: "scale(4.2)", opacity: 0 },
           ],
-          { duration: 900, delay: i * 160, easing: EASE.outHard }
+          { duration: 900, delay: i * 160, easing: EASE.outHard, fill: "forwards" }
         );
       });
 
@@ -1869,7 +1869,7 @@ window.FX = (function () {
             { transform: "translate(0,0) rotate(0deg)", opacity: 1 },
             { transform: `translate(${dx}px, ${dy}px) rotate(${Math.random() * 720 - 360}deg)`, opacity: 0 },
           ],
-          { duration: 800 + Math.random() * 400, easing: EASE.outHard }
+          { duration: 800 + Math.random() * 400, easing: EASE.outHard, fill: "forwards" }
         );
       });
 
@@ -2154,7 +2154,7 @@ window.FX = (function () {
 let analyticsMatch = {completed:false};
 function trackGameEvent(eventName, params={}) {
   try {
-    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.05',page_location:location.origin+location.pathname,...params});
+    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.06',page_location:location.origin+location.pathname,...params});
   } catch(e) { /* Analytics must never interrupt a game. */ }
 }
 function analyticsGameContext(){
@@ -4015,6 +4015,23 @@ const Festival = (() => {
     if(out[out.length-1] !== dest) out[out.length-1] = dest;
     return out;
   }
+  /* CSS로 축소된 말판에서도 같은 화면 좌표가 나오도록 직접 환산한다.
+     iPad Safari는 CSS transform이 적용된 SVG의 getScreenCTM 값이 간헐적으로
+     어긋날 수 있어, 대기소 출발 애니메이션에는 이 좌표를 우선 사용한다. */
+  function boardPoint(x,y){
+    if(!svg)return null;
+    const rect=svg.getBoundingClientRect();
+    const vb=svg.viewBox&&svg.viewBox.baseVal;
+    if(vb&&vb.width&&vb.height&&rect.width&&rect.height){
+      const scale=Math.min(rect.width/vb.width,rect.height/vb.height);
+      const ox=rect.left+(rect.width-vb.width*scale)/2;
+      const oy=rect.top +(rect.height-vb.height*scale)/2;
+      return {x:ox+(x-vb.x)*scale,y:oy+(y-vb.y)*scale};
+    }
+    const m=svg.getScreenCTM();if(!m)return null;
+    const pt=svg.createSVGPoint();pt.x=x;pt.y=y;
+    return pt.matrixTransform(m);
+  }
   /* 대기소(팀 카드)에서 말판 출발점까지 말이 날아오는 효과 */
   /* 잡힌 말이 판에서 자기 대기소로 날아간다 (빙글빙글 돌며 쫓겨나는 느낌) */
   function flyHome(team, pos, count){
@@ -4197,10 +4214,8 @@ const Festival = (() => {
       if(!src)return;
       const from=src.getBoundingClientRect();
 
-      // 말판 출발점의 화면 좌표 구하기
-      const pt=svg.createSVGPoint();pt.x=NODE_POS[0].x;pt.y=NODE_POS[0].y;
-      const m=svg.getScreenCTM();if(!m)return;
-      const to=pt.matrixTransform(m);
+      // 말판 출발점의 화면 좌표 구하기 — CSS 확대/축소와 iPad Safari를 함께 보정
+      const to=boardPoint(NODE_POS[0].x,NODE_POS[0].y);if(!to)return;
 
       fly=document.createElement('div');
       fly.className='fly-token hero';
@@ -4220,11 +4235,9 @@ const Festival = (() => {
       // 말판 한가운데(방)의 화면 좌표
       let cx = (fx+tx)/2, cy = (fy+ty)/2 - 200;
       try{
-        const cp = svg.createSVGPoint();
         const mid = NODE_POS[typeof CENTER!=='undefined' ? CENTER : 0] || NODE_POS[0];
-        cp.x = mid.x; cp.y = mid.y;
-        const q = cp.matrixTransform(m);
-        cx = q.x; cy = q.y;
+        const q=boardPoint(mid.x,mid.y);
+        if(q){cx=q.x;cy=q.y;}
       }catch(e){}
 
       // 조종점 — 위로 크게 솟았다가 방 옆을 스쳐 내려온다
@@ -5683,9 +5696,36 @@ function syncMenuFx(){
   document.getElementById('menuSfx').setAttribute('aria-pressed',String(Sound.isOn()));
   document.getElementById('menuBgm').setAttribute('aria-pressed',String(Sound.isMusicOn()));
 }
-document.getElementById('screenModeBtn').onclick=()=>{
-  const action=document.fullscreenElement?document.exitFullscreen():document.documentElement.requestFullscreen();if(action&&action.catch)action.catch(()=>{});
+const screenModeBtn=document.getElementById('screenModeBtn');
+function fullscreenElement(){return document.fullscreenElement||document.webkitFullscreenElement||null;}
+function syncScreenModeBtn(){
+  const full=!!fullscreenElement()||document.body.classList.contains('web-fullscreen');
+  screenModeBtn.innerHTML='<span class="ico">'+(full?'⤢':'⛶')+'</span><span>'+(full?'화면 복원':'전체화면')+'</span>';
+  screenModeBtn.setAttribute('aria-pressed',String(full));
+}
+function useWebFullscreen(on){
+  document.body.classList.toggle('web-fullscreen',on);
+  syncScreenModeBtn();
+  requestAnimationFrame(()=>{fitStage();if(on)window.scrollTo(0,1);});
+}
+screenModeBtn.onclick=async()=>{
+  if(document.body.classList.contains('web-fullscreen')){useWebFullscreen(false);return;}
+  if(fullscreenElement()){
+    const exit=document.exitFullscreen||document.webkitExitFullscreen;
+    try{if(exit)await exit.call(document);}catch(e){}
+    syncScreenModeBtn();return;
+  }
+  const root=document.documentElement;
+  const request=root.requestFullscreen||root.webkitRequestFullscreen;
+  if(request){
+    try{await request.call(root);syncScreenModeBtn();return;}catch(e){}
+  }
+  // 아이폰 Safari처럼 Fullscreen API가 없는 브라우저용 화면 채우기 방식
+  useWebFullscreen(true);
 };
+document.addEventListener('fullscreenchange',syncScreenModeBtn);
+document.addEventListener('webkitfullscreenchange',syncScreenModeBtn);
+syncScreenModeBtn();
 
  // 새 게임은 메뉴 안에 있다. 아래 도구 줄은 네 칸으로 유지한다.
 function restoreSavedGame() {
@@ -6785,6 +6825,21 @@ const PlayHandGuide = (() => {
   return {refresh,hide,targetFor};
 })();
 </script>
+<style id="interaction-fullscreen-206">
+/* 모든 버튼에 같은 터치·클릭 반응을 준다. 개별 버튼의 기존 transform은 건드리지 않는다. */
+button:not(:disabled){touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+button:not(:disabled):active{scale:.96;opacity:.86;filter:brightness(.92) saturate(1.08)}
+@media(hover:hover) and (pointer:fine){
+  button:not(:disabled):hover{filter:brightness(1.07) saturate(1.04)}
+}
+/* Fullscreen API를 지원하지 않는 아이폰 Safari용 화면 채우기 방식 */
+html:has(body.web-fullscreen){height:100%;overflow:hidden}
+body.web-fullscreen{position:fixed!important;inset:0!important;width:100vw!important;height:100dvh!important;
+  overflow:auto!important;overscroll-behavior:none;padding-top:env(safe-area-inset-top);
+  padding-right:env(safe-area-inset-right);padding-bottom:env(safe-area-inset-bottom);padding-left:env(safe-area-inset-left)}
+body.web-fullscreen .page{min-height:100dvh}
+body.web-fullscreen.in-game .right-tools{padding-bottom:calc(5px + env(safe-area-inset-bottom))}
+</style>
 <style id="online57-style">
 #onlineOpenBtn{background:linear-gradient(135deg,#6058d8,#4432a4);color:white;border:2px solid #bcb0ff}
 #onlineDialog{position:fixed;inset:0;margin:auto;transform:none;width:min(560px,calc(100% - 24px));max-height:calc(100dvh - 32px);height:fit-content;overflow:auto;padding:24px;background:#25194a;color:#fff4db;border:2px solid #a98aec;border-radius:24px;font:16px/1.5 var(--body);box-sizing:border-box}
@@ -6813,7 +6868,7 @@ body.online-observer #handGuide{display:none!important}
 <p id="onInviteHint" hidden>친구가 초대했어요. 이름을 적고 입장해 주세요.</p>
 <div class="on-actions"><button id="onEnter" class="primary">방 만들기</button><button id="onCancel">닫기</button></div></div>
 <div id="onLobby" hidden><p id="onRoomInfo"></p><ul id="onPlayers"></ul><p id="onRulesInfo"></p><div id="onInvite"><img id="onQr" alt="친구 초대 QR 코드" hidden><p>친구의 카메라로 QR을 찍어 주세요.</p><div class="on-actions"><button id="onShare">초대 공유</button><button id="onCopy">링크 복사</button></div><input id="onLink" aria-label="초대 링크" readonly></div>
-<p id="onLobbyHint"></p><div class="on-actions"><button id="onReady" class="primary">준비 완료</button><button id="onStart" class="primary">모두 함께 시작</button><button id="onRematch" class="primary" hidden>같은 방에서 재대결</button><button id="onBackGame" hidden>말판으로</button></div><div class="on-actions"><button id="onLeave">방 나가기</button></div><p style="font-size:13px;opacity:.8">초대 링크를 가진 사람만 입장할 수 있어요. 시작 후에는 새 참가자를 받지 않아요. 방은 만든 뒤 24시간 동안 유지돼요.</p></div>
+<p id="onLobbyHint"></p><div class="on-actions"><button id="onReady" class="primary">준비 완료</button><button id="onStart" class="primary">모두 함께 시작</button><button id="onRematch" class="primary" hidden>같은 방에서 재대결</button><button id="onBackGame" hidden>말판으로</button></div><div class="on-actions"><button id="onNewRoom" hidden>새 방 만들기</button><button id="onLeave">방 나가기</button></div><p style="font-size:13px;opacity:.8">초대 링크를 가진 사람만 입장할 수 있어요. 시작 후에는 새 참가자를 받지 않아요. 방은 만든 뒤 24시간 동안 유지돼요.</p></div>
 <p id="onError" role="status" aria-live="polite"></p>
 </dialog>
 <div id="onlineBar"><span id="onConnection">온라인 연결 중</span><button id="onRoomButton">우리 방</button></div>
@@ -6825,7 +6880,7 @@ body.online-observer #handGuide{display:none!important}
  const HOSTED='https://k-yut-friends.godtool0326.chatgpt.site';
  const API=location.hostname==='localhost'||location.hostname==='127.0.0.1'||location.hostname==='terminal.local'||location.hostname==='game.test'?location.origin:HOSTED;
  let room=null,token='',state=null,busy=false,connected=false,timer=null,applying=false,lastGameVersion=-1,qrUrl=null,queued=null;
- const invite=new URLSearchParams(location.hash.slice(1)).get('room');
+ let invite=new URLSearchParams(location.hash.slice(1)).get('room');
  const newId=()=>{if(globalThis.crypto?.randomUUID)return crypto.randomUUID();const a=new Uint8Array(16);(globalThis.crypto?.getRandomValues?crypto.getRandomValues(a):a.forEach((_,i)=>a[i]=Math.floor(Math.random()*256)));a[6]=(a[6]&15)|64;a[8]=(a[8]&63)|128;const h=[...a].map(x=>x.toString(16).padStart(2,'0')).join('');return h.slice(0,8)+'-'+h.slice(8,12)+'-'+h.slice(12,16)+'-'+h.slice(16,20)+'-'+h.slice(20);};
  const validRoom=x=>/^[a-f0-9]{32}$/.test(x||'');
  const key=id=>'yut-online57-'+id;
@@ -6861,6 +6916,7 @@ body.online-observer #handGuide{display:none!important}
  $('onInvite').hidden=!waiting;$('onReady').hidden=!waiting||host;$('onStart').hidden=!waiting||!host;$('onReady').textContent=me?.ready?'준비 취소':'준비 완료';
  $('onStart').disabled=busy||state.players.length!==state.capacity||state.players.some(p=>!p.ready);$('onReady').disabled=busy;
  $('onRematch').hidden=state.status!=='ended'||!host;$('onBackGame').hidden=!state.game;
+ $('onNewRoom').hidden=state.status==='playing';
  $('onLeave').textContent=state.status==='playing'?'방 완전히 나가기':'방 나가기';
  $('onLobbyHint').textContent=waiting?'모두 준비되면 방장이 시작해요. 입장 순서대로 차례가 돌아가요.':state.status==='ended'?'방장이 재대결을 열면 다시 준비할 수 있어요.':'연결이 끊겨도 같은 기기의 같은 브라우저에서 돌아오면 이어집니다.';
  $('onLink').value=API+'/#room='+room;
@@ -6911,8 +6967,8 @@ body.online-observer #handGuide{display:none!important}
  }
  async function send(op,extra={}){
  if(busy)return;if(op==='action'&&!myTurn())return;busy=true;controls();lobby();error('');
- try{const next=await fetchJSON('/api/online',{method:'POST',body:JSON.stringify({op,room,version:state?.version,requestId:newId(),...extra})});await accept(next);}
- catch(e){error(e.message||'연결하지 못했어요. 다시 시도해 주세요.');if(e.status===409)await poll();else if(!e.status){connected=false;controls();}}
+ try{const next=await fetchJSON('/api/online',{method:'POST',body:JSON.stringify({op,room,version:state?.version,requestId:newId(),...extra})});await accept(next);return true;}
+ catch(e){error(e.message||'연결하지 못했어요. 다시 시도해 주세요.');if(e.status===409)await poll();else if(!e.status){connected=false;controls();}return false;}
  finally{busy=false;if(active())renderPending();lobby();controls();}
  }
  async function qr(){
@@ -6949,11 +7005,39 @@ body.online-observer #handGuide{display:none!important}
  $('onReady').onclick=()=>send('ready',{ready:!state.players.find(p=>p.id===state.me)?.ready});$('onStart').onclick=()=>send('start');$('onRematch').onclick=()=>send('rematch');
  $('onCopy').onclick=async()=>{try{await navigator.clipboard.writeText($('onLink').value);error('초대 링크를 복사했어요. 친구에게 보내 주세요.');}catch{$('onLink').focus();$('onLink').select();error('위 링크를 길게 눌러 복사해 주세요.');}};
  $('onShare').onclick=async()=>{if(!navigator.share){$('onCopy').click();return;}try{await navigator.share({title:'K-윷놀이',text:'우리 함께 윷놀이 해요!',url:$('onLink').value});}catch(e){if(e.name!=='AbortError')$('onCopy').click();}};
+ function resetRoomSession(leavingRoom){
+  clearTimeout(timer);timer=null;
+  if(qrUrl){URL.revokeObjectURL(qrUrl);qrUrl=null;}
+  if(leavingRoom){localStorage.removeItem(key(leavingRoom));if(localStorage.getItem('yut-online-last')===leavingRoom)localStorage.removeItem('yut-online-last');}
+  room=null;token='';state=null;connected=false;applying=false;queued=null;lastGameVersion=-1;invite=null;
+  history.replaceState(null,'',location.pathname+location.search);
+  hideWinScreen();document.body.classList.remove('in-game','online-game','online-observer','web-fullscreen');
+  gameScreen.classList.add('hidden');setupScreen.classList.remove('hidden');
+  try{TitlePlay.stop();TitlePlay.start();}catch(e){}
+ }
+ function openCreateRoom(){
+  error('');$('onEntry').hidden=false;$('onLobby').hidden=true;$('onCreateFields').hidden=false;$('onInviteHint').hidden=true;$('onEnter').textContent='방 만들기';
+  $('onName').value=localStorage.getItem('yut-online-name')||'';
+  if(!dialog.open)dialog.showModal();
+ }
+ async function leaveRoom(openCreator){
+  const leavingRoom=room;
+  if(leavingRoom&&state?.players?.some(p=>p.id===state.me)){
+    const ok=await send('leave');if(!ok)return false;
+    if(state?.players?.some(p=>p.id===state.me)){error('방을 나가지 못했어요. 잠시 뒤 다시 눌러 주세요.');return false;}
+  }
+  resetRoomSession(leavingRoom);
+  if(openCreator)openCreateRoom();else location.href=API+'/';
+  return true;
+ }
+ $('onNewRoom').onclick=async()=>{
+  if(!confirm('현재 방을 나가고 내가 방장이 되는 새 방을 만들까요?'))return;
+  await leaveRoom(true);
+ };
  $('onLeave').onclick=async()=>{
  const playing=state.status==='playing';
  if(!confirm(playing?'방에서 완전히 나갈까요? 진행 중인 경기는 종료되고 남은 친구들은 대기방으로 돌아갑니다.':'이 방에서 완전히 나갈까요?'))return;
- const leavingRoom=room;await send('leave');
- if(!state?.players?.some(p=>p.id===state.me)){localStorage.removeItem(key(leavingRoom));if(localStorage.getItem('yut-online-last')===leavingRoom)localStorage.removeItem('yut-online-last');room=null;token='';state=null;clearTimeout(timer);history.replaceState(null,'',API+'/');location.href=API+'/';}
+ await leaveRoom(false);
  };
  document.addEventListener('click',e=>{
  if(!active())return;
