@@ -1498,7 +1498,7 @@ body.in-game #versionCredit{display:none!important}
 <meta name="referrer" content="no-referrer"><meta name="robots" content="noindex,nofollow"><link rel="icon" href="/favicon.svg">
 </head>
 <body>
-<p id="versionCredit"><span>v.2.04</span><span style="margin-left:2em">갓툴 제작</span></p>
+<p id="versionCredit"><span>v.2.05</span><span style="margin-left:2em">갓툴 제작</span></p>
 <div class="page">
   <header>
     <h1>K-윷놀이</h1>
@@ -1724,7 +1724,7 @@ window.FX = (function () {
         height: 96px;
         align-items: flex-end;
       }
-      #sticks .stick { will-change: transform; }
+      #sticks .stick { transform-style: preserve-3d; }
 
       /* 윷·모 터지는 연출 */
       .fx-burst {
@@ -2017,7 +2017,6 @@ window.FX = (function () {
             { duration: dur, easing: EASE.out }
           );
           anim.onfinish = () => pcs.remove();
-          effectTimer(() => pcs.remove(), dur + 400);
         }, delay));
       }
 
@@ -2155,7 +2154,7 @@ window.FX = (function () {
 let analyticsMatch = {completed:false};
 function trackGameEvent(eventName, params={}) {
   try {
-    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.04',page_location:location.origin+location.pathname,...params});
+    if(typeof window.gtag==='function')window.gtag('event',eventName,{game_version:'2.05',page_location:location.origin+location.pathname,...params});
   } catch(e) { /* Analytics must never interrupt a game. */ }
 }
 function analyticsGameContext(){
@@ -3355,7 +3354,9 @@ function chargeTick(){
     setThrowBtnText('윷 던지기', '손을 떼면 던져요 👐');
     if (typeof Sound !== 'undefined') Sound.chargeFull();
   }
-  charge.raf = requestAnimationFrame(chargeTick);
+  // 최대 충전 뒤에는 표시값이 더 이상 변하지 않는다. 흔들림 연출은
+  // chargeSticks 자체 프레임이 계속 담당하므로, 이 DOM 갱신 루프만 멈춘다.
+  charge.raf = p < 1 ? requestAnimationFrame(chargeTick) : 0;
 }
 
 function startCharge(){
@@ -3975,12 +3976,18 @@ const Festival = (() => {
   const reduced = () => (document.body.classList.contains('light-effects') || matchMedia('(prefers-reduced-motion: reduce)').matches);
   function particles(x,y,color,count=24) {
     if(reduced()) return;
+    const fragment=document.createDocumentFragment();
+    const batch=[];
     for(let i=0;i<count;i++) {
       const p=document.createElement('i');p.className='festival-particle';
       p.style.cssText=`left:${x}px;top:${y}px;background:${[color,'#ffcf65','#71ead4','#ff7f97','#fff'][i%5]}`;
-      document.body.appendChild(p);
       const a=Math.random()*Math.PI*2,r=45+Math.random()*130;
-      const anim=effectAnimate(p,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+65}px) rotate(220deg) scale(.2)`,opacity:0}],{duration:650+Math.random()*450,easing:'cubic-bezier(.15,.7,.3,1)'});
+      fragment.appendChild(p);
+      batch.push({p,a,r,duration:650+Math.random()*450});
+    }
+    document.body.appendChild(fragment);
+    for(const {p,a,r,duration} of batch){
+      const anim=effectAnimate(p,[{transform:'translate(0,0) scale(1)',opacity:1},{transform:`translate(${Math.cos(a)*r}px,${Math.sin(a)*r+65}px) rotate(220deg) scale(.2)`,opacity:0}],{duration,easing:'cubic-bezier(.15,.7,.3,1)'});
       anim.finished.catch(()=>{}).finally(()=>p.remove());
     }
   }
@@ -4531,7 +4538,8 @@ stickFaces.serial=0;
   .yt-throw{position:fixed;inset:0;z-index:9000;pointer-events:none;background:radial-gradient(ellipse at center,#136576dd,#071b31ee);perspective:1700px;overflow:hidden}
   .yt-stage,.yt-shadows{position:absolute;left:50%;top:51%;width:0;height:0;perspective:1700px;transform-style:preserve-3d}
   .yt-slot{position:absolute;transform-style:preserve-3d;will-change:transform}
-  .yt-stick{position:absolute;inset:0;transform-style:preserve-3d;will-change:transform}
+  .yt-stick{position:absolute;inset:0;transform-style:preserve-3d}
+  .yt-throw .yt-stick,.fx-charge .yt-stick{will-change:transform}
   .yt-face{position:absolute;left:0;top:0;overflow:hidden;backface-visibility:hidden;-webkit-backface-visibility:hidden}
   .yt-xm{position:absolute;left:50%}.yt-xm:before,.yt-xm:after{content:'';position:absolute;left:0;top:40%;width:100%;height:20%;border-radius:999px;background:linear-gradient(#2a1406,#4a2610);box-shadow:inset 0 .12em .2em #0009,0 .06em 0 #fff0d28c}.yt-xm:before{transform:rotate(45deg)}.yt-xm:after{transform:rotate(-45deg)}
   .yt-bbk{position:absolute;left:50%;border-radius:50%;border-style:solid;border-color:#d62828;background:radial-gradient(circle,#fffaebbf,#ffecc859);color:#c81e1e;font:bold 20px var(--display);display:flex;align-items:center;justify-content:center;line-height:1;box-shadow:0 0 0 .08em #780a0a40,inset 0 .05em .12em #780a0a59}
@@ -5230,7 +5238,20 @@ function charHTML(teamId, px){
 /* 글자만 필요한 자리(대체용) */
 const teamAnimals={blue:'🐰',red:'🐻',yellow:'🐱',black:'🐶'};
 function renderTeamCards(){
-  const host=document.getElementById('festivalScore');host.innerHTML='';
+  const host=document.getElementById('festivalScore');
+  const cards=teams.map((team,i)=>{
+    const stageOK=pending&&pending.phase==='moving'&&(pending.stage==='pickPiece'||pending.stage==='confirmPiece');
+    const canLaunch=!isCpuTurn()&&!fxBusy&&!gameOver&&i===currentTeamIndex&&stageOK&&pending.selected!==null&&getMovableOptions(team,pending.results[pending.selected].result).some(o=>o.type==='launch');
+    const isChosen=!!(canLaunch&&pending.stage==='confirmPiece'&&pending.option&&pending.option.type==='launch');
+    return {team,i,canLaunch,isChosen};
+  });
+  const renderKey=JSON.stringify({
+    currentTeamIndex,
+    cards:cards.map(({team,canLaunch,isChosen})=>[team.id,team.name,team.total,team.waiting,team.finished,team.controller,TEAM_COLOR[team.id],TEAM_ANIMAL[team.id],canLaunch,isChosen])
+  });
+  if(host.dataset.renderKey===renderKey&&host.querySelectorAll('.team-card').length===teams.length)return;
+  host.dataset.renderKey=renderKey;
+  host.innerHTML='';
   // 팀 수를 표시해 두면 CSS가 팀 칸 크기를 알아서 줄여준다
   host.dataset.teams=String(teams.length);
   host.dataset.pieces=String((teams[0]&&teams[0].total)||2);
@@ -5238,12 +5259,9 @@ function renderTeamCards(){
   let lo=document.getElementById('leftoverYut');
   if(!lo){ lo=document.createElement('div'); lo.id='leftoverYut'; lo.className='leftover-yut hidden'; }
   host.appendChild(lo);
-  teams.forEach((team,i)=>{
+  cards.forEach(({team,i,canLaunch,isChosen})=>{
     const card=document.createElement('button');card.type='button';card.className='team-card'+(i===currentTeamIndex?' active':'');card.dataset.team=team.id;card.style.setProperty('--team',TEAM_COLOR[team.id]);
     /* 대기소는 말을 고르는 중(pickPiece)에도, 이미 고른 뒤(confirmPiece)에도 누를 수 있다 */
-    const stageOK=pending&&pending.phase==='moving'&&(pending.stage==='pickPiece'||pending.stage==='confirmPiece');
-    const canLaunch=!isCpuTurn()&&!fxBusy&&!gameOver&&i===currentTeamIndex&&stageOK&&pending.selected!==null&&getMovableOptions(team,pending.results[pending.selected].result).some(o=>o.type==='launch');
-    const isChosen=!!(canLaunch&&pending.stage==='confirmPiece'&&pending.option&&pending.option.type==='launch');
     card.disabled=!canLaunch;card.classList.toggle('can-launch',canLaunch&&!isChosen);card.classList.toggle('card-chosen',isChosen);
     card.setAttribute('aria-label',team.name+' 대기 말 '+team.waiting+'개, 완주 '+team.finished+'개'+(canLaunch?', 새 말 출발':''));
     card.innerHTML=
@@ -5265,6 +5283,13 @@ function renderLeftoverYut(){
 
   const team=teams[currentTeamIndex];
   const list=(pending&&team)?usableResults(team):[];
+  const renderKey=JSON.stringify({
+    team:team&&team.id,phase:pending&&pending.phase,selected:pending&&pending.selected,
+    cpu:isCpuTurn(),busy:fxBusy,over:gameOver,
+    list:list.map(r=>[r.i,r.result,r.usable])
+  });
+  if(host.dataset.renderKey===renderKey)return;
+  host.dataset.renderKey=renderKey;
 
   // 남은 윷 줄이 보일 때만 대기소 칸 맨 윗줄을 비워 둔다
   const score=host.parentElement;
@@ -6360,7 +6385,11 @@ let guideQueued = false;
 function queueActionGuide() {
   if (guideQueued) return;
   guideQueued = true;
-  queueMicrotask(() => { guideQueued = false; syncActionGuide(); });
+  queueMicrotask(() => {
+    guideQueued = false;
+    syncActionGuide();
+    try { document.dispatchEvent(new Event('yut:guide-refresh')); } catch (e) {}
+  });
 }
 for (const name of ['renderState','renderPending','renderTray','updateTurnBanner','startGameScreen',
   'doThrow','inputResult','applyThrow','beginMovingPhase','finishMove','commitMove','endGame',
@@ -6673,8 +6702,18 @@ const PlayHandGuide = (() => {
     <path d="M12 14L8 11M43 12L47 9" stroke="#ffcb64" stroke-width="3" stroke-linecap="round"/>
   </svg></span><span class="hand-caption"></span>`;
   document.body.appendChild(box);
-  let signature='',lastPulse=0,quietUntil=0,choiceKey='',choiceSince=0;
+  let signature='',lastPulse=0,quietUntil=0,choiceKey='',choiceSince=0,refreshTimer=0,refreshQueued=false;
   function hide(){box.hidden=true;box.classList.remove('tapping');signature='';}
+  function schedule(ms){
+    clearTimeout(refreshTimer);
+    if(document.hidden)return;
+    refreshTimer=setTimeout(queueRefresh,Math.max(16,ms));
+  }
+  function queueRefresh(){
+    if(refreshQueued)return;
+    refreshQueued=true;
+    requestAnimationFrame(()=>{refreshQueued=false;refresh();});
+  }
   function targetFor(action){
     if(action==='throw')return {target:throwBtn,label:'눌렀다 떼세요'};
     if(action==='result')return {target:document.getElementById('resultTray'),label:'사용할 결과를 고르세요'};
@@ -6687,7 +6726,10 @@ const PlayHandGuide = (() => {
       if(!choices.length)return null;
       const key=[boardSerial,currentTeamIndex,pending?.selected,pending?.stage,choices.map(c=>c.anchor).join(',')].join('|');
       if(key!==choiceKey){choiceKey=key;choiceSince=performance.now();}
-      return choices[Math.floor((performance.now()-choiceSince)/3000)%choices.length];
+      const elapsed=Math.max(0,performance.now()-choiceSince);
+      const info=choices[Math.floor(elapsed/3000)%choices.length];
+      info.nextIn=choices.length>1?3000-(elapsed%3000)+20:8000;
+      return info;
     }
     if(action==='destination'){
       const hints=Array.from(document.querySelectorAll('#board-root .hint-dest'));
@@ -6697,6 +6739,7 @@ const PlayHandGuide = (() => {
     return null;
   }
   function refresh(){
+    clearTimeout(refreshTimer);refreshTimer=0;
     const now=performance.now();
     if((window.YutOnline?.active()&&!window.YutOnline.myTurn())||document.hidden||!document.body.classList.contains('in-game')||!teams.length||gameOver||isCpuTurn()||charge||fxBusy||nakLock||now<quietUntil||document.querySelector('dialog[open]')||document.querySelector('.res-flash,.fx-burst,.turn-intro')){hide();return;}
     const action=gameScreen.dataset.action;
@@ -6729,14 +6772,16 @@ const PlayHandGuide = (() => {
       box.classList.remove('tapping');void box.offsetWidth;box.classList.add('tapping');
       signature=key;lastPulse=now;
     }
+    schedule(Math.min(info.nextIn||8000,Math.max(250,8000-(now-lastPulse))));
   }
-  function onInput(){quietUntil=performance.now()+500;hide();}
+  function onInput(){quietUntil=performance.now()+500;hide();schedule(520);}
   document.addEventListener('pointerdown',onInput,{passive:true,capture:true});
   document.addEventListener('keydown',onInput,{capture:true});
-  document.addEventListener('scroll',refresh,{passive:true,capture:true});
-  document.addEventListener('visibilitychange',refresh);
-  window.addEventListener('resize',refresh,{passive:true});
-  setInterval(refresh,250);
+  document.addEventListener('scroll',queueRefresh,{passive:true,capture:true});
+  document.addEventListener('visibilitychange',queueRefresh);
+  document.addEventListener('yut:guide-refresh',queueRefresh);
+  window.addEventListener('resize',queueRefresh,{passive:true});
+  queueRefresh();
   return {refresh,hide,targetFor};
 })();
 </script>
